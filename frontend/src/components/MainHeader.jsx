@@ -1,4 +1,5 @@
 import React from 'react'
+import logo from '../assets/mainLogoWhite.png';
 
 export default function MainHeader() {
   return (
