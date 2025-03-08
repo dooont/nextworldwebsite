@@ -3,6 +3,7 @@ import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import AboutUs from './pages/AboutUs';
 import MeetTeam from './pages/MeetTeam';
+import './App.css';
 
 const router = createBrowserRouter([
   {
