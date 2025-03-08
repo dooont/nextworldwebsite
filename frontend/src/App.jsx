@@ -4,7 +4,6 @@ import HomePage from './pages/HomePage'
 import AboutUs from './pages/AboutUs';
 import MeetTeam from './pages/MeetTeam';
 import './App.css';
-import { Theme } from 'react-daisyui';
 
 const router = createBrowserRouter([
   {
@@ -23,9 +22,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <Theme dataTheme="dracula">
-      <RouterProvider router={router} />
-    </Theme>
+    <RouterProvider router={router} />
   )
 }
 
