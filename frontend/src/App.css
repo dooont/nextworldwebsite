@@ -1,2 +1,4 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @plugin "daisyui";
+/*If you get an Unknown Rule error, its just a warning from VSCode. Shouldn't be a problem
