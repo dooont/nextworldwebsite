@@ -1,17 +1,18 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+// Import your logo correctly
 import nextworldMicWhite from '../assets/nextworld-mic-white.png';
 
 export default function Navbar() {
   return (
     <nav className="bg-black shadow-md">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between">
+      <div className="max-w-10xl mx-auto px-4 py-2 flex items-center justify-between">
         {/* Logo Section */}
         <div className="flex items-center">
           <img
             src={nextworldMicWhite}
             alt="Logo"
-            className="h-8 object-contain"
+            className="h-20 object-contain"
           />
         </div>
 
@@ -22,9 +23,7 @@ export default function Navbar() {
               to="/"
               end
               className={({ isActive }) =>
-                isActive
-                  ? 'text-blue-600 font-semibold'
-                  : 'text-white hover:text-blue-400'
+                `text-[20px] ${isActive ? 'text-purple-900 font-semibold' : 'text-white hover:text-purple-500'}`
               }
             >
               Home
@@ -34,9 +33,7 @@ export default function Navbar() {
             <NavLink
               to="/events"
               className={({ isActive }) =>
-                isActive
-                  ? 'text-blue-600 font-semibold'
-                  : 'text-white hover:text-blue-400'
+                `text-[20px] ${isActive ? 'text-purple-900 font-semibold' : 'text-white hover:text-purple-500'}`
               }
             >
               Events
@@ -46,9 +43,7 @@ export default function Navbar() {
             <NavLink
               to="/about-us"
               className={({ isActive }) =>
-                isActive
-                  ? 'text-blue-600 font-semibold'
-                  : 'text-white hover:text-blue-400'
+                `text-[20px] ${isActive ? 'text-purple-900 font-semibold' : 'text-white hover:text-purple-500'}`
               }
             >
               About Us
@@ -58,9 +53,7 @@ export default function Navbar() {
             <NavLink
               to="/meet-the-team"
               className={({ isActive }) =>
-                isActive
-                  ? 'text-blue-600 font-semibold'
-                  : 'text-white hover:text-blue-400'
+                `text-[20px] ${isActive ? 'text-purple-900 font-semibold' : 'text-white hover:text-purple-500'}`
               }
             >
               Meet The Team
