@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 // Import your logo correctly
-import nextworldMicWhite from '../assets/nextworld-mic-white.png';
+import nextworldWhiteMic from '../assets/nextworld-mic-white.png'; // default import for asset
 
 export default function Navbar() {
   return (
@@ -10,9 +10,9 @@ export default function Navbar() {
         {/* Logo Section */}
         <div className="flex items-center">
           <img
-            src={nextworldMicWhite}
+            src={nextworldWhiteMic}
             alt="Logo"
-            className="h-20 object-contain"
+            className="h-20 object-fill"
           />
         </div>
 

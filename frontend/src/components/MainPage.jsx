@@ -1,5 +1,7 @@
 import React from 'react';
 
+import nextworldWhite from '../assets/mainLogoWhite.png';
+
 const MainPage = () => {
   return (
     <section className="relative w-full h-screen overflow-hidden">
@@ -30,9 +32,9 @@ const MainPage = () => {
         {/* Logo on Left */}
         <div className="w-1/4">
           <img
-            src="/path/to/logo.png"
+            src={nextworldWhite}
             alt="Logo"
-            className="h-16 object-contain"
+            className="object-contain"
           />
         </div>
 
