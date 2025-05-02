@@ -1,27 +1,21 @@
 import React from 'react';
 
 import nextworldWhite from '../assets/mainLogoWhite.png';
+import heroBackgroundVideo from '../assets/main-page-nextworld-hero-background.mp4';
 
 const MainPage = () => {
   return (
     <section className="relative w-full h-screen overflow-hidden">
       {/* Hero Background */}
       <div className="absolute inset-0 z-0">
-        {/* Replace with <img> or <video> below */}
-        <img
-          src="/path/to/hero.jpg"
-          alt="Hero Background"
-          className="w-full h-full object-cover"
-        />
-        {/*
+        {/* hero image below */}
         <video
-          src="/path/to/hero.mp4"
+          src={heroBackgroundVideo}
           autoPlay
           loop
           muted
           className="w-full h-full object-cover"
         />
-        */}
       </div>
 
       {/* Dark Overlay */}

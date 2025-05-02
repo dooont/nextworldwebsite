@@ -15,13 +15,13 @@ export default function MainFooter() {
 
         {/* Social Icons */}
         <div className="flex space-x-6">
-          <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/nxtworldco/" target="_blank" rel="noopener noreferrer">
             <img src={InstagramIcon} alt="Instagram" className="h-6 w-6" />
           </a>
           {/* <a href="https://tiktok.com/@yourprofile" target="_blank" rel="noopener noreferrer">
             <img src={tiktokIcon} alt="TikTok" className="h-6 w-6" />
           </a> */}
-          <a href="https://youtube.com/yourchannel" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.youtube.com/@nxtworldco" target="_blank" rel="noopener noreferrer">
             <img src={YouTubeIcon} alt="YouTube" className="h-6 w-6" />
           </a>
         </div>
