@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import heroBackgroundVideo from '../assets/events-nextworld-hero-background.mp4';
 
 const dummyEvents = [
   { id: 1, image: '/path/to/event1.jpg', title: 'Event One', subtitle: 'January 1, 2025' },
@@ -25,7 +26,27 @@ export default function EventsMedia({ events = dummyEvents, images = carouselIma
   };
 
   return (
-    <div className="space-y-16">
+    <div className="relative space-y-16">
+      {/* Hero Section */}
+      <div className="relative w-screen h-screen overflow-hidden">
+        {/* Background Video */}
+        <video
+          src={heroBackgroundVideo}
+          autoPlay
+          loop
+          muted
+          className="absolute top-0 left-0 w-[100vw] h-[120vh] object-cover"
+        />
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black opacity-50 z-10" />
+
+        {/* Hero Text */}
+        <div className="relative z-20 flex items-center justify-center h-full">
+          <h1 className="text-white text-8xl font-bold text-center">Events and Media</h1>
+        </div>
+      </div>
+
       {/* Events Grid */}
       <section className="max-w-6xl mx-auto px-4">
         <h2 className="text-3xl font-bold mb-6">Past Events</h2>
@@ -52,11 +73,17 @@ export default function EventsMedia({ events = dummyEvents, images = carouselIma
       <section className="relative max-w-4xl mx-auto px-4">
         <h2 className="text-3xl font-bold mb-6 text-center">Gallery</h2>
         <div className="relative overflow-hidden">
-          <div className="flex transition-transform duration-500"
-               style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+          <div
+            className="flex transition-transform duration-500"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
             {images.map((src, idx) => (
               <div key={idx} className="min-w-full h-64">
-                <img src={src} alt={`Slide ${idx + 1}`} className="w-full h-full object-cover rounded-lg" />
+                <img
+                  src={src}
+                  alt={`Slide ${idx + 1}`}
+                  className="w-full h-full object-cover rounded-lg"
+                />
               </div>
             ))}
           </div>
@@ -77,5 +104,6 @@ export default function EventsMedia({ events = dummyEvents, images = carouselIma
         </div>
       </section>
     </div>
+
   );
 }
