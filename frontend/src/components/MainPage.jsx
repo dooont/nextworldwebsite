@@ -24,18 +24,18 @@ const MainPage = () => {
       {/* Content */}
       <div className="relative z-20 flex items-center justify-between max-w-6xl mx-auto h-full px-6">
         {/* Logo on Left */}
-        <div className="w-1/4">
-          <img
-            src={nextworldWhite}
-            alt="Logo"
-            className="object-contain"
-          />
-        </div>
+          <div className="w-3/4 mr-4 pr-4">
+            <img
+              src={nextworldWhite}
+              alt="Logo"
+              className="object-contain"
+            />
+          </div>
 
-        {/* Text and Button on Right */}
+          {/* Text and Button on Right */}
         <div className="w-3/4 text-right text-white">
           <h1 className="text-5xl font-bold mb-4">
-            Welcome to Our Site
+            Skibidi Toilet RiZZ
           </h1>
           <p className="mb-6 text-lg">
             Discover amazing content and engage with our vibrant community.
