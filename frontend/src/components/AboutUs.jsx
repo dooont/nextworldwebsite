@@ -2,9 +2,9 @@ import React from 'react';
 
 const teamMembers = [
   { id: 1, name: 'Kai Caden', role: 'CEO', photo: new URL('../assets/meet-the-team/kai-tano.jpg', import.meta.url).href},
-  { id: 2, name: 'Bob Smith', role: 'President', photo: '/images/team/bob.jpg' },
-  { id: 3, name: 'Carol Lee', role: 'Designer', photo: '/images/team/carol.jpg' },
-  { id: 4, name: 'David Kim', role: 'Developer', photo: '/images/team/david.jpg' },
+  { id: 2, name: 'Brynne Matuan', role: 'President', photo: '/images/team/bob.jpg' },
+  { id: 3, name: 'Kurt Buencamino', role: 'Designer', photo: '/images/team/carol.jpg' },
+  { id: 4, name: 'Harmony Calata', role: 'Developer', photo: '/images/team/david.jpg' },
   // …add as many as you like
 ];
 
