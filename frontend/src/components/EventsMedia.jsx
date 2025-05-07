@@ -17,26 +17,8 @@ const dummyEvents = [
 ];
 
 
-const carouselImages = Array.from({ length: 90 }, (_, i) => {
-  // this makes idx run 0,1,2,...,88,89,0,1,2...
-  const idx = Math.abs(i) % 90;
-  return `src/assets/carousel-gallery/nextworld-carousel-${idx + 1}.jpg`;
-});
-
-
-export default function EventsMedia({ events = dummyEvents, images = carouselImages }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function EventsMedia({ events = dummyEvents}) {
   
-  const [currentIndexCarousel, setCurrentIndexCarousel] = useState(0);
-
-  const prevSlideCarousel = () => {
-    setCurrentIndexCarousel((idx) => (idx === 0 ? images.length - 1 : idx - 1));
-  };
-
-  const nextSlideCarousel = () => {
-    setCurrentIndexCarousel((idx) => (idx === images.length - 1 ? 0 : idx + 1));
-  };
-
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const handleEventClick = (event) => {
@@ -134,41 +116,6 @@ export default function EventsMedia({ events = dummyEvents, images = carouselIma
         </div>
       )}
 
-
-      {/* Image Carousel */}
-      <section className="relative max-w-4xl mx-auto min-h-[600px]">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white">Gallery</h2>
-        <div className="relative overflow-hidden">
-          <div
-            className="flex transition-transform duration-500"
-            style={{ transform: `translateX(-${currentIndexCarousel * 100}%)` }}
-          >
-            {carouselImages.map((src, idx) => (
-              <div key={idx} className="min-w-full h-screen">
-                <img
-                  src={src}
-                  alt={`Slide ${idx + 1}`}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Controls */}
-          <button
-            onClick={prevSlideCarousel}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
-          >
-            ‹
-          </button>
-          <button
-            onClick={nextSlideCarousel}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full"
-          >
-            ›
-          </button>
-        </div>
-      </section>
     </div>
 
   );
