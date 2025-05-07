@@ -40,9 +40,9 @@ const MainPage = () => {
           <p className="mb-6 text-lg">
             Discover amazing content and engage with our vibrant community.
           </p>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg">
+          {/* <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg">
             Get Started
-          </button>
+          </button> */}
         </div>
       </div>
     </section>
