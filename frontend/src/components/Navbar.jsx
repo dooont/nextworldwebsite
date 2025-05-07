@@ -17,7 +17,7 @@ export default function Navbar() {
         </div>
 
         {/* Navigation Links */}
-        <ul className="flex space-x-6">
+        <ul className="flex space-x-6 bebas-kai-regular">
           <li>
             <NavLink
               to="/"
@@ -51,12 +51,12 @@ export default function Navbar() {
           </li>
           <li>
             <NavLink
-              to="/meet-the-team"
+              to="/gallery"
               className={({ isActive }) =>
                 `text-[20px] ${isActive ? 'text-purple-900 font-semibold' : 'text-white hover:text-purple-500'}`
               }
             >
-              Meet The Team
+              Gallery
             </NavLink>
           </li>
         </ul>

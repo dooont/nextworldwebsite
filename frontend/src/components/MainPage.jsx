@@ -34,11 +34,11 @@ const MainPage = () => {
 
           {/* Text and Button on Right */}
         <div className="w-3/4 text-right text-white">
-          <h1 className="text-5xl font-bold mb-4">
-            Skibidi Toilet RiZZ
+          <h1 className="text-8xl font-bold mb-4 racing-sans-one-regular">
+            Next World Collective
           </h1>
-          <p className="mb-6 text-lg">
-            Discover amazing content and engage with our vibrant community.
+          <p className="mb-6 text-xl oswald-400">
+            The best place to find your new favorite artist
           </p>
           {/* <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg">
             Get Started
