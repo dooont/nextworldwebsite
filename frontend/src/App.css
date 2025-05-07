@@ -1,2 +1,42 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+@layer base {
+  /* Hide scrollbars in WebKit (Chrome/Safari/Edge) */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbars in Firefox & IE/Edge */
+  html, body {
+    scrollbar-width: none;      /* Firefox */
+    -ms-overflow-style: none;   /* IE 10+ */
+    overflow-y: auto;           /* only show scrollbars when needed */
+  }
+}
+
+/* Header Font */
+.racing-sans-one-regular {
+  font-family: "Racing Sans One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Subhead Font */
+.bebas-kai-regular {
+font-family: "bebas-kai", sans-serif;
+font-weight: 400;
+font-style: normal;
+}
+
+/* give it a real, valid class name and weight */
+.oswald-400 {
+  font-family: "Oswald", sans-serif;
+  font-weight: 400;
+}
+.oswald-700 {
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+}
+
