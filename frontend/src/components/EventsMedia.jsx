@@ -17,21 +17,24 @@ const dummyEvents = [
 ];
 
 
-const carouselImages = Array.from({ length: 91 }, (_, i) =>
-  `src/assets/carousel-gallery/nextworld-carousel-${i + 1}.jpg`
-);
-
+const carouselImages = Array.from({ length: 90 }, (_, i) => {
+  // this makes idx run 0,1,2,...,88,89,0,1,2...
+  const idx = Math.abs(i) % 90;
+  return `src/assets/carousel-gallery/nextworld-carousel-${idx + 1}.jpg`;
+});
 
 
 export default function EventsMedia({ events = dummyEvents, images = carouselImages }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  const [currentIndexCarousel, setCurrentIndexCarousel] = useState(0);
 
-  const prevSlide = () => {
-    setCurrentIndex((idx) => (idx === 0 ? images.length - 1 : idx - 1));
+  const prevSlideCarousel = () => {
+    setCurrentIndexCarousel((idx) => (idx === 0 ? images.length - 1 : idx - 1));
   };
 
-  const nextSlide = () => {
-    setCurrentIndex((idx) => (idx === images.length - 1 ? 0 : idx + 1));
+  const nextSlideCarousel = () => {
+    setCurrentIndexCarousel((idx) => (idx === images.length - 1 ? 0 : idx + 1));
   };
 
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -45,14 +48,7 @@ export default function EventsMedia({ events = dummyEvents, images = carouselIma
     setSelectedEvent(null);
   };
 
-  const [currentIndexCarousel, setCurrentIndexCarousel] = useState(0);
-
-  const prevSlideCarousel = () =>
-    setCurrentIndexCarousel((i) => Math.max(i - 1, 0));
-  const nextSlideCarousel = () =>
-    setCurrentIndexCarousel((i) =>
-      Math.min(i + 1, carouselImages.length - 1)
-    );
+// TODO: add an "upcoming events" section
 
   return (
     <div className="relative space-y-16 bg-black">
