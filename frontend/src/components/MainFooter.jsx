@@ -11,7 +11,7 @@ export default function MainFooter() {
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
         {/* Copyright Text */}
         <p className="text-sm text-gray-600 mb-4 md:mb-0">
-          © 2025 NextWorld Collective <br />
+          &copy; {new Date().getFullYear()} <br />
         </p>
 
         {/* Social Icons */}
