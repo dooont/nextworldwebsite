@@ -2,6 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 @layer base {
+
   /* Hide scrollbars in WebKit (Chrome/Safari/Edge) */
   html::-webkit-scrollbar,
   body::-webkit-scrollbar {
@@ -9,10 +10,15 @@
   }
 
   /* Hide scrollbars in Firefox & IE/Edge */
-  html, body {
-    scrollbar-width: none;      /* Firefox */
-    -ms-overflow-style: none;   /* IE 10+ */
-    overflow-y: auto;           /* only show scrollbars when needed */
+  html,
+  body {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE 10+ */
+    overflow-y: auto;
+    /* only show scrollbars when needed */
+    background-color: black;
   }
 }
 
@@ -81,9 +87,9 @@
 
 /* Subhead Font */
 .bebas-kai-regular {
-font-family: "bebas-kai", sans-serif;
-font-weight: 400;
-font-style: normal;
+  font-family: "bebas-kai", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* p font */
@@ -91,6 +97,7 @@ font-style: normal;
   font-family: "Oswald", sans-serif;
   font-weight: 400;
 }
+
 .oswald-700 {
   font-family: "Oswald", sans-serif;
   font-weight: 700;
