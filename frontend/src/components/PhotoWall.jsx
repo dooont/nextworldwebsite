@@ -3,7 +3,7 @@ import Masonry from 'react-masonry-css';
 
 const photos = Array.from({ length: 89 }, (_, i) =>
   new URL(
-    `../assets/carousel-gallery/nextworld-carousel-${i + 1}.jpg`,
+    `../assets/carousel-gallery/nextworld-carousel-${i + 1}-min.jpg`,
     import.meta.url
   ).href
 );
