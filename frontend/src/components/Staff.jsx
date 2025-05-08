@@ -5,39 +5,39 @@ export default function Staff({ teamMembers }) {
 
   return (
     <>
-      {/* Staff Grid */}
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-8">
-        {teamMembers.map((member) => (
-          <div
-            key={member.id}
-            onClick={() => setSelectedMember(member)}
-            className="
-              group
-              bg-purple-950
-              rounded-lg
-              overflow-hidden
-              shadow-lg
-              cursor-pointer
-              transform transition
-              hover:scale-105 hover:shadow-2xl
-            "
-          >
-            <img
-              src={member.photo}
-              alt={member.name}
-              className="w-full h-48 object-cover object-top"
-            />
-            <div className="p-4 text-center">
-              <h3 className="text-xl font-medium text-white bebas-kai-regular">
-                {member.name}
-              </h3>
-              <p className="text-gray-400 oswald-400">{member.role}</p>
-            </div>
+      /* Staff Grid */
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-8">
+          {teamMembers.map((member) => (
+            <div
+          key={member.id}
+          onClick={() => setSelectedMember(member)}
+          className="
+            group
+            bg-purple-950
+            rounded-lg
+            overflow-hidden
+            shadow-lg
+            cursor-pointer
+            transform transition
+            hover:scale-105 hover:shadow-2xl
+          "
+            >
+          <img
+            src={member.photo}
+            alt={member.name}
+            className="w-full h-48 object-cover object-top"
+          />
+          <div className="p-4 text-center">
+            <h3 className="text-xl font-medium text-white bebas-kai-regular">
+              {member.name}
+            </h3>
+            <p className="text-gray-400 oswald-400">{member.role}</p>
           </div>
-        ))}
-      </div>
+            </div>
+          ))}
+        </div>
 
-      {/* Modal Popup */}
+        {/* Modal Popup */}
       {selectedMember && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"

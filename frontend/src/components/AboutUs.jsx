@@ -4,6 +4,7 @@ import missionHero from '../assets/aboutUsHero2.jpg';
 import Staff from './Staff';
 
 
+
 const execMembers = [
   {
     id: 1,
@@ -33,7 +34,7 @@ const execMembers = [
     id: 4,
     name: 'Ramzi Maducdoc',
     role: 'CFO',
-    photo: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
+    photo: new URL('../assets/meet-the-team/ramzi.png', import.meta.url).href,
     desc: ``,
     funFact: ''
   },
@@ -88,10 +89,10 @@ export default function AboutUsComponent() {
       >
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 space-y-4">
-          <h1 className="text-8xl font-bold text-white racing-sans-one-regular">
+          <h1 className="text-9xl font-bold text-white racing-sans-one-regular">
             About Us
           </h1>
-          <p className="text-xl text-gray-300 bebas-kai-regular max-w-2xl">
+          <p className="text-2xl text-gray-300 bebas-kai-regular max-w-2xl">
           Next World Collective is a LA-based creative community born from a simple desire: “friendship through music.” We provide hands-on mentorship and a space to experiment, whether it’s through recording sessions, songwriting, production, jam nights, community events, or full-scale concert showcases. With members spread across the country and beyond, from musicians to graphic designers, our community thrives on genuine connection, curiosity, and shared creative energy. There’s no formal way to join—if we vibe, we create. Together, we’re shaping the next world of music.          </p>
         </div>
       </section>
@@ -103,7 +104,7 @@ export default function AboutUsComponent() {
       >
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 space-y-4 max-w-2xl mx-auto">
-          <h2 className="text-6xl font-semibold text-white racing-sans-one-regular">
+          <h2 className="text-8xl font-semibold text-white racing-sans-one-regular">
             Our Mission
           </h2>
           <p className="text-gray-300 leading-relaxed oswald-400 text-2xl">

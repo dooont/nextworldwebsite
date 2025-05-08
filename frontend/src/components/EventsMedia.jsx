@@ -50,8 +50,21 @@ export default function EventsMedia({ events = dummyEvents }) {
 
         {/* Hero Text */}
         <div className="relative z-20 flex items-center justify-center h-full">
-          <h1 className="text-white text-9xl font-bold text-center racing-sans-one-regular">Events</h1>
+          <h1
+            className="
+      text-white
+      text-[10rem]
+      font-bold
+      text-center
+      racing-sans-one-regular
+      fade-in-up
+      delay-200
+    "
+          >
+            Events
+          </h1>
         </div>
+
       </div>
 
       {/* Events Grid */}
@@ -75,13 +88,13 @@ export default function EventsMedia({ events = dummyEvents }) {
     "
             >
               {/* Image Container (fixed height) */}
-              <div className="relative h-40 w-full overflow-hidden flex-none">
+              <div className="relative h-40 w-full overflow-hidden flex-none bg-[#4b0082]">
                 <img
                   src={event.image}
                   alt={event.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity">
+                <div className="absolute inset-0 bg-[#4b0082] bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity">
                   {/* <p className="text-center text-white px-4">
                     Learn more about {event.title}!
                   </p> */}

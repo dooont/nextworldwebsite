@@ -44,9 +44,16 @@ export default function PhotoWall() {
     <>
       {/* Gallery */}
       <div className="max-w-screen-xl mx-auto px-4">
-        <h1 className="text-white text-6xl md:text-9xl font-bold text-center racing-sans-one-regular mb-8">
+        <h1
+          className="
+    text-white text-6xl md:text-9xl font-bold text-center
+    racing-sans-one-regular mb-8
+    fade-in-up delay-200
+  "
+        >
           Gallery
         </h1>
+
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="flex w-auto -ml-4"
