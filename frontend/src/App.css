@@ -32,6 +32,51 @@
     transform: translateY(0);
   }
 }
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.fade-in-right {
+  opacity: 0;
+  animation: fadeInRight 0.6s ease-out forwards;
+}
+
+/* global CSS */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* utility you can tweak or duplicate for different delays */
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
 
 /* Header Font */
 .racing-sans-one-regular {
@@ -47,7 +92,7 @@
   font-style: normal;
 }
 
-/* give it a real, valid class name and weight */
+/* p font */
 .oswald-400 {
   font-family: "Oswald", sans-serif;
   font-weight: 400;
@@ -56,4 +101,21 @@
 .oswald-700 {
   font-family: "Oswald", sans-serif;
   font-weight: 700;
+}
+
+/* very specific usecase font for mainpage */
+.limelight-regular {
+  font-family: "Limelight", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* a dark purple */
+.dark-purple {
+  color: #490c85;
+}
+
+/* a soft indigo color */
+.soft-indigo {
+  color: #4b0082;
 }

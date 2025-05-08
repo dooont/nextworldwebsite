@@ -1,7 +1,9 @@
 import React from 'react';
 import nextworldWhite from '../assets/mainLogoWhite.png';
 import heroBackgroundVideo from '../assets/main-page-nextworld-hero-background.mp4';
+import whoAreWe from '../assets/who-are-we.jpg';
 import EmailUsFooter from './EmailUs';
+import FadeInOnScroll from './FadeInOnScroll.jsx';
 
 const articles = [
   {
@@ -48,39 +50,66 @@ const MainPage = () => {
             <img src={nextworldWhite} alt="Logo" className="object-contain" />
           </div>
           <div className="w-3/4 text-right text-white">
-            <h1 className="text-8xl font-bold mb-4 racing-sans-one-regular">
+            <h1
+              className="text-8xl font-bold mb-4 racing-sans-one-regular fade-in delay-200"
+            >
               Next World Collective
             </h1>
-            <p className="mb-6 text-xl oswald-400">
+            <p
+              className="mb-6 text-xl oswald-400 fade-in delay-400"
+            >
               The best place to find your new favorite artist
             </p>
           </div>
         </div>
       </section>
 
+
       {/* Who Are We */}
-      <section className="py-20 bg-black">
-        <div className="max-w-screen-xl mx-auto px-6 text-center">
-          {/* Title */}
-          <h2 className="text-5xl md:text-6xl font-bold text-white racing-sans-one-regular">
-            Who Are We
-          </h2>
+      <section className="relative w-screen h-screen overflow-hidden">
+        {/* Background image */}
+        <img
+          src={whoAreWe}
+          alt="Who Are We Background"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
 
-          {/* Blurb */}
-          <p className="mt-4 text-lg text-gray-300 oswald-400">
-            We’re a group of
-          </p>
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/60" />
 
-          {/* Three pillars */}
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {['Artists', 'Creators', 'Musicians'].map((label) => (
-              <div key={label} className="p-6 bg-purple-950 rounded-lg shadow-lg">
-                <p className="text-2xl font-semibold text-white">{label}</p>
-              </div>
+        {/* Content */}
+        <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex flex-col lg:flex-row items-start lg:items-center h-full">
+          {/* Left column: title + blurb */}
+          <FadeInOnScroll>
+            <div className="flex-1 text-center lg:text-left">
+              <h2 className="text-7xl md:text-9xl font-bold text-white racing-sans-one-regular">
+                Who Are We
+              </h2>
+              <p className="mt-4 text-4xl text-gray-300 oswald-400">
+                We’re a group of
+              </p>
+            </div>
+          </FadeInOnScroll>
+
+          {/* Right column: pillars stacked vertically, pushed further right */}
+          <div className="flex-1 mt-10 lg:mt-0 lg:ml-24 flex flex-col items-end space-y-6">
+            {['Artists', 'Creatives', 'Visionaries',].map((label, i) => (
+              <FadeInOnScroll key={label} delay={i * 200}>
+                <div className="p-6 rounded-lg shadow-lg text-center">
+                  <p className="text-6xl font-semibold text-white limelight-regular">
+                    {label}
+                  </p>
+                </div>
+              </FadeInOnScroll>
             ))}
           </div>
         </div>
       </section>
+
+
+
+
+
 
 
       {/* Articles Made About Us */}
