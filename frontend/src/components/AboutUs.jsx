@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import aboutHero from '../assets/aboutUsHero1.jpg';
 import missionHero from '../assets/aboutUsHero2.jpg';
+import Staff from './Staff';
 
-const teamMembers = [
+
+const execMembers = [
   {
     id: 1,
     name: 'Kai Caden',
@@ -21,6 +23,34 @@ const teamMembers = [
   },
   {
     id: 3,
+    name: 'Alyssa Aquino',
+    role: 'Vice President',
+    photo: new URL('../assets/meet-the-team/alyssa.jpg', import.meta.url).href,
+    desc: `Heya everybody! I was born and raised from the SFV and I have been involved with Next World since its creation! I love working with Next World because not only do I get to work with creatives but I also get to support others career path. I have a number of hobbies but the most important of which has been fitness, baking, and music!`,
+    funFact: 'I ran a marathon when I was 16 and hip thrusted 405 lbs at 20'
+  },
+  {
+    id: 4,
+    name: 'Ramzi Maducdoc',
+    role: 'CFO',
+    photo: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
+    desc: ``,
+    funFact: ''
+  },
+  {
+    id: 5,
+    name: 'Allison Budianto',
+    role: 'Content Executive',
+    photo: new URL('../assets/meet-the-team/allison.jpg', import.meta.url).href,
+    desc: `I love video editing and unsurprisingly watching movies. (everything everywhere all at once <3)
+Next World will always hold a space in my heart because every event has brought me so many memories. These people have introduced me to a world I never thought I’d be in and i’m learning more and more everyday I am around them. My experience in Next World has brought out a new side of me that I wish came out sooner.`,
+    funFact: 'I peaked ascendant in valorant (nerd)'
+  },
+]
+
+const teamMembers = [
+  {
+    id: 6,
     name: 'Kurt Buencamino',
     role: 'Human Resources and A&R',
     photo: new URL('../assets/meet-the-team/kurt.png', import.meta.url).href,
@@ -28,7 +58,7 @@ const teamMembers = [
     funFact: 'I also run my own creative community called AV Studios Group Entertainment.'
   },
   {
-    id: 4,
+    id: 7,
     name: 'Harmony Calata',
     role: 'Event Coordinator',
     photo: new URL('../assets/meet-the-team/harmony.jpg', import.meta.url).href,
@@ -36,13 +66,12 @@ const teamMembers = [
     funFact: 'She is NOT in HR:)'
   },
   {
-    id: 5,
-    name: 'Allison Budianto',
-    role: 'Creative Director & Content Executive',
-    photo: new URL('../assets/meet-the-team/allison.jpg', import.meta.url).href,
-    desc: `I love video editing and unsurprisingly watching movies. (everything everywhere all at once <3)
-Next World will always hold a space in my heart because every event has brought me so many memories. These people have introduced me to a world I never thought I’d be in and i’m learning more and more everyday I am around them. My experience in Next World has brought out a new side of me that I wish came out sooner.`,
-    funFact: 'I peaked ascendant in valorant (nerd)'
+    id: 8,
+    name: 'LoganFong',
+    role: 'Event Manager',
+    photo: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
+    desc: `LoganFong is an LA based film photographer with a background in hospitality management and a deep passion for live music`,
+    funFact: 'He is an avid tea fanatic'
   },
 ];
 
@@ -62,9 +91,8 @@ export default function AboutUsComponent() {
           <h1 className="text-8xl font-bold text-white racing-sans-one-regular">
             About Us
           </h1>
-          <p className="text-lg text-gray-300 bebas-kai-regular max-w-2xl">
-          Next World Collective is a LA-based creative community born from a simple desire: “friendship through music.” Founded during the isolation of the pandemic, what began as jam sessions and late-night calls quickly evolved into a dynamic platform for young creatives to grow, collaborate, and perform. We provide hands-on mentorship and a space to experiment, whether it’s through recording sessions, songwriting, production, jam nights, community events, or full-scale concert showcases. At its core, Next World isn't just a collective, it’s a group of friends building something bigger than themselves. We uplift artists from the ground up, focusing on potential over popularity, and giving first-time performers a stage to find their voice. With members spread across the country and beyond, from musicians to graphic designers, our community thrives on genuine connection, curiosity, and shared creative energy. There’s no formal way to join—if we vibe, we create. Together, we’re shaping the next world of music.
-          </p>
+          <p className="text-xl text-gray-300 bebas-kai-regular max-w-2xl">
+          Next World Collective is a LA-based creative community born from a simple desire: “friendship through music.” We provide hands-on mentorship and a space to experiment, whether it’s through recording sessions, songwriting, production, jam nights, community events, or full-scale concert showcases. With members spread across the country and beyond, from musicians to graphic designers, our community thrives on genuine connection, curiosity, and shared creative energy. There’s no formal way to join—if we vibe, we create. Together, we’re shaping the next world of music.          </p>
         </div>
       </section>
 
@@ -90,36 +118,15 @@ export default function AboutUsComponent() {
         <h2 className="text-4xl font-semibold text-center text-white racing-sans-one-regular">
           Meet the Team
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {teamMembers.map((member) => (
-            <div
-              key={member.id}
-              onClick={() => setSelectedMember(member)}
-              className={`
-                group
-                bg-purple-950
-                rounded-lg
-                overflow-hidden
-                shadow-lg
-                cursor-pointer
-                transform transition
-                hover:scale-105 hover:shadow-2xl
-              `}
-            >
-              <img
-                src={member.photo}
-                alt={member.name}
-                className="w-full h-72 object-cover object-top"
-              />
-              <div className="p-4 text-center">
-                <h3 className="text-xl font-medium text-white bebas-kai-regular">
-                  {member.name}
-                </h3>
-                <p className="text-gray-400 oswald-400">{member.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <h3 className="text-2xl font-semibold text-left text-white oswald-400">
+          Executive Team
+        </h3>
+        <Staff teamMembers={execMembers} />
+        <h3 className="text-2xl font-semibold text-left text-white oswald-400">
+          Major Contributors
+        </h3>
+        <Staff teamMembers={teamMembers} />
+
       </section>
 
       {/* Modal Popup */}

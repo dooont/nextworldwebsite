@@ -1,6 +1,32 @@
 import React from 'react';
 import nextworldWhite from '../assets/mainLogoWhite.png';
 import heroBackgroundVideo from '../assets/main-page-nextworld-hero-background.mp4';
+import EmailUsFooter from './EmailUs';
+
+const articles = [
+  {
+    "title": "Kai Caden and Brynne Are Bringing NEXT WORLD Everywhere",
+    "source": "Bias Wrecker",
+    "date": "May 2024",
+    "description": "The collective’s mission is to empower and train artists. As a result, they’ve built one of the strongest artist-led communities in music...",
+    "link": "https://www.thebiaswrecker.com/blog/kai-caden-and-brynne-are-bringing-next-world-everywhere"
+  },
+  {
+    "title": "NEXTWORLD What's Next?",
+    "source": "NYU Music Business Association",
+    "date": "March 2024",
+    "description": "Music collective “NEXTWORLD” is cultivating a safe space for Fil-Am and other Asian-American musicians in their local LA scene — but what does the future have in store for them?...",
+    "link": "https://musba.co/nextworld-whats-next-vincent-felix/"
+  },
+  {
+    "title": "brynne Is Championing the Next Generation of Artists",
+    "source": "Bias Wrecker",
+    "date": "February 2024",
+    "description": "But what really changed for brynne is that he found a community of artists beginning with KU-KAI, another musician who shares an ambitious vision for music and collaboration...",
+    "link": "https://www.thebiaswrecker.com/blog/brynne-is-championing-the-next-generation-of-artists"
+  },
+]
+
 
 const MainPage = () => {
   return (
@@ -64,29 +90,27 @@ const MainPage = () => {
             Articles About Us
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Example Article Card */}
-            <article className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col">
-              <h3 className="text-2xl font-semibold mb-2">Rolling Stone Feature</h3>
-              <p className="text-sm text-gray-400 mb-4">
-                Rolling Stone • March 2024
-              </p>
-              <p className="flex-1 oswald-400 mb-4">
-                A deep dive into how Next World Collective is reshaping the indie
-                music scene in LA by empowering first-time performers.
-              </p>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto text-blue-400 hover:underline"
-              >
-                Read More
-              </a>
-            </article>
-            {/* Repeat above <article> for each write-up */}
+            {articles.map((article) => (
+              <article key={article.title} className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col">
+                <h3 className="text-2xl font-semibold mb-2">{article.title}</h3>
+                <p className="text-sm text-gray-400 mb-4">{article.source} • {article.date}</p>
+                <p className="flex-1 oswald-400 mb-4">{article.description}</p>
+                <a
+                  href={article.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-auto text-blue-400 hover:underline"
+                >
+                  Read More
+                </a>
+              </article>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* Contact Us */}
+      {/* <EmailUsFooter /> */}
     </div>
   );
 };
