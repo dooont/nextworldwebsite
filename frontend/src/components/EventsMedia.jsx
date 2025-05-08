@@ -17,8 +17,8 @@ const dummyEvents = [
 ];
 
 
-export default function EventsMedia({ events = dummyEvents}) {
-  
+export default function EventsMedia({ events = dummyEvents }) {
+
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const handleEventClick = (event) => {
@@ -30,7 +30,7 @@ export default function EventsMedia({ events = dummyEvents}) {
     setSelectedEvent(null);
   };
 
-// TODO: add an "upcoming events" section
+  // TODO: add an "upcoming events" section
 
   return (
     <div className="relative space-y-16 bg-black">
@@ -57,31 +57,49 @@ export default function EventsMedia({ events = dummyEvents}) {
       {/* Events Grid */}
       <section className="max-w-6xl mx-auto px-4">
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">Past Events</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
           {events.map((event) => (
             <div
               key={event.id}
               onClick={() => handleEventClick(event)}
-              className="group relative bg-purple-950 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer"
+              className="
+      group
+      bg-purple-950
+      rounded-lg
+      shadow-lg
+      overflow-hidden
+      transition-transform
+      hover:scale-[1.02]
+      cursor-pointer
+      flex flex-col h-full
+    "
             >
-              <div className="relative h-40 w-full overflow-hidden">
+              {/* Image Container (fixed height) */}
+              <div className="relative h-40 w-full overflow-hidden flex-none">
                 <img
                   src={event.image}
                   alt={event.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <p className="text-center text-white px-4">
+                <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity">
+                  {/* <p className="text-center text-white px-4">
                     Learn more about {event.title}!
-                  </p>
+                  </p> */}
                 </div>
               </div>
-              <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2 text-white bebas-kai-regular">{event.title}</h3>
-                <p className="text-gray-200 text-sm oswald-400">{event.subtitle}</p>
+
+              {/* Details Container (fills remaining space) */}
+              <div className="p-4 flex flex-col justify-between flex-1">
+                <h3 className="text-xl font-semibold text-white bebas-kai-regular">
+                  {event.title}
+                </h3>
+                <p className="text-gray-200 text-sm oswald-400">
+                  {event.subtitle}
+                </p>
               </div>
             </div>
           ))}
+
         </div>
       </section>
 

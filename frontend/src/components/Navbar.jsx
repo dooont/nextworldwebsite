@@ -13,6 +13,7 @@ export default function Navbar() {
             src={nextworldWhiteMic}
             alt="Logo"
             className="h-20 object-fill"
+            onClick={() => window.location.href = '/'}
           />
         </div>
 

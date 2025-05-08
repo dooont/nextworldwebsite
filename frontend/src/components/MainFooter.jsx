@@ -7,8 +7,8 @@ export default function MainFooter() {
     <footer className="bg-black border-t py-5">
       <div className="max-w-6xl mx-auto px-4 flex">
         {/* Copyright Text */}
-        <p className="text-sm text-gray-600 mb-4 md:mb-0 flex-5">
-          &copy; {new Date().getFullYear()} <br />
+        <p className="text-sm text-gray-600 mb-4 md:mb-0 flex-5 oswald-400">
+          &copy; Next World Collective {new Date().getFullYear()} <br />
         </p>
 
         {/* Social Icons */}
