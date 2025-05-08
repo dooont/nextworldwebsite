@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // 👉 Your dev team data
 const developers = [
@@ -17,17 +17,37 @@ const developers = [
 
 export default function EasterEgg() {
   const [open, setOpen] = useState(false);
+  const sequence = ['d', 'e', 'v'];
+  const posRef = useRef(0);
 
-  // listen for Ctrl+Shift+D
+  // listen for the sequence "dev"
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'd') {
-        setOpen(true);
+    const handleSequence = (e) => {
+      const key = e.key.toLowerCase();
+      if (key === sequence[posRef.current]) {
+        posRef.current += 1;
+        if (posRef.current === sequence.length) {
+          setOpen(true);
+          posRef.current = 0;
+        }
+      } else {
+        posRef.current = key === sequence[0] ? 1 : 0;
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleSequence);
+    return () => window.removeEventListener('keydown', handleSequence);
   }, []);
+
+  // listen for Escape key to close
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && open) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [open]);
 
   return (
     <>

@@ -4,7 +4,6 @@ import HomePage from './pages/HomePage'
 import AboutUs from './pages/AboutUs';
 import Gallery from './pages/Gallery';
 import EventsPage from './pages/EventsPage';
-import Developers from './pages/Developers';
 import './App.css';
 
 const router = createBrowserRouter([
@@ -17,7 +16,6 @@ const router = createBrowserRouter([
       { path: '/events', element: <EventsPage /> }, //this will be the events page, but for now it is the same as home
       { path: '/about-us', element: <AboutUs /> },
       { path: '/gallery', element: <Gallery /> },
-      { path: '/developers', element: <Developers /> }
     ]
   }
 ])
