@@ -26,6 +26,12 @@ export default function PhotoWall() {
             <img
               src={src}
               alt={`Photo ${idx + 1}`}
+              // fade-in animation via inline style
+              style={{
+                opacity: 0,
+                animation: `fadeIn 0.5s ease-in-out forwards`,
+                animationDelay: `${idx * 100}ms`,
+              }}
               className="w-full object-cover"
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
