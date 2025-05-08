@@ -14,7 +14,7 @@ const MainPage = () => {
           autoPlay
           loop
           muted
-          className="w-full h-full object-cover"
+          className="w-full h-screen object-cover"
         />
       </div>
 
