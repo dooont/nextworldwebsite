@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import heroBackgroundVideo from '../assets/events-nextworld-hero-background.mp4';
 
 const dummyEvents = [
-  { id: 11, image: 'src/assets/11.jpg', title: 'Next World Showcase @ The Paramount v.2', subtitle: 'June 29, 2025' },
-  { id: 10, image: 'src/assets/10.png', title: 'CraftxNXTWORLD v.4', subtitle: 'April 12, 2025' },
-  { id: 9, image: 'src/assets/9.jpg', title: 'CraftxNXTWORLD v.3', subtitle: 'October 19, 2024' },
-  { id: 8, image: 'src/assets/8.jpg', title: 'Next World Exclusive @ Pauhaus', subtitle: 'September 7, 2024' },
-  { id: 7, image: 'src/assets/7.jpg', title: 'CraftxNXTWORLD v.2', subtitle: 'July 20, 2024' },
-  { id: 6, image: 'src/assets/6.jpg', title: 'Next World Showcase @ The Paramount', subtitle: 'June 23, 2024' },
-  { id: 5, image: 'src/assets/5.jpg', title: 'CraftxNXTWORLD v.1', subtitle: 'February 23, 2024' },
-  { id: 4, image: 'src/assets/4.jpg', title: 'Fall Into The Next World', subtitle: 'October 14, 2023' },
-  { id: 3, image: 'src/assets/3.jpg', title: 'Next World Spring Exclusive', subtitle: 'April 29, 2023' },
-  { id: 2, image: 'src/assets/2.jpg', title: 'Next World Winter Exclusive', subtitle: 'January 14, 2023' },
-  { id: 1, image: 'src/assets/1.jpg', title: 'NextWorld Collective', subtitle: 'November 12, 2022' },
-  { id: 0, image: 'src/assets/nextworld-mic-white.png', title: 'More to be Announced!', subtitle: 'TBD' },
+  { id: 11, image: 'src/public/assets/11.jpg', title: 'Next World Showcase @ The Paramount v.2', subtitle: 'June 29, 2025' },
+  { id: 10, image: 'src/public/assets/10.png', title: 'CraftxNXTWORLD v.4', subtitle: 'April 12, 2025' },
+  { id: 9, image: 'src/public/assets/9.jpg', title: 'CraftxNXTWORLD v.3', subtitle: 'October 19, 2024' },
+  { id: 8, image: 'src/public/assets/8.jpg', title: 'Next World Exclusive @ Pauhaus', subtitle: 'September 7, 2024' },
+  { id: 7, image: 'src/public/assets/7.jpg', title: 'CraftxNXTWORLD v.2', subtitle: 'July 20, 2024' },
+  { id: 6, image: 'src/public/assets/6.jpg', title: 'Next World Showcase @ The Paramount', subtitle: 'June 23, 2024' },
+  { id: 5, image: 'src/public/assets/5.jpg', title: 'CraftxNXTWORLD v.1', subtitle: 'February 23, 2024' },
+  { id: 4, image: 'src/public/assets/4.jpg', title: 'Fall Into The Next World', subtitle: 'October 14, 2023' },
+  { id: 3, image: 'src/public/assets/3.jpg', title: 'Next World Spring Exclusive', subtitle: 'April 29, 2023' },
+  { id: 2, image: 'src/public/assets/2.jpg', title: 'Next World Winter Exclusive', subtitle: 'January 14, 2023' },
+  { id: 1, image: 'src/public/assets/1.jpg', title: 'NextWorld Collective', subtitle: 'November 12, 2022' },
+  { id: 0, image: 'src/public/assets/nextworld-mic-white.png', title: 'More to be Announced!', subtitle: 'TBD' },
 ];
 
 
