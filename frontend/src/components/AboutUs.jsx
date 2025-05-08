@@ -53,41 +53,34 @@ export default function AboutUsComponent() {
   return (
     <div className="bg-black">
       {/* About Us Hero */}
-      <section className="relative w-screen h-screen overflow-hidden">
-        {/* Full-bleed background image */}
-        <img
-          src={aboutHero}
-          alt="About Us Background"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Dark overlay */}
+      <section
+        className="relative w-screen h-[101vh] bg-fixed bg-center bg-cover"
+        style={{ backgroundImage: `url(${aboutHero})` }}
+      >
         <div className="absolute inset-0 bg-black/50" />
-        {/* Hero text */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 space-y-4">
           <h1 className="text-8xl font-bold text-white racing-sans-one-regular">
             About Us
           </h1>
-          <p className="text-lg text-gray-300 bebas-kai-regular">
-            We’re NextWorld Collective—driven by creativity, community, and live experiences.
+          <p className="text-lg text-gray-300 bebas-kai-regular max-w-2xl">
+          Next World Collective is a LA-based creative community born from a simple desire: “friendship through music.” Founded during the isolation of the pandemic, what began as jam sessions and late-night calls quickly evolved into a dynamic platform for young creatives to grow, collaborate, and perform. We provide hands-on mentorship and a space to experiment, whether it’s through recording sessions, songwriting, production, jam nights, community events, or full-scale concert showcases. At its core, Next World isn't just a collective, it’s a group of friends building something bigger than themselves. We uplift artists from the ground up, focusing on potential over popularity, and giving first-time performers a stage to find their voice. With members spread across the country and beyond, from musicians to graphic designers, our community thrives on genuine connection, curiosity, and shared creative energy. There’s no formal way to join—if we vibe, we create. Together, we’re shaping the next world of music.
           </p>
         </div>
       </section>
 
       {/* Our Mission Hero */}
-      <section className="relative w-screen h-[102vh] overflow-hidden">
-        <img
-          src={missionHero}
-          alt="Our Mission Background"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+      <section
+        className="relative w-screen h-[101vh] bg-fixed bg-center bg-cover"
+        style={{ backgroundImage: `url(${missionHero})` }}
+      >
         <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 space-y-4">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 space-y-4 max-w-2xl mx-auto">
           <h2 className="text-6xl font-semibold text-white racing-sans-one-regular">
             Our Mission
           </h2>
-          <p className="text-gray-300 leading-relaxed oswald-400 max-w-2xl">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-            lacinia odio vitae vestibulum vestibulum.
+          <p className="text-gray-300 leading-relaxed oswald-400 text-2xl">
+          "Next World Collective is a platform for unheard voices."
+          We exist to spotlight emerging artists who are often overlooked despite their talent and dedication. Our mission is to connect these creators with audiences who love to discover new music. Through authentic support, collaborative spaces, and powerful live experiences, we help eager creatives take the next step in their careers, especially when no one else will.
           </p>
         </div>
       </section>
