@@ -70,7 +70,7 @@ const dummyEvents = [
   },
   {
     id: 0,
-    image: new URL('../public/assets/nextworld-mic-white.png', import.meta.url).href,
+    image: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
     title: 'More to be Announced!',
     subtitle: 'TBD',
   },

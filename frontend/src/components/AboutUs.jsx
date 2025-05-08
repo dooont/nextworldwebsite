@@ -74,6 +74,14 @@ const teamMembers = [
     desc: `LoganFong is an LA based film photographer with a background in hospitality management and a deep passion for live music`,
     funFact: 'He is an avid tea fanatic'
   },
+  {
+    id: 9,
+    name: 'Michael Dy',
+    role: 'Events Executive',
+    photo: new URL('../assets/meet-the-team/michael.jpg', import.meta.url).href,
+    desc: `Based in the Inland Empire, Michael plays an integral role in planning and coordinating Next World events, as well as playing drums and bass guitar for various Next World artists. He loves working in Next World because of how much they thrive on hard work, dedication, and community. Outside of music, Michael loves weightlifting and hiking.`,
+    funFact: ''
+  },
 ];
 
 
