@@ -35,8 +35,8 @@ const execMembers = [
     name: 'Ramzi Maducdoc',
     role: 'CFO',
     photo: new URL('../assets/meet-the-team/ramzi.png', import.meta.url).href,
-    desc: ``,
-    funFact: ''
+    desc: `Hey everyone! I’m Ramzi and I’m currently serving as the CFO for Next World. Being part of NextWorld, from concerts to casual gatherings, has deeply impacted my life, and I’m passionate about helping shape and sustain the vision that Kai and our team are building for this collective. I’m in awe of and constantly inspired by the creatives we work with on a regular basis. Honestly, I would do this even if I weren’t getting paid. (Which is convenient, because… I’m not. Kai??)`,
+    funFact: 'I am a songwriter/rapper for a band called Melt to Stone, I help lead AV Studios alongside Kurt, and I work full-time at a major bank'
   },
   {
     id: 5,
