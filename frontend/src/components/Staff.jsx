@@ -65,7 +65,7 @@ export default function Staff({ teamMembers }) {
             <img
               src={selectedMember.photo}
               alt={selectedMember.name}
-              className="w-48 h-48 object-cover rounded-lg flex-shrink-0"
+              className="w-48 h-48 object-cover rounded-lg flex-shrink-0 object-top"
             />
 
             {/* Description on the right */}
