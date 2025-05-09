@@ -106,8 +106,8 @@ const teamMembers = [
     role: 'Artist and Repertoire',
     photo: new URL('../assets/meet-the-team/nyssa.jpg', import.meta.url).href,
     desc: `Nyssa Mae Laspiñas is a singer and songwriter based in North East LA (Glendale/Eagle Rock Area).
-She is most known for keeping it real with others and being 1 of the vocalists in band Melt To Stone. She enjoys meeting others and making bonds/friendships along the way! While supporting the artists of Next World, Nyssa is truly eager to witness this community’s growth, talent, love and friendships along the way. She guides artists and friends to the Next World community. Brings others to the events is her goal but more importantly always making sure we are all having a great time!`,
-    funFact: 'She is one of the vocalists in the band Melt To Stone and helps run another community called Avenue Studios Entertainment '
+She is most known for her hospitality and keeping it real with others. She enjoys meeting new people, bonding, and creating relationships/friendships along the way! While supporting the artists of Next World, Nyssa is truly eager to witness this community’s growth, talent and love that Next World brings. She guides artists and friends to the Next World community. Brings others to the events is her goal but more importantly, always making sure we are all having a great time!`,
+    funFact: 'She is one of the vocalists in the band Melt To Stone and helps run another AV Studio Group Entertainment'
   },
   {
     id: 0,
