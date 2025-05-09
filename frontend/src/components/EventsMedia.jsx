@@ -122,7 +122,7 @@ export default function EventsMedia({ events = dummyEvents }) {
       delay-200
     "
           >
-            Events
+            EVENTS
           </h1>
         </div>
 

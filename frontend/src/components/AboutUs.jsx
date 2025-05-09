@@ -49,6 +49,16 @@ Next World will always hold a space in my heart because every event has brought 
   },
 ]
 
+// Template:
+// {
+//   id: 0,
+//   name: '',
+//   role: '',
+//   photo: new URL('../assets/meet-the-team/.png', import.meta.url).href,
+//   desc: ``,
+//   funFact: ''
+// },
+
 const teamMembers = [
   {
     id: 6,
@@ -68,19 +78,35 @@ const teamMembers = [
   },
   {
     id: 8,
-    name: 'LoganFong',
-    role: 'Event Manager',
-    photo: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
-    desc: `LoganFong is an LA based film photographer with a background in hospitality management and a deep passion for live music`,
-    funFact: 'He is an avid tea fanatic'
-  },
-  {
-    id: 9,
     name: 'Michael Dy',
     role: 'Event Coordinator',
     photo: new URL('../assets/meet-the-team/michael.jpg', import.meta.url).href,
     desc: `Based in the Inland Empire, Michael plays an integral role in planning and coordinating Next World events, as well as playing drums and bass guitar for various Next World artists. He loves working in Next World because of how much they thrive on hard work, dedication, and community. Outside of music, Michael loves weightlifting and hiking.`,
     funFact: 'I was a math major at UC Riverside'
+  },
+  {
+    id: 9,
+    name: 'Owen A Santos',
+    role: 'Next World Host',
+    photo: new URL('../assets/meet-the-team/owen.jpg', import.meta.url).href,
+    desc: `Hi everyone! I grew up in the Pasadena area and, I’ve been so grateful to see my passions come to life through nxtwrld. Whether I’m on stage or in front of a camera, I love connecting with people and being part of something creative. The community I’ve found here is full of support, talent, and genuine connection. I’m so excited to keep growing alongside everyone and help spotlight the amazing artists coming up. See you guys in the crowd!`,
+    funFact: `Jollibee order 🐝 2pc chicken joy w/ jolly spaghetti & pineapple quencher (1 spicy 1 og)`
+  },
+  {
+    id: 10,
+    name: 'Alyssa Cheung',
+    role: '',
+    photo: new URL('../assets/meet-the-team/alyssac.jpg', import.meta.url).href,
+    desc: `Hi! My name is Alyssa and I’m from Hong Kong. I’m one of the vocalists in my band Melt To Stone, and I’m also working on writing my solo music. Being in Next World not only opened up music opportunities for me, but it also allowed me to meet the most genuine people that I consider my loved ones. Next World feels like a second home, even when I’m far away from where I’m from.`,
+    funFact: 'I’m a Communication Major at UCLA with a Music Industry Minor, and I’ll be graduating in a month!'
+  },
+  {
+    id: 0,
+    name: 'LoganFong',
+    role: 'Event Manager',
+    photo: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
+    desc: `LoganFong is an LA based film photographer with a background in hospitality management and a deep passion for live music`,
+    funFact: 'He is an avid tea fanatic'
   },
 ];
 
@@ -101,7 +127,7 @@ export default function AboutUsComponent() {
             About Us
           </h1>
           <p className="text-2xl text-gray-300 bebas-kai-regular max-w-2xl fade-in delay-400">
-          Next World Collective is a LA-based creative community born from a simple desire: “friendship through music.” We provide hands-on mentorship and a space to experiment, whether it’s through recording sessions, songwriting, production, jam nights, community events, or full-scale concert showcases. With members spread across the country and beyond, from musicians to graphic designers, our community thrives on genuine connection, curiosity, and shared creative energy. There’s no formal way to join—if we vibe, we create. Together, we’re shaping the next world of music.          </p>
+            Next World Collective is a LA-based creative community born from a simple desire: “friendship through music.” We provide hands-on mentorship and a space to experiment, whether it’s through recording sessions, songwriting, production, jam nights, community events, or full-scale concert showcases. With members spread across the country and beyond, from musicians to graphic designers, our community thrives on genuine connection, curiosity, and shared creative energy. There’s no formal way to join—if we vibe, we create. Together, we’re shaping the next world of music.          </p>
         </div>
       </section>
 
@@ -116,8 +142,8 @@ export default function AboutUsComponent() {
             Our Mission
           </h2>
           <p className="text-gray-300 leading-relaxed oswald-400 text-2xl fade-in delay-400">
-          "Next World Collective is a platform for unheard voices."
-          We exist to spotlight emerging artists who are often overlooked despite their talent and dedication. Our mission is to connect these creators with audiences who love to discover new music. Through authentic support, collaborative spaces, and powerful live experiences, we help eager creatives take the next step in their careers, especially when no one else will.
+            "Next World Collective is a platform for unheard voices."
+            We exist to spotlight emerging artists who are often overlooked despite their talent and dedication. Our mission is to connect these creators with audiences who love to discover new music. Through authentic support, collaborative spaces, and powerful live experiences, we help eager creatives take the next step in their careers, especially when no one else will.
           </p>
         </div>
       </section>
