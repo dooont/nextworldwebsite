@@ -9,7 +9,7 @@ const defaultUpcomingEvents = [
     subtitle: 'June 29, 2025',
     url: 'https://link.dice.fm/F6cb912c26af?dice_id=F6cb912c26af',
   },
-    {
+  {
     id: 0,
     image: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
     title: 'More to be Announced!',
@@ -107,7 +107,7 @@ export default function EventsMedia({ events = dummyEvents, upcomingEvents = def
         />
         <div className="absolute inset-0 bg-black opacity-50 z-10" />
         <div className="relative z-20 flex items-center justify-center h-full">
-          <h1 className="text-white text-[10rem] font-bold text-center racing-sans-one-regular fade-in-up delay-200">
+          <h1 className="text-white text-6xl lg:text-[10rem] font-bold text-center racing-sans-one-regular fade-in-up delay-200">
             EVENTS
           </h1>
         </div>
