@@ -34,7 +34,7 @@ const MainPage = () => {
   return (
     <div className="bg-black">
       {/* Hero Section */}
-      <section className="relative w-full h-screen overflow-hidden">
+      <section className="relative w-full h-[90vh] lg:screen overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video
             src={heroBackgroundVideo}
@@ -45,13 +45,13 @@ const MainPage = () => {
           />
         </div>
         <div className="absolute inset-0 bg-black/50 z-10" />
-        <div className="relative z-20 flex items-center justify-between max-w-6xl mx-auto h-full px-6">
-          <div className="w-3/4 mr-4 pr-4">
+        <div className="relative z-20 flex flex-col justify-center items-center lg:flex-row lg:items-center lg:justify-between max-w-6xl mx-auto h-full px-6">
+          <div className="w-3/4 lg:mr-4 lg:pr-4">
             <img src={nextworldWhite} alt="Logo" className="object-contain" />
           </div>
-          <div className="w-3/4 text-right text-white">
+          <div className="w-3/4 text-center lg:text-right text-white">
             <h1
-              className="text-8xl font-bold mb-4 racing-sans-one-regular fade-in delay-200"
+              className="text-7xl lg:text-8xl -ml-[10%] lg:-ml-[0%] text-center lg:text-right font-bold mb-4 racing-sans-one-regular fade-in delay-200"
             >
               Next World Collective
             </h1>
@@ -66,7 +66,7 @@ const MainPage = () => {
 
 
       {/* Who Are We */}
-      <section className="relative w-screen h-screen overflow-hidden">
+      <section className="relative w-screen h-[90vh] lg:h-screen flex flex-col justify-center lg:flex-none overflow-hidden">
         {/* Background image */}
         <img
           src={whoAreWe}
@@ -78,11 +78,11 @@ const MainPage = () => {
         <div className="absolute inset-0 bg-black/60" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex flex-col lg:flex-row items-start lg:items-center h-full">
+        <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex flex-col justify-center lg:flex-row lg:items-center  lg:items-center lg:h-full">
           {/* Left column: title + blurb */}
           <FadeInOnScroll>
             <div className="flex-1 text-center lg:text-left">
-              <h2 className="text-7xl md:text-9xl font-bold text-white racing-sans-one-regular">
+              <h2 className="text-6xl lg:text-9xl md:text-9xl font-bold text-white racing-sans-one-regular">
                 Who Are We
               </h2>
               <p className="mt-4 text-4xl text-gray-300 oswald-400">
@@ -96,7 +96,7 @@ const MainPage = () => {
             {['Artists', 'Creatives', 'Visionaries',].map((label, i) => (
               <FadeInOnScroll key={label} delay={i * 200}>
                 <div className="p-6 rounded-lg shadow-lg text-center">
-                  <p className="text-6xl font-semibold text-white limelight-regular">
+                  <p className="text-5xl lg:text-6xl font-semibold text-white limelight-regular">
                     {label}
                   </p>
                 </div>
