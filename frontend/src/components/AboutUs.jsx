@@ -127,7 +127,7 @@ export default function AboutUsComponent() {
     <div className="bg-black">
       {/* About Us Hero */}
       <section
-        className="relative w-screen h-[101vh] bg-fixed bg-center bg-cover"
+        className="relative w-screen h-[101vh] bg-cover lg:bg-fixed lg:bg-contain"
         style={{ backgroundImage: `url(${aboutHero})` }}
       >
         <div className="absolute inset-0 bg-black/65" />

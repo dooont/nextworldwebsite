@@ -52,9 +52,9 @@ const MainPage = () => {
           <div className="w-3/4 lg:mr-4 lg:pr-4">
             <img src={nextworldWhite} alt="Logo" className="object-contain" />
           </div>
-          <div className="w-3/4 text-center lg:text-right text-white">
+          <div className="w-100 p-4 lg:p-0 lg:w-3/4 text-center lg:text-right text-white">
             <h1
-              className="text-7xl lg:text-8xl -ml-[10%] lg:-ml-[0%] text-center lg:text-right font-bold mb-4 racing-sans-one-regular fade-in delay-200"
+              className="text-7xl lg:text-8xl text-center lg:text-right font-bold mb-4 racing-sans-one-regular fade-in delay-200"
             >
               Next World Collective
             </h1>
@@ -95,7 +95,7 @@ const MainPage = () => {
           </FadeInOnScroll>
 
           {/* Right column: pillars stacked vertically, pushed further right */}
-          <div className="flex-1 mt-10 lg:mt-0 lg:ml-24 flex flex-col items-end space-y-6">
+          <div className="flex-1 mt-10 lg:mt-0 lg:ml-24 flex flex-col items-center lg:items-end space-y-6">
             {['Artists', 'Creatives', 'Visionaries',].map((label, i) => (
               <FadeInOnScroll key={label} delay={i * 200}>
                 <div className="p-6 rounded-lg shadow-lg text-center">
