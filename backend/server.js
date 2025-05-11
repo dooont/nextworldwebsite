@@ -1,6 +1,6 @@
 import express from 'express';
 import pg from 'pg';
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv/config';
 import passport from 'passport';
 import session from 'express-session';
@@ -15,9 +15,22 @@ const db = new pg.Client({
   database: process.env.DB_NAME
 });
 
+//store sessions for an hour
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60,
+    },
+  })
+);
+
 db.connect();
 
 //error messages will be sent through the backend!
+//All endpoints will send a 500 error is error with query
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -51,10 +64,39 @@ app.post('/admin/users', async (req, res) => {
     return res.status(200).send();
   } catch (e) {
     console.log("Server error creating user");
-    return res.status(400).json({ message: "Server error creating user" });
+    return res.status(500).json({ message: "Server error creating user" });
   }
 });
+
+//login endpoint
+app.post('/admin/login', async (req, res) => {
+  const { email } = req.body;
+  const { password: unhashedPassword } = req.body;
+
+  try {
+    const { rows: users } = await db.query('SELECT * FROM admin_users WHERE email = $1', [email]);
+    if (users.length === 1) { //user exists
+      const storedPassword = users[0].password;
+      const isMatch = await bcrypt.compare(unhashedPassword, storedPassword);
+      if (isMatch) { //passwords match
+        req.session.user = { email: email };
+        return res.status(200).send();
+      } else { //passwords don't match
+        console.log("Passwords don't match")
+        return res.status(401).json({ message: "Login Failed" })
+      }
+    } else { //user doesn't exist
+      console.log("User doesn't exist");
+      return res.status(401).json({ message: "Login failed" });
+    }
+  } catch (e) {
+    console.log();
+    return res.status(500).json({ message: "Server error logging in user" });
+  }
+});
+
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
 });
+
