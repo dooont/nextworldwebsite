@@ -95,7 +95,7 @@ const teamMembers = [
   {
     id: 10,
     name: 'Alyssa Cheung',
-    role: '',
+    role: 'Content Executive',
     photo: new URL('../assets/meet-the-team/alyssac.jpg', import.meta.url).href,
     desc: `Hi! My name is Alyssa and I’m from Hong Kong. I’m one of the vocalists in my band Melt To Stone, and I’m also working on writing my solo music. Being in Next World not only opened up music opportunities for me, but it also allowed me to meet the most genuine people that I consider my loved ones. Next World feels like a second home, even when I’m far away from where I’m from.`,
     funFact: 'I’m a Communication Major at UCLA with a Music Industry Minor, and I’ll be graduating in a month!'
@@ -112,7 +112,7 @@ She is most known for her hospitality and keeping it real with others. She enjoy
   {
     id: 12,
     name: 'Lexi Ortiz-Luis',
-    role: '',
+    role: 'Event Coordinator',
     photo: new URL('../assets/meet-the-team/lexi.jpg', import.meta.url).href,
     desc: `Alexis “Lexi” Ortiz-Luis is a singer and songwriter based in Los Angeles County. Being part of Next World has brought her into a vibrant, loving community of talented creatives—each with their own spark and quirks. It’s a space where she’s been able to grow not just behind the scenes at live events, but also into the artist she’s always dreamed of becoming. To Lexi, Next World isn’t just a collective—it’s family.`,
     funFact: 'She’s got perfect pitch, a knack for Rubik’s cubes and puzzles, studies Occupational Therapy at USC with a creative twist—minoring in Songwriting and Music Industry—and leads the new and still in construction band, Set Your Heart Ablaze with fire and soul.'
