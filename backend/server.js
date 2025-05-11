@@ -2,9 +2,7 @@ import express from 'express';
 import pg from 'pg';
 import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv/config';
-import passport from 'passport';
 import session from 'express-session';
-import { Strategy } from 'passport-local';
 
 const app = express();
 const db = new pg.Client({
@@ -23,6 +21,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60,
+      secure: false,
     },
   })
 );
@@ -90,11 +89,28 @@ app.post('/admin/login', async (req, res) => {
       return res.status(401).json({ message: "Login failed" });
     }
   } catch (e) {
-    console.log();
+    console.log("Server error logging in user");
     return res.status(500).json({ message: "Server error logging in user" });
   }
 });
 
+//logout endpoint
+app.delete("/admin/logout", async (req, res) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) { //error while destroying session
+        throw Error("Session not destroyed");
+      } else {
+        res.clearCookie('connect.sid');
+        return res.status(200).send();
+      }
+    });
+  } catch (e) {
+    console.log("Server error while logging out user: ");
+    console.log(e);
+    return res.status(500).json({ message: "Could not log you out" });
+  }
+});
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
