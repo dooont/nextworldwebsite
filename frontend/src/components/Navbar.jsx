@@ -18,7 +18,7 @@ export default function Navbar() {
         </div>
 
         {/* Navigation Links */}
-        <ul className="flex space-x-6 bebas-kai-regular">
+        <ul className="flex space-x-5 bebas-kai-regular">
           <li>
             <NavLink
               to="/"

@@ -39,19 +39,22 @@ const MainPage = () => {
           <video
             src={heroBackgroundVideo}
             autoPlay
+            playsInline
+            webkit-playsInline
             loop
             muted
             className="w-full h-screen object-cover"
-          />
+          >
+          </video>
         </div>
         <div className="absolute inset-0 bg-black/50 z-10" />
         <div className="relative z-20 flex flex-col justify-center items-center lg:flex-row lg:items-center lg:justify-between max-w-6xl mx-auto h-full px-6">
           <div className="w-3/4 lg:mr-4 lg:pr-4">
             <img src={nextworldWhite} alt="Logo" className="object-contain" />
           </div>
-          <div className="w-3/4 text-center lg:text-right text-white">
+          <div className="w-100 p-4 lg:p-0 lg:w-3/4 text-center lg:text-right text-white">
             <h1
-              className="text-7xl lg:text-8xl -ml-[10%] lg:-ml-[0%] text-center lg:text-right font-bold mb-4 racing-sans-one-regular fade-in delay-200"
+              className="text-7xl lg:text-8xl text-center lg:text-right font-bold mb-4 racing-sans-one-regular fade-in delay-200"
             >
               Next World Collective
             </h1>
@@ -92,7 +95,7 @@ const MainPage = () => {
           </FadeInOnScroll>
 
           {/* Right column: pillars stacked vertically, pushed further right */}
-          <div className="flex-1 mt-10 lg:mt-0 lg:ml-24 flex flex-col items-end space-y-6">
+          <div className="flex-1 mt-10 lg:mt-0 lg:ml-24 flex flex-col items-center lg:items-end space-y-6">
             {['Artists', 'Creatives', 'Visionaries',].map((label, i) => (
               <FadeInOnScroll key={label} delay={i * 200}>
                 <div className="p-6 rounded-lg shadow-lg text-center">
