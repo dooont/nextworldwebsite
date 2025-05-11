@@ -110,6 +110,22 @@ She is most known for her hospitality and keeping it real with others. She enjoy
     funFact: 'She helps run another organization called AV Studio Group Entertainment'
   },
   {
+    id: 12,
+    name: 'Lexi Ortiz-Luis',
+    role: '',
+    photo: new URL('../assets/meet-the-team/lexi.jpg', import.meta.url).href,
+    desc: `Alexis “Lexi” Ortiz-Luis is a singer and songwriter based in Los Angeles County. Being part of Next World has brought her into a vibrant, loving community of talented creatives—each with their own spark and quirks. It’s a space where she’s been able to grow not just behind the scenes at live events, but also into the artist she’s always dreamed of becoming. To Lexi, Next World isn’t just a collective—it’s family.`,
+    funFact: 'She’s got perfect pitch, a knack for Rubik’s cubes and puzzles, studies Occupational Therapy at USC with a creative twist—minoring in Songwriting and Music Industry—and leads the new and still in construction band, Set Your Heart Ablaze with fire and soul.'
+  },
+  {
+    id: 13,
+    name: 'Mario Notarangelo',
+    role: 'Musical Director/Performer',
+    photo: new URL('../assets/meet-the-team/mario.png', import.meta.url).href,
+    desc: `Mario Notarangelo is a performer, composer, arranger, conductor, musical director, songwriter, producer, and multi-instrumentalist from the Inland Empire. He spent years studying music on his own before his academic pursuits led him to study music at RCC and USC. He is passionate about live music and helping artists realize their vision, whether it be contributing to their live arrangements, recording in the studio, or, most frequently, picking up a guitar and getting onstage. His musical influences are as diverse as his skillset, and he loves to take on new and exciting projects!`,
+    funFact: 'Forza Juve, Forza Gigi 🤍🖤'
+  },
+  {
     id: 0,
     name: 'LoganFong',
     role: 'Event Manager',
