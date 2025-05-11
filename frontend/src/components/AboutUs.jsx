@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import aboutHero from '../assets/aboutUsHero1.jpg';
-import missionHero from '../assets/aboutUsHero2.jpg';
+import missionHero from '../assets/aboutUsHero3.jpg';
 import Staff from './Staff';
 
 
@@ -119,7 +119,8 @@ She is most known for her hospitality and keeping it real with others. She enjoy
   },
 ];
 
-
+//fixed first image for about us. centered text for who are we. fiexed centering issues for next world collective header
+//swapped our mission image
 export default function AboutUsComponent() {
   const [selectedMember, setSelectedMember] = useState(null);
 
@@ -142,7 +143,7 @@ export default function AboutUsComponent() {
 
       {/* Our Mission Hero */}
       <section
-        className="relative w-screen h-[101vh] bg-fixed bg-center bg-cover"
+        className="relative w-screen h-[101vh] bg-cover bg-center lg:bg-fixed lg:bg-center lg:bg-cover"
         style={{ backgroundImage: `url(${missionHero})` }}
       >
         <div className="absolute inset-0 bg-black/65" />
