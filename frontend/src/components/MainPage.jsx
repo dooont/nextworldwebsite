@@ -39,10 +39,13 @@ const MainPage = () => {
           <video
             src={heroBackgroundVideo}
             autoPlay
+            playsInline
+            webkit-playsInline
             loop
             muted
             className="w-full h-screen object-cover"
-          />
+          >
+          </video>
         </div>
         <div className="absolute inset-0 bg-black/50 z-10" />
         <div className="relative z-20 flex flex-col justify-center items-center lg:flex-row lg:items-center lg:justify-between max-w-6xl mx-auto h-full px-6">

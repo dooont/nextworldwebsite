@@ -100,6 +100,7 @@ export default function EventsMedia({ events = dummyEvents, upcomingEvents = def
       <div className="relative w-screen h-screen overflow-hidden">
         <video
           src={heroBackgroundVideo}
+          playsInline
           autoPlay
           loop
           muted
