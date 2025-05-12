@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import aboutHero from '../assets/aboutUsHero1.jpg';
-import missionHero from '../assets/aboutUsHero3.jpg';
+import missionHero from '../assets/aboutUsHero2.jpg';
+import testHero from '../assets/aboutUsHero3.jpg';
 import Staff from './Staff';
 
 
@@ -160,7 +161,7 @@ export default function AboutUsComponent() {
       {/* Our Mission Hero */}
       <section
         className="relative w-screen h-[101vh] bg-cover bg-center lg:bg-fixed lg:bg-center lg:bg-cover"
-        style={{ backgroundImage: `url(${missionHero})` }}
+        style={{ backgroundImage: `url(${testHero})` }}
       >
         <div className="absolute inset-0 bg-black/65" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 space-y-4 max-w-2xl mx-auto">
