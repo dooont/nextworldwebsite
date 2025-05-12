@@ -7,6 +7,13 @@ import FadeInOnScroll from './FadeInOnScroll.jsx';
 
 const articles = [
   {
+    "title": "More Than Just Music: The NEXT WORLD Community",
+    "source": "Alyssa Cheung",
+    "date": "April 2025",
+    "description": "This is the story of NEXT WORLD Collective, a tight-knit group of young adults, who are redefining what it means to succeed in music without...",
+    "link": "https://soundcloud.com/alyssa-cheung-104231867/msc-ind-144-narrated?si=3cd8f2ac899048908e0e50b129d759c3&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+  },
+  {
     "title": "Kai Caden and Brynne Are Bringing NEXT WORLD Everywhere",
     "source": "Bias Wrecker",
     "date": "May 2024",
