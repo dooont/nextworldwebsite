@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import aboutHero from '../assets/aboutUsHero1.jpg';
-import missionHero from '../assets/aboutUsHero3.jpg';
+import missionHero from '../assets/aboutUsHero2.jpg';
 import Staff from './Staff';
 
 
