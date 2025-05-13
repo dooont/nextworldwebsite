@@ -130,7 +130,7 @@ She is most known for her hospitality and keeping it real with others. She enjoy
     id: 0,
     name: 'LoganFong',
     role: 'Event Manager',
-    photo: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
+    photo: new URL('../assets/meet-the-team/logan.jpg', import.meta.url).href,
     desc: `LoganFong is an LA based film photographer with a background in hospitality management and a deep passion for live music`,
     funFact: 'He is an avid tea fanatic'
   },
