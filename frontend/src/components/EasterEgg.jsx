@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import deezNuts from '../assets/deezNuts.jpg';
+import deezNuts from '../assets/deeznuts.jpg';
 // 👉 Your dev team data
 const developers = [
   {
