@@ -5,7 +5,6 @@ export default function Staff({ teamMembers }) {
 
   return (
     <>
-      /* Staff Grid */
       <div className="grid grid-cols-2 lg:grid-cols-5 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {teamMembers.map((member) => (
           <div
