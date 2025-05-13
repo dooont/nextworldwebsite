@@ -41,7 +41,7 @@ const MainPage = () => {
   return (
     <div className="bg-black">
       {/* Hero Section */}
-      <section className="relative w-full h-[100vh] lg:screen overflow-hidden">
+      <section className="relative w-full h-screen lg:screen overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video
             src={heroBackgroundVideo}
