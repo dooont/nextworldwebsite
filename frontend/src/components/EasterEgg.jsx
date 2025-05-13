@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+import deezNuts from '../assets/deeznuts.jpg';
 // 👉 Your dev team data
 const developers = [
   {
@@ -116,6 +116,7 @@ export default function EasterEgg() {
                 </li>
               ))}
             </ul>
+            <img src={deezNuts} className="mt-4"></img>
           </div>
         </div>
       )}

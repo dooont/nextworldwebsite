@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import heroBackgroundVideo from '../assets/events-nextworld-hero-background.mp4';
 
+// Template
+//     id: 0,
+//     image: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
+//     title: '',
+//     subtitle: 'Month Day, Year',
+//     url: '',
 const defaultUpcomingEvents = [
   {
     id: 11,

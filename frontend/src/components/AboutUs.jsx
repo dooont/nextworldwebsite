@@ -98,8 +98,7 @@ const teamMembers = [
     name: 'Danielle K Gulmatico',
     role: 'Creative Director & Media Team',
     photo: new URL('../assets/meet-the-team/danielle.png', import.meta.url).href,
-    desc: `Hello! I'm based in the Los Angeles area, and I primarily focus on film production and writing. But I also have interests in guitar, ceramics, and reading. I love working with Next World to connect artists through music and media, because music has the power to connect people through the human condition.
-fun fact: I love making coffee at home and working on my latte art`,
+    desc: `Hello! I'm based in the Los Angeles area, and I primarily focus on film production and writing. But I also have interests in guitar, ceramics, and reading. I love working with Next World to connect artists through music and media, because music has the power to connect people through the human condition.`,
     funFact: 'Danielle loves making coffee at home and working on her latte art'
   },
   {
@@ -159,6 +158,14 @@ She is most known for her hospitality and keeping it real with others. She enjoy
     desc: `David Willner is based in Pasadena, where he wears many hats within the Nxtworld community—everything from wrapping cables to recording and producing live sessions. A true jack-of-all-trades, he plays trumpet, guitar, and Pro Tools, and can be found sweating over a mixer at any hour of the day or night.
 For David, there’s nothing more fulfilling—or exhilarating—than putting on a great live show… well, except maybe sending artists a fun little mixtape of their performance afterward.`,
     funFact: 'When he’s not cooking up beats in the living room, he’s likely in the kitchen whipping up amazing dinners for his girlfriend, Aisa.'
+  },
+  {
+    id: 18,
+    name: 'Mica Yui',
+    role: 'East General Manager',
+    photo: new URL('../assets/meet-the-team/mica.jpg', import.meta.url).href,
+    desc: `Based in Orlando, Florida, Mica is a Filipino American artist, known as FILIPINO EXTRADONAIRE, who plays a pivotal part in Next World's East Branch of Artists and Musicians. He enjoys playing Fortnite, dune-scrolling, and producing for his friends. Mica loves working for Next World because of the supportive community that he is involved in, as well as the vision for future artists that both Next World and Mica share.`,
+    funFact: 'Mica Yui was supposed to be a NASCAR driver.'
   },
 ];
 
