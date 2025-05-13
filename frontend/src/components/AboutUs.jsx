@@ -131,7 +131,7 @@ She is most known for her hospitality and keeping it real with others. She enjoy
     name: 'LoganFong',
     role: 'Event Manager',
     photo: new URL('../assets/meet-the-team/logan.jpg', import.meta.url).href,
-    desc: `LoganFong is an LA based film photographer with a background in hospitality management and a deep passion for live music`,
+    desc: `Based in Los Angeles, LoganFong is a hospitality management student and film photographer working with 35mm and exploring 120mm formats. With a growing interest in event management and production, they aim to combine their visual work with hands-on experience in organizing creative events within the music and arts space.`,
     funFact: 'He is an avid tea fanatic'
   },
 ];
