@@ -164,7 +164,7 @@ For David, there’s nothing more fulfilling—or exhilarating—than putting on
     name: 'Mica Yui',
     role: 'East General Manager',
     photo: new URL('../assets/meet-the-team/mica.jpg', import.meta.url).href,
-    desc: `Based in Orlando, Florida, Mica is a Filipino American artist, known as FILIPINO EXTRADONAIRE, who plays a pivotal part in Next World's East Branch of Artists and Musicians. He enjoys playing Fortnite, dune-scrolling, and producing for his friends. Mica loves working for Next World because of the supportive community that he is involved in, as well as the vision for future artists that both Next World and Mica share.`,
+    desc: `Based in Orlando, Florida, Mica is a Filipino American artist, known as FILIPINO EXTRADONAIRE, who plays a pivotal part in Next World's East Branch of Artists and Musicians. He enjoys playing Fortnite, doom-scrolling, and producing for his friends. Mica loves working for Next World because of the supportive community that he is involved in, as well as the vision for future artists that both Next World and Mica share.`,
     funFact: 'Mica Yui was supposed to be a NASCAR driver.'
   },
 ];
