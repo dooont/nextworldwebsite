@@ -70,6 +70,18 @@ const MainPage = () => {
             >
               The best place to find your new favorite artist
             </p>
+            <button
+              onClick={() =>
+                window.open(
+                  'https://link.dice.fm/F6cb912c26af?dice_id=F6cb912c26af',
+                  '_blank',
+                  'noopener,noreferrer'
+                )
+              }
+              className="oswald-700 px-6 py-3 bg-purple-950 hover:bg-purple-800 text-white rounded-lg font-semibold transition"
+            >
+              Get Your Tickets Now!
+            </button>
           </div>
         </div>
       </section>
