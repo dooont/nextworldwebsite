@@ -79,7 +79,7 @@ const MainPage = () => {
               }
               className="oswald-700 px-6 py-3 bg-purple-950 hover:bg-purple-800 text-white rounded-lg font-semibold transition"
             >
-              Get Your Tickets Now!
+              GET YOUR TICKETS NOW!
             </button>
           </div>
         </div>
