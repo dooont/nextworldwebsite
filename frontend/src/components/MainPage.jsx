@@ -45,9 +45,8 @@ const MainPage = () => {
         <div className="absolute inset-0 z-0">
           <video
             src={heroBackgroundVideo}
-            autoPlay
             playsInline
-            webkit-playsInline
+            autoPlay
             loop
             muted
             className="w-full h-screen object-cover"
