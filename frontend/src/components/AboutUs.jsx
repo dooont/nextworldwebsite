@@ -102,13 +102,12 @@ const teamMembers = [
     funFact: 'Danielle loves making coffee at home and working on her latte art'
   },
   {
-    id: 11,
-    name: 'Nyssa Mae',
-    role: 'Artist and Repertoire',
-    photo: new URL('../assets/meet-the-team/nyssa.jpg', import.meta.url).href,
-    desc: `Nyssa Mae Laspiñas is a singer and songwriter based in North East LA (Glendale/Eagle Rock Area).
-She is most known for her hospitality and keeping it real with others. She enjoys meeting new people, bonding, and creating relationships/friendships along the way! While supporting the artists of Next World, Nyssa is truly eager to witness this community’s growth, talent and love that Next World brings. She guides artists and friends to the Next World community. Brings others to the events is her goal but more importantly, always making sure we are all having a great time!`,
-    funFact: 'She helps run another organization called AV Studio Group Entertainment'
+    id: 19,
+    name: 'Ellie Kitagawa',
+    role: 'Photographer/Videographer',
+    photo: new URL('../assets/meet-the-team/ellie.png', import.meta.url).href,
+    desc: `Based in Orange County, California, Ellie is a photographer/videographer who collaborates with various multimedia artists. She enjoys hiking, swimming, and rock-climbing. (She's climbed a V8) She enjoys being involved with Next World because of its welcoming community and the variety of artists she collaborates with.`,
+    funFact: 'She currently has 260 tabs, GTA, and CS:GO open on her computer'
   },
   {
     id: 14,
@@ -117,6 +116,15 @@ She is most known for her hospitality and keeping it real with others. She enjoy
     photo: new URL('../assets/meet-the-team/logan.jpg', import.meta.url).href,
     desc: `Based in Los Angeles, LoganFong is a hospitality management student and film photographer working with 35mm and exploring 120mm formats. With a growing interest in event management and production, they aim to combine their visual work with hands-on experience in organizing creative events within the music and arts space.`,
     funFact: 'He is an avid tea fanatic'
+  },
+  {
+    id: 11,
+    name: 'Nyssa Mae',
+    role: 'Artist and Repertoire',
+    photo: new URL('../assets/meet-the-team/nyssa.jpg', import.meta.url).href,
+    desc: `Nyssa Mae Laspiñas is a singer and songwriter based in North East LA (Glendale/Eagle Rock Area).
+She is most known for her hospitality and keeping it real with others. She enjoys meeting new people, bonding, and creating relationships/friendships along the way! While supporting the artists of Next World, Nyssa is truly eager to witness this community’s growth, talent and love that Next World brings. She guides artists and friends to the Next World community. Brings others to the events is her goal but more importantly, always making sure we are all having a great time!`,
+    funFact: 'She helps run another organization called AV Studio Group Entertainment'
   },
   {
     id: 15,
