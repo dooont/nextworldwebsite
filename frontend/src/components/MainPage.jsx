@@ -7,6 +7,13 @@ import FadeInOnScroll from './FadeInOnScroll.jsx';
 
 const articles = [
   {
+    "title": "More Than Just Music: The NEXT WORLD Community",
+    "source": "Alyssa Cheung",
+    "date": "April 2025",
+    "description": "This is the story of NEXT WORLD Collective, a tight-knit group of young adults, who are redefining what it means to succeed in music without...",
+    "link": "https://soundcloud.com/alyssa-cheung-104231867/msc-ind-144-narrated?si=3cd8f2ac899048908e0e50b129d759c3&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+  },
+  {
     "title": "Kai Caden and Brynne Are Bringing NEXT WORLD Everywhere",
     "source": "Bias Wrecker",
     "date": "May 2024",
@@ -34,13 +41,12 @@ const MainPage = () => {
   return (
     <div className="bg-black">
       {/* Hero Section */}
-      <section className="relative w-full h-[90vh] lg:screen overflow-hidden">
+      <section className="relative w-full h-screen lg:screen overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video
             src={heroBackgroundVideo}
-            autoPlay
             playsInline
-            webkit-playsInline
+            autoPlay
             loop
             muted
             className="w-full h-screen object-cover"
@@ -63,6 +69,18 @@ const MainPage = () => {
             >
               The best place to find your new favorite artist
             </p>
+            <button
+              onClick={() =>
+                window.open(
+                  'https://link.dice.fm/F6cb912c26af?dice_id=F6cb912c26af',
+                  '_blank',
+                  'noopener,noreferrer'
+                )
+              }
+              className="oswald-700 px-6 py-3 bg-purple-950 hover:bg-purple-800 text-white rounded-lg font-semibold transition"
+            >
+              GET YOUR TICKETS NOW!
+            </button>
           </div>
         </div>
       </section>

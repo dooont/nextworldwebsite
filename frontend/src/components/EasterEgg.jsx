@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+import deezNuts from '../assets/deeznuts.jpg';
 // 👉 Your dev team data
 const developers = [
   {
@@ -17,23 +17,47 @@ const developers = [
 
 export default function EasterEgg() {
   const [open, setOpen] = useState(false);
-  const sequence = ['d', 'e', 'v'];
-  const posRef = useRef(0);
+  const devSequence = ['d', 'e', 'v'];
+  const konamiSequence = [
+    'ArrowUp','ArrowUp',
+    'ArrowDown','ArrowDown',
+    'ArrowLeft','ArrowRight',
+    'ArrowLeft','ArrowRight',
+    'b','a'
+  ];
 
-  // listen for the sequence "dev"
+  const posDevRef = useRef(0);
+  const posKonamiRef = useRef(0);
+
+  // listen for the sequences "dev" or Konami
   useEffect(() => {
     const handleSequence = (e) => {
-      const key = e.key.toLowerCase();
-      if (key === sequence[posRef.current]) {
-        posRef.current += 1;
-        if (posRef.current === sequence.length) {
+      const key = e.key;
+      const keyLower = key.toLowerCase();
+
+      // DEV sequence
+      if (keyLower === devSequence[posDevRef.current]) {
+        posDevRef.current += 1;
+        if (posDevRef.current === devSequence.length) {
           setOpen(true);
-          posRef.current = 0;
+          posDevRef.current = 0;
         }
       } else {
-        posRef.current = key === sequence[0] ? 1 : 0;
+        posDevRef.current = keyLower === devSequence[0] ? 1 : 0;
+      }
+
+      // Konami sequence
+      if (key === konamiSequence[posKonamiRef.current]) {
+        posKonamiRef.current += 1;
+        if (posKonamiRef.current === konamiSequence.length) {
+          setOpen(true);
+          posKonamiRef.current = 0;
+        }
+      } else {
+        posKonamiRef.current = key === konamiSequence[0] ? 1 : 0;
       }
     };
+
     window.addEventListener('keydown', handleSequence);
     return () => window.removeEventListener('keydown', handleSequence);
   }, []);
@@ -92,6 +116,7 @@ export default function EasterEgg() {
                 </li>
               ))}
             </ul>
+            <img src={deezNuts} className="mt-4"></img>
           </div>
         </div>
       )}
