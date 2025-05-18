@@ -4,6 +4,8 @@ import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv/config';
 import session from 'express-session';
 
+//logged in user is stored in req.session.user (email)
+
 const app = express();
 const db = new pg.Client({
   user: process.env.DB_USER,
@@ -109,6 +111,30 @@ app.delete("/admin/logout", async (req, res) => {
     console.log("Server error while logging out user: ");
     console.log(e);
     return res.status(500).json({ message: "Could not log you out" });
+  }
+});
+
+
+//ARTICLES BACKEND//
+
+//create new article
+app.post("/articles", async (req, res) => {
+  const { title, source, date, description, link } = req.body;
+  try {
+    if (req.session.user) { //if logged in
+      const { rows: inserted } = await db.query("INSERT INTO articles(title, source, date, description, link) VALUES ($1, $2, $3, $4, $5) RETURNING *", [title, source, date, description, link]);
+      console.log("Returned array: ", inserted);
+      if (inserted.length > 0) { //if it was inserted
+        return res.status(200).send();
+      } else { //not inserted
+        throw new Error("Pg was unable to insert the article into the database");
+      }
+    } else { //not logged in
+      return res.status(401).send({ message: "You do not have permission to do this action" });
+    }
+  } catch (e) {
+    console.error("Error while inserting new article: ", e);
+    return res.status(500).json({ message: "Article not inserted" });
   }
 });
 

@@ -26,3 +26,4 @@ dist-ssr
 #Backend Stuff
 *.env
 node_modules/
+notes.txt
