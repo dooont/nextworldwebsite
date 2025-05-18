@@ -117,6 +117,21 @@ app.delete("/admin/logout", async (req, res) => {
 
 //ARTICLES BACKEND//
 
+//get all articles
+app.get("/articles", async (req, res) => {
+  try {
+    if (req.session.user) { //logged in
+      const { rows: articles } = await db.query("SELECT * FROM articles");
+      return res.status(200).json({ articles: articles });
+    } else { //not logged in
+      return res.status(401).send({ message: "You do not have permission to do this action" });
+    }
+  } catch (e) {
+    console.error("There was an error getting all articles: ", e);
+    return res.status(500).json({ message: "Could not get articles" })
+  }
+});
+
 //create new article
 app.post("/articles", async (req, res) => {
   const { title, source, date, description, link } = req.body;
@@ -157,7 +172,6 @@ app.put("/articles/:id", async (req, res) => {
     console.error("Error while editing article with id: " + id, e);
     return res.status(500).json({ message: "Article not edited" });
   }
-
 });
 
 
