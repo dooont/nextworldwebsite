@@ -138,6 +138,29 @@ app.post("/articles", async (req, res) => {
   }
 });
 
+//edit article
+app.put("/articles/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, source, date, description, link } = req.body;
+  try {
+    if (req.session.user) { //if logged in
+      const { rows: inserted } = await db.query("UPDATE articles SET title = $1, source = $2, date = $3, description = $4, link = $5 WHERE id = $6 RETURNING *", [title, source, date, description, link, id]);
+      if (inserted.length > 0) { //article inserted
+        return res.status(200).send();
+      } else { //not inserted
+        throw new Error("Pg could not edit the article");
+      }
+    } else { //not logged in
+      return res.status(401).send({ message: "You do not have permission to do this action" });
+    }
+  } catch (e) {
+    console.error("Error while editing article with id: " + id, e);
+    return res.status(500).json({ message: "Article not edited" });
+  }
+
+});
+
+
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
 });
