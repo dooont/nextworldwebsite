@@ -174,6 +174,26 @@ app.put("/articles/:id", async (req, res) => {
   }
 });
 
+//delete article
+app.delete("/articles/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (req.session.user) { //if logged in
+      const { rows: deleted } = await db.query("DELETE FROM articles WHERE id = $1 RETURNING *", [id]);
+      if (deleted.length > 0) { //if successfully deleted
+        res.status(200).send();
+      } else { //if not deleted
+        throw new Error("Pg was unable to remove article");
+      }
+    } else { //not logged
+      return res.status(401).send();
+    }
+  } catch (e) {
+    console.error("Error while deleting article with id: " + id, e);
+    return res.status(500).json({ message: "Article not deleted" });
+  }
+});
+
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
