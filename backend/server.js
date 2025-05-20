@@ -239,11 +239,9 @@ function authenticateUser(req, res, next) {
 
 async function storeUpcomingEvent(req, res, next) {
   try {
-    console.log("Body here: ", req.body);
     const { title, subtitle, url } = req.body;
     const { rows: inserted } = await db.query("INSERT INTO upcoming_events (title, subtitle, url) VALUES ($1, $2, $3) RETURNING *", [title, subtitle, url]);
     req.flyerId = inserted[0].id;
-    console.log("Inserted");
     next();
   } catch (e) {
     console.log("Error while inserting upcoming event: ", e);
@@ -254,14 +252,17 @@ async function storeUpcomingEvent(req, res, next) {
 app.post("/upcoming-events", authenticateUser, storeUpcomingEvent, upload.single("flyerImage"), async (req, res) => {
   try {
     //insert file name
-    await db.query("UPDATE upcoming_events SET flyer_file_name = $1 WHERE id = $2", [req.insertedFileName, req.flyerId]);
-    return res.json("inserted ma boi");
+    const { title, url, subtitle } = req.body;
+    await db.query("UPDATE upcoming_events SET flyer_file_name = $1, title = $2, subtitle = $3, url = $4 WHERE id = $5", [req.insertedFileName, title, subtitle, url, req.flyerId]);
+    return res.status(200).send();
   } catch (e) {
     console.error("Error while : ", e);
     return res.status(500).json({ message: "Upcoming show not added" });
   }
 });
-//user gets authenticated -> upcoming events gets stored -> id gets passed to multer through req -> filename is generated in multer -> generated name passed to final middleware to insert to database
+//user gets authenticated
+//-> upcoming events gets stored with empty data -> id gets passed to multer through req
+//->filename is generated in multer -> generated name passed to final middleware to insert to database, along with other provided info from form (need to happen at end since multer need to parse form-data)
 
 
 app.listen(process.env.SERVER_PORT, () => {

@@ -96,7 +96,7 @@ const dummyEvents = [
       "Valerie",
       "Aleyna Moon",
       "Lodea",
-      "American Women"
+      "American Woman"
     ],
     artistContact: [
       "kiaskyler",
