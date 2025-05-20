@@ -3,6 +3,17 @@ import pg from 'pg';
 import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv/config';
 import session from 'express-session';
+import multer from 'multer';
+const storage = multer.diskStorage({
+  destination: 'upcomingShowFlyers',
+  filename: function (req, file, cb) {
+    const fileName = "upcomingFlyer" + req.flyerId + '.' + file.originalname.split('.')[1];
+    req.insertedFileName = fileName;
+    console.log("Name created ma boi")
+    cb(null, fileName);
+  }
+});
+const upload = multer({ storage: storage });
 
 //logged in user is stored in req.session.user (email)
 
@@ -36,6 +47,25 @@ db.connect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// endpoint template
+/*app.post("", async (req, res) => {
+  try {
+    if (req.session.user) { //if logged in
+      
+      if (inserted.length > 0) { //if it was ...
+        return res.status(200).send();
+      } else { //not ...
+        throw new Error("");
+      }
+    } else { //not logged in
+      return res.status(401).send({ message: "You do not have permission to do this action" });
+    }
+  } catch (e) {
+    console.error("Error while : ", e);
+    return res.status(500).json({ message: "" });
+  }
+});*/
+
 //test endpoint
 app.get('/test', async (req, res) => {
   try {
@@ -48,6 +78,8 @@ app.get('/test', async (req, res) => {
     console.log(e);
   }
 })
+
+//ADMIN ENDPOINTS//
 
 //create an admin user
 app.post('/admin/users', async (req, res) => {
@@ -193,6 +225,43 @@ app.delete("/articles/:id", async (req, res) => {
     return res.status(500).json({ message: "Article not deleted" });
   }
 });
+
+// UPCOMING EVENTS //
+
+//add upcoming event (and it's middlware)
+function authenticateUser(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    return res.status(401).send({ message: "You do not have permission to do this action" });
+  }
+}
+
+async function storeUpcomingEvent(req, res, next) {
+  try {
+    console.log("Body here: ", req.body);
+    const { title, subtitle, url } = req.body;
+    const { rows: inserted } = await db.query("INSERT INTO upcoming_events (title, subtitle, url) VALUES ($1, $2, $3) RETURNING *", [title, subtitle, url]);
+    req.flyerId = inserted[0].id;
+    console.log("Inserted");
+    next();
+  } catch (e) {
+    console.log("Error while inserting upcoming event: ", e);
+    return res.status(500).json({ message: "Upcoming event not inserted" });
+  }
+}
+
+app.post("/upcoming-events", authenticateUser, storeUpcomingEvent, upload.single("flyerImage"), async (req, res) => {
+  try {
+    //insert file name
+    await db.query("UPDATE upcoming_events SET flyer_file_name = $1 WHERE id = $2", [req.insertedFileName, req.flyerId]);
+    return res.json("inserted ma boi");
+  } catch (e) {
+    console.error("Error while : ", e);
+    return res.status(500).json({ message: "Upcoming show not added" });
+  }
+});
+//user gets authenticated -> upcoming events gets stored -> id gets passed to multer through req -> filename is generated in multer -> generated name passed to final middleware to insert to database
 
 
 app.listen(process.env.SERVER_PORT, () => {
