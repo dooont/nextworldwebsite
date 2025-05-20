@@ -3,17 +3,28 @@ import pg from 'pg';
 import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv/config';
 import session from 'express-session';
+import { unlink } from 'fs/promises';
 import multer from 'multer';
-const storage = multer.diskStorage({
+const storage = multer.diskStorage({ //stores flyer for new upcoming event
   destination: 'upcomingShowFlyers',
   filename: function (req, file, cb) {
     const fileName = "upcomingFlyer" + req.flyerId + '.' + file.originalname.split('.')[1];
     req.insertedFileName = fileName;
-    console.log("Name created ma boi")
     cb(null, fileName);
   }
 });
 const upload = multer({ storage: storage });
+
+const storeUpdate = multer.diskStorage({ //stores flyer when updating flyer for upcoming event
+  destination: 'upcomingShowFlyers',
+  filename: function (req, file, cb) {
+    const fileName = "upcomingFlyer" + req.params.id + '.' + file.originalname.split('.')[1]; //names it based on which one is being updated (through id)
+    req.insertedFileName = fileName; //to compare with stored file name and see if a new filetype was added (extension)
+    cb(null, fileName);
+  }
+});
+const uploadUpdated = multer({ storage: storeUpdate });
+
 
 //logged in user is stored in req.session.user (email)
 
@@ -241,7 +252,7 @@ async function storeUpcomingEvent(req, res, next) {
   try {
     const { title, subtitle, url } = req.body;
     const { rows: inserted } = await db.query("INSERT INTO upcoming_events (title, subtitle, url) VALUES ($1, $2, $3) RETURNING *", [title, subtitle, url]);
-    req.flyerId = inserted[0].id;
+    req.flyerId = inserted[0].id; //this is passed to the diskStorage for multer to generate name
     next();
   } catch (e) {
     console.log("Error while inserting upcoming event: ", e);
@@ -252,6 +263,7 @@ async function storeUpcomingEvent(req, res, next) {
 app.post("/upcoming-events", authenticateUser, storeUpcomingEvent, upload.single("flyerImage"), async (req, res) => {
   try {
     //insert file name
+    console.log(req.body);
     const { title, url, subtitle } = req.body;
     await db.query("UPDATE upcoming_events SET flyer_file_name = $1, title = $2, subtitle = $3, url = $4 WHERE id = $5", [req.insertedFileName, title, subtitle, url, req.flyerId]);
     return res.status(200).send();
@@ -263,6 +275,34 @@ app.post("/upcoming-events", authenticateUser, storeUpcomingEvent, upload.single
 //user gets authenticated
 //-> upcoming events gets stored with empty data -> id gets passed to multer through req
 //->filename is generated in multer -> generated name passed to final middleware to insert to database, along with other provided info from form (need to happen at end since multer need to parse form-data)
+
+//update upcoming event
+app.put("/upcoming-events/:id", uploadUpdated.single("flyerImage"), async (req, res) => {
+  const id = req.params.id;
+  const { title, subtitle, url } = req.body;
+
+  //get old flyer name and check if new flyer is a different type. Delete old file if new one is different type
+  try {
+    const { rows: event } = await db.query("SELECT * FROM upcoming_events WHERE id = $1", [id])
+
+    if (event[0].flyer_file_name !== req.insertedFileName) { //delete if files are different
+      await unlink("upcomingShowFlyers/" + event[0].flyer_file_name);
+    }
+
+    //insert updated upcoming event, including new file name (if updated)
+    const { rows } = await db.query("UPDATE upcoming_events SET title = $1, subtitle = $2, url = $3, flyer_file_name = $4 WHERE id = $5 RETURNING *", [title, subtitle, url, req.insertedFileName, id]);
+    if (rows.length === 0) {
+      throw new Error("Pg could not insert updated event");
+    }
+    return res.status(200).send();
+
+  } catch (e) {
+    console.error("Error while editing flyer with id " + id + ": ", e);
+    return res.status(500).send("Could not update flyer");
+  }
+});
+
+//new file uploaded -> get old file name from database, check if storedname is different -> delete it
 
 
 app.listen(process.env.SERVER_PORT, () => {
