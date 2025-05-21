@@ -26,8 +26,6 @@ const storeUpdate = multer.diskStorage({ //stores flyer when updating flyer for 
 const uploadUpdated = multer({ storage: storeUpdate });
 
 
-//logged in user is stored in req.session.user (email)
-
 const app = express();
 const db = new pg.Client({
   user: process.env.DB_USER,
@@ -38,6 +36,7 @@ const db = new pg.Client({
 });
 
 //store sessions for an hour
+//logged in user is stored in req.session.user (email)
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -57,6 +56,7 @@ db.connect();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/flyers', express.static('upcomingShowFlyers'));
 
 // endpoint template
 /*app.post("", async (req, res) => {
@@ -317,6 +317,31 @@ app.delete("/upcoming-events/:id", authenticateUser, async (req, res) => {
     res.status(500).send({ message: "Upcoming event not delete" });
   }
 });//checking if thign with id exists would be beneficial, add later
+
+//get upcoming events
+app.get("/upcoming-events", authenticateUser, async (req, res) => {
+  try {
+    const { rows } = await db.query("SELECT * FROM upcoming_events");
+    if (rows.length === 0) {
+      throw Error("Pg is returning 0 rows");
+    }
+    const events = [];
+    rows.forEach((event) => {
+      const storedEvent = {
+        id: event.id,
+        image: 'http:localhost:3000' + '/flyers/' + event.flyer_file_name, //CHANGE THE BASE PATH TO A GLOBAL VARIABLE (MAYBE ENV)
+        title: event.title,
+        subtitle: event.subtitle,
+        url: event.url
+      }
+      events.push(storedEvent);
+    });
+    return res.status(200).json({ upcomingEvents: events });
+  } catch (e) {
+    console.error("Error while retrieving all upcoming events: ", e);
+    return res.status(500).json({ message: "Could not retrieve all upcoming events" });
+  }
+});
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
