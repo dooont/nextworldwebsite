@@ -318,7 +318,7 @@ app.delete("/upcoming-events/:id", authenticateUser, async (req, res) => {
   }
 });//checking if thign with id exists would be beneficial, add later
 
-//get upcoming events
+//get all upcoming events
 app.get("/upcoming-events", authenticateUser, async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM upcoming_events");
@@ -340,6 +340,28 @@ app.get("/upcoming-events", authenticateUser, async (req, res) => {
   } catch (e) {
     console.error("Error while retrieving all upcoming events: ", e);
     return res.status(500).json({ message: "Could not retrieve all upcoming events" });
+  }
+});
+
+//get upcoming event by id
+app.get("/upcoming-events/:id", authenticateUser, async (req, res) => {
+  const { id } = req.params
+  try {
+    const { rows } = await db.query("SELECT * FROM upcoming_events WHERE id = $1", [id]);
+    if (rows.length === 0) {
+      throw new Error("Pg returned 0 events")
+    }
+    const event = {
+      id: id,
+      image: 'http:localhost:3000' + '/flyers/' + rows[0].flyer_file_name, //CHANGE THE BASE PATH TO A GLOBAL VARIABLE (MAYBE ENV)
+      title: rows[0].title,
+      subtitle: rows[0].subtitle,
+      url: rows[0].url
+    }
+    return res.status(200).json(event);
+  } catch (e) {
+    console.error("Error while getting upcoming event with id: ", id, e);
+    return res.status(500).send("Cold not retrieve upcoming event");
   }
 });
 
