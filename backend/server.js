@@ -277,7 +277,7 @@ app.post("/upcoming-events", authenticateUser, storeUpcomingEvent, upload.single
 //->filename is generated in multer -> generated name passed to final middleware to insert to database, along with other provided info from form (need to happen at end since multer need to parse form-data)
 
 //update upcoming event
-app.put("/upcoming-events/:id", uploadUpdated.single("flyerImage"), async (req, res) => {
+app.put("/upcoming-events/:id", uploadUpdated.single("flyerImage"), async (req, res) => { //uses different multerFunction since it needs id right away
   const id = req.params.id;
   const { title, subtitle, url } = req.body;
 
@@ -301,9 +301,22 @@ app.put("/upcoming-events/:id", uploadUpdated.single("flyerImage"), async (req, 
     return res.status(500).send("Could not update flyer");
   }
 });
+//take uploaded file -> get old file name from database, check if stored name is different from uploaded -> delete if different. (handles new filetypes)
 
-//new file uploaded -> get old file name from database, check if storedname is different -> delete it
-
+//delete upcoming event by id
+app.delete("/upcoming-events/:id", authenticateUser, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const { rows: deleted } = await db.query("DELETE FROM upcoming_events WHERE id = $1 RETURNING *", [id]);
+    if (!(deleted.length > 0)) { //if not deleted
+      throw new Error("Pg could not delete upcoming event");
+    }
+    return res.status(200).send();
+  } catch (e) {
+    console.error("Error while deleting event with id:", id, e);
+    res.status(500).send({ message: "Upcoming event not delete" });
+  }
+});//checking if thign with id exists would be beneficial, add later
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
