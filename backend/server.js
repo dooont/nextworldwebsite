@@ -66,7 +66,7 @@ db.connect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/flyers', express.static('upcomingShowFlyers')); //allows static fetching of images
+app.use('/flyers', express.static('upcomingShowFlyers')); //allows static fetching of upcoming flyers
 app.use('/pastFlyers', express.static('pastFlyers'));
 
 // endpoint template
@@ -426,6 +426,38 @@ app.post("/past-events", authenticateUser, storePastEvent, uploadPastFlyers.sing
   } catch (e) {
     console.error("Error occured while creating past event", e);
     return res.status(500).json({ message: "Could not create past event" });
+  }
+});
+
+//delete past event
+app.delete("/past-events/:id", authenticateUser, async (req, res) => {
+  const { id } = req.params;
+  try {
+    //delete the event by id
+    const { rows: deletedEvent } = await db.query("DELETE FROM past_events WHERE id = $1 RETURNING *", [id]);
+    if (deletedEvent.length === 0) {
+      throw new Error("Pg was unable to delete past event");
+    }
+
+    //return artists who aren't in any past events
+    const { rows: artistIdsToDelete } = await db.query(`
+        SELECT * FROM past_events_artists pea
+        RIGHT JOIN artists a ON pea.artist_id = a.id
+        WHERE past_event_id IS NULL;
+    `);
+    console.log(artistIdsToDelete);
+
+    //delete artists who aren't in any past events
+    for (const artist of artistIdsToDelete) {
+      const { rows: deletedArtist } = await db.query("DELETE FROM artists WHERE id = $1 RETURNING *", [artist.id]);
+      if (deletedArtist.length === 0) { //if not deleted
+        throw new Error("Artist with id: " + deletedArtist.id);
+      }
+    }
+    return res.status(200).send();
+  } catch (e) {
+    console.error("Error occured while deleting past event with id " + id + ":", e);
+    return res.status(500).json({ message: "Could not delete event" });
   }
 });
 
