@@ -35,6 +35,16 @@ const pastFlyersStorage = multer.diskStorage({ //for storing flyers for new past
 });
 const uploadPastFlyers = multer({ storage: pastFlyersStorage });
 
+const membersImageStorage = multer.diskStorage({
+  destination: 'memberImages',
+  filename: function (req, file, cb) {
+    const fileName = "memberImage" + req.memberId + '.' + file.originalname.split('.')[1];
+    req.insertedFileName = fileName;
+    cb(null, fileName);
+  }
+});
+const uploadMemberImage = multer({ storage: membersImageStorage });
+
 const app = express();
 const db = new pg.Client({
   user: process.env.DB_USER,
@@ -66,8 +76,10 @@ db.connect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/flyers', express.static('upcomingShowFlyers')); //allows static fetching of upcoming flyers
+//static image fetching
+app.use('/flyers', express.static('upcomingShowFlyers'));
 app.use('/pastFlyers', express.static('pastFlyers'));
+app.use('/memberImages', express.static('memberImages'));
 
 // endpoint template
 /*app.post("", async (req, res) => {
@@ -504,7 +516,7 @@ app.get("/past-events", authenticateUser, async (req, res) => {
 });
 
 //get past event by id
-app.get("/past-events/:id", async (req, res) => {
+app.get("/past-events/:id", authenticateUser, async (req, res) => {
   const { id } = req.params;
   try {
     const { rows: storedEventArtists } = await db.query(`
@@ -531,6 +543,36 @@ app.get("/past-events/:id", async (req, res) => {
     return res.status(200).json({ pastEvent: parsedEvent });
   } catch (e) {
     console.error("Error occured while retrieving past event with id " + id, e);
+    return res.status(500).send();
+  }
+});
+
+// MEMBERS //
+async function generateMemberId(req, res, next) {
+
+  try {
+    const { rows: inserted } = await db.query("INSERT INTO members DEFAULT VALUES RETURNING *");
+    if (inserted.length === 0) {
+      throw new Error("Pg was unable to insert blank member for id generation");
+    }
+    req.memberId = inserted[0].id;
+    next();
+  } catch (e) {
+    console.error("Error occured while adding member: ", e);
+    return res.status(500).send();
+  }
+}
+
+app.post("/members", authenticateUser, generateMemberId, uploadMemberImage.single("photo"), async (req, res) => {
+  const { firstName, lastName, role, desc, funFact, type } = req.body;
+  try {
+    const { rows: inserted } = await db.query("UPDATE members SET first_name = $1, last_name = $2, role = $3, photo = $4, description = $5, fun_fact = $6, type = $7 WHERE id = $8 RETURNING *", [firstName, lastName, role, req.insertedFileName, desc, funFact, type, req.memberId]);
+    if (inserted.length === 0) {
+      throw new Error("Pg inserted 0 members");
+    }
+    return res.status(200).send();
+  } catch (e) {
+    console.error("Error occured while adding member: ", e);
     return res.status(500).send();
   }
 });
