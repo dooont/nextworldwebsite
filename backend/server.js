@@ -250,8 +250,7 @@ function authenticateUser(req, res, next) {
 
 async function storeUpcomingEvent(req, res, next) {
   try {
-    const { title, subtitle, url } = req.body;
-    const { rows: inserted } = await db.query("INSERT INTO upcoming_events (title, subtitle, url) VALUES ($1, $2, $3) RETURNING *", [title, subtitle, url]);
+    const { rows: inserted } = await db.query("INSERT INTO upcoming_events DEFAULT VALUES RETURNING *");
     req.flyerId = inserted[0].id; //this is passed to the diskStorage for multer to generate name
     next();
   } catch (e) {
