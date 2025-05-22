@@ -503,6 +503,38 @@ app.get("/past-events", authenticateUser, async (req, res) => {
   }
 });
 
+//get past event by id
+app.get("/past-events/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const { rows: storedEventArtists } = await db.query(`
+      SELECT * FROM past_events pe
+      LEFT JOIN past_events_artists pea ON pe.id = pea.past_event_id
+      LEFT JOIN artists a ON a.id = pea.artist_id
+      WHERE pe.id = $1;
+      `, [id]); //this query returns the event details along with all artists. Each entry is an artists, and all entries contain the event info
+    if (storedEventArtists === 0) {
+      throw new Error("Pg returned 0 rows");
+    }
+
+    //create object to send
+    const parsedEvent = {
+      id: storedEventArtists[0].past_event_id,
+      imageURL: 'http:localhost:3000' + '/pastFlyers' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+      title: storedEventArtists[0].title,
+      subtitle: storedEventArtists[0].subtitle,
+      desc: storedEventArtists[0].description,
+      artists: storedEventArtists.map((eventArtist) => { return { id: eventArtist.id, name: eventArtist.name, contact: eventArtist.contact } }),
+      place: storedEventArtists[0].place
+    }
+
+    return res.status(200).json({ pastEvent: parsedEvent });
+  } catch (e) {
+    console.error("Error occured while retrieving past event with id " + id, e);
+    return res.status(500).send();
+  }
+});
+
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
 });
