@@ -445,7 +445,6 @@ app.delete("/past-events/:id", authenticateUser, async (req, res) => {
         RIGHT JOIN artists a ON pea.artist_id = a.id
         WHERE past_event_id IS NULL;
     `);
-    console.log(artistIdsToDelete);
 
     //delete artists who aren't in any past events
     for (const artist of artistIdsToDelete) {
@@ -458,6 +457,49 @@ app.delete("/past-events/:id", authenticateUser, async (req, res) => {
   } catch (e) {
     console.error("Error occured while deleting past event with id " + id + ":", e);
     return res.status(500).json({ message: "Could not delete event" });
+  }
+});
+
+//get all past events
+app.get("/past-events", authenticateUser, async (req, res) => {
+  try {
+    //get all past event ids
+    const { rows: allPastEvents } = await db.query("SELECT * FROM past_events");
+    if (allPastEvents.length === 0) {
+      throw new Error("Pg retrieved 0 events");
+    }
+
+    //create past events to send per past event
+    const returnPastEvents = [];
+    for (const storedEvent of allPastEvents) {
+      let parsedEvent = {
+        id: storedEvent.id,
+        imageURL: 'http:localhost:3000' + '/pastFlyers' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+        title: storedEvent.title,
+        subtitle: storedEvent.subtitle,
+        desc: storedEvent.description,
+        artists: [],
+        place: storedEvent.place
+      };
+      //get all artists in past event and store in parsedEvent artists array
+      const { rows: storedEventsArtists } = await db.query(`
+          SELECT * FROM past_events_artists pea
+          RIGHT JOIN artists a ON a.id = pea.artist_id
+          WHERE past_event_id = $1
+        `, [storedEvent.id]);
+      //the query returns every artists that belong to the event
+
+      if (storedEventsArtists.length > 0) { //only add artists if event has artists
+        for (const eventArtist of storedEventsArtists) {
+          parsedEvent.artists.push({ id: eventArtist.id, name: eventArtist.name, contact: eventArtist.contact });
+        }
+      }
+      returnPastEvents.push(parsedEvent);
+    }
+    return res.status(200).json({ pastEvents: returnPastEvents });
+  } catch (e) {
+    console.error("Error while retrieving all past events: ", e);
+    return res.status(500).json({ message: "Could not get all past events" });
   }
 });
 
