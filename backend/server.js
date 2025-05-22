@@ -15,7 +15,7 @@ const upcomingFlyersStorage = multer.diskStorage({ //stores flyer for new upcomi
 });
 const uploadUpcomingFlyers = multer({ storage: upcomingFlyersStorage });
 
-const storeUpdate = multer.diskStorage({ //stores flyer when updating flyer for upcoming event
+const storeUpdateFlyer = multer.diskStorage({ //stores flyer when updating flyer for upcoming event
   destination: 'upcomingShowFlyers',
   filename: function (req, file, cb) {
     const fileName = "upcomingFlyer" + req.params.id + '.' + file.originalname.split('.')[1]; //names it based on which one is being updated (through id)
@@ -23,7 +23,7 @@ const storeUpdate = multer.diskStorage({ //stores flyer when updating flyer for 
     cb(null, fileName);
   }
 });
-const uploadUpdated = multer({ storage: storeUpdate });
+const uploadUpdated = multer({ storage: storeUpdateFlyer });
 
 const pastFlyersStorage = multer.diskStorage({ //for storing flyers for new past events
   destination: 'pastFlyers',
@@ -44,6 +44,16 @@ const membersImageStorage = multer.diskStorage({
   }
 });
 const uploadMemberImage = multer({ storage: membersImageStorage });
+
+const storeUpdateMemberImage = multer.diskStorage({
+  destination: 'memberImages',
+  filename: function (req, file, cb) {
+    const fileName = 'memberImage' + req.params.id + '.' + file.originalname.split('.')[1];
+    req.insertedFileName = fileName;
+    cb(null, fileName);
+  }
+});
+const uploadUpdatedMemberImage = multer({ storage: storeUpdateMemberImage });
 
 const app = express();
 const db = new pg.Client({
@@ -304,7 +314,7 @@ app.put("/upcoming-events/:id", uploadUpdated.single("flyerImage"), async (req, 
 
   //get old flyer name and check if new flyer is a different type. Delete old file if new one is different type
   try {
-    const { rows: event } = await db.query("SELECT * FROM upcoming_events WHERE id = $1", [id])
+    const { rows: event } = await db.query("SELECT * FROM upcoming_events WHERE id = $1", [id]);
 
     if (event[0].flyer_file_name !== req.insertedFileName) { //delete if files are different
       await unlink("upcomingShowFlyers/" + event[0].flyer_file_name);
@@ -548,6 +558,8 @@ app.get("/past-events/:id", authenticateUser, async (req, res) => {
 });
 
 // MEMBERS //
+
+//create member endpoint (and middle ware)
 async function generateMemberId(req, res, next) {
 
   try {
@@ -566,7 +578,7 @@ async function generateMemberId(req, res, next) {
 app.post("/members", authenticateUser, generateMemberId, uploadMemberImage.single("photo"), async (req, res) => {
   const { firstName, lastName, role, desc, funFact, type } = req.body;
   try {
-    const { rows: inserted } = await db.query("UPDATE members SET first_name = $1, last_name = $2, role = $3, photo = $4, description = $5, fun_fact = $6, type = $7 WHERE id = $8 RETURNING *", [firstName, lastName, role, req.insertedFileName, desc, funFact, type, req.memberId]);
+    const { rows: inserted } = await db.query("UPDATE members SET first_name = $1, last_name = $2, role = $3, photo_file_name = $4, description = $5, fun_fact = $6, type = $7 WHERE id = $8 RETURNING *", [firstName, lastName, role, req.insertedFileName, desc, funFact, type, req.memberId]);
     if (inserted.length === 0) {
       throw new Error("Pg inserted 0 members");
     }
@@ -574,6 +586,30 @@ app.post("/members", authenticateUser, generateMemberId, uploadMemberImage.singl
   } catch (e) {
     console.error("Error occured while adding member: ", e);
     return res.status(500).send();
+  }
+});
+
+//update member
+app.put("/members/:id", uploadUpdatedMemberImage.single("photo"), async (req, res) => {
+  const id = req.params.id;
+  const { firstName, lastName, role, photo, desc, funFact, type } = req.body;
+  try {
+    //get old flyer name and check if new flyer is a different type. Delete old file if new one is different type
+    const { rows: member } = await db.query("SELECT * FROM members WHERE id = $1", [id]);
+    if (member[0].photo_file_name !== req.insertedFileName) {
+      await unlink("memberImages/" + member[0].photo_file_name);
+    }
+
+    //insert updated member details
+    const { rows: updatedMember } = await db.query("UPDATE members SET first_name = $1, last_name = $2, role = $3, photo_file_name = $4, description = $5, fun_fact = $6, type = $7 WHERE id = $8 RETURNING *", [firstName, lastName, role, req.insertedFileName, desc, funFact, type, id]);
+    if (updatedMember.length === 0) {
+      throw new Error("Pg updated 0 members");
+    }
+
+    return res.status(200).send();
+  } catch (e) {
+    console.error("Error occured while updating member with id: " + id, e);
+    return res.status(500).json({ message: "Could not update member" });
   }
 });
 
