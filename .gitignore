@@ -30,3 +30,4 @@ notes.txt
 
 #don't send flyers, were still testing
 backend/upcomingShowFlyers/*
+backend/pastFlyers/*

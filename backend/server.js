@@ -5,7 +5,7 @@ import dotenv from 'dotenv/config';
 import session from 'express-session';
 import { unlink } from 'fs/promises';
 import multer from 'multer';
-const storage = multer.diskStorage({ //stores flyer for new upcoming event
+const upcomingFlyersStorage = multer.diskStorage({ //stores flyer for new upcoming event
   destination: 'upcomingShowFlyers',
   filename: function (req, file, cb) {
     const fileName = "upcomingFlyer" + req.flyerId + '.' + file.originalname.split('.')[1];
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({ //stores flyer for new upcoming event
     cb(null, fileName);
   }
 });
-const upload = multer({ storage: storage });
+const uploadUpcomingFlyers = multer({ storage: upcomingFlyersStorage });
 
 const storeUpdate = multer.diskStorage({ //stores flyer when updating flyer for upcoming event
   destination: 'upcomingShowFlyers',
@@ -25,6 +25,15 @@ const storeUpdate = multer.diskStorage({ //stores flyer when updating flyer for 
 });
 const uploadUpdated = multer({ storage: storeUpdate });
 
+const pastFlyersStorage = multer.diskStorage({ //for storing flyers for new past events
+  destination: 'pastFlyers',
+  filename: function (req, file, cb) {
+    const fileName = "pastFlyer" + req.flyerId + '.' + file.originalname.split('.')[1];
+    req.insertedFileName = fileName;
+    cb(null, fileName);
+  }
+});
+const uploadPastFlyers = multer({ storage: pastFlyersStorage });
 
 const app = express();
 const db = new pg.Client({
@@ -56,7 +65,9 @@ db.connect();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/flyers', express.static('upcomingShowFlyers'));
+
+app.use('/flyers', express.static('upcomingShowFlyers')); //allows static fetching of images
+app.use('/pastFlyers', express.static('pastFlyers'));
 
 // endpoint template
 /*app.post("", async (req, res) => {
@@ -254,15 +265,14 @@ async function storeUpcomingEvent(req, res, next) {
     req.flyerId = inserted[0].id; //this is passed to the diskStorage for multer to generate name
     next();
   } catch (e) {
-    console.log("Error while inserting upcoming event: ", e);
+    console.error("Error while inserting upcoming event: ", e);
     return res.status(500).json({ message: "Upcoming event not inserted" });
   }
 }
 
-app.post("/upcoming-events", authenticateUser, storeUpcomingEvent, upload.single("flyerImage"), async (req, res) => {
+app.post("/upcoming-events", authenticateUser, storeUpcomingEvent, uploadUpcomingFlyers.single("flyerImage"), async (req, res) => {
   try {
     //insert file name
-    console.log(req.body);
     const { title, url, subtitle } = req.body;
     await db.query("UPDATE upcoming_events SET flyer_file_name = $1, title = $2, subtitle = $3, url = $4 WHERE id = $5", [req.insertedFileName, title, subtitle, url, req.flyerId]);
     return res.status(200).send();
@@ -361,6 +371,61 @@ app.get("/upcoming-events/:id", authenticateUser, async (req, res) => {
   } catch (e) {
     console.error("Error while getting upcoming event with id: ", id, e);
     return res.status(500).send("Cold not retrieve upcoming event");
+  }
+});
+
+// PAST EVENTS ENDPOINTS //
+
+//create past event (and it's middleware). To learn how this works, look at the add upcoming event endpoint
+async function storePastEvent(req, res, next) {
+  try {
+    const { rows: inserted } = await db.query("INSERT INTO past_events DEFAULT VALUES RETURNING *");
+    req.flyerId = inserted[0].id;
+    if (inserted.length === 0) {
+      throw new Error("Blank entry for past event not generated.");
+    }
+    next();
+  } catch (e) {
+    console.error("Error occured while creating past event: ", e);
+    return res.status(500).json({ message: "Could not create past event" });
+  }
+}
+
+app.post("/past-events", authenticateUser, storePastEvent, uploadPastFlyers.single("pastFlyer"), async (req, res) => {
+  const { title, subtitle, desc, artists: artistsJSON, place } = req.body
+  try {
+    //store past event, add event to database, create and add new artists, link artist with past event
+    //store upcoming event
+    const { rows: insertedEvent } = await db.query("UPDATE past_events SET past_flyer_file_name = $1, title = $2, subtitle = $3, description = $4, place = $5 RETURNING *", [req.insertedFileName, title, subtitle, desc, place]);
+    if (insertedEvent.length === 0) {
+      throw new Error("Pg was not able to fill in data for new past event.");
+    }
+
+    //store artists
+    const artists = JSON.parse(artistsJSON);
+    for (const artist of artists) { //using an advanced for loop, since forEach doesn't wait for await
+      //only store artist in artist table if doesn't already exist
+      const { rows: exists } = await db.query("SELECT * FROM artists WHERE name = $1", [artist.name])
+      let artistId = exists[0]?.id || null;
+      if (artistId === null) {
+        const { rows: insertedArtist } = await db.query("INSERT INTO artists (name, contact) VALUES ($1, $2) RETURNING *", [artist.name, artist.contact]);
+        if (insertedArtist.length === 0) {
+          throw new Error("Pg was unable to insert artist: " + artist.name);
+        }
+        artistId = insertedArtist[0].id;
+      }
+
+      //insert artist and event into resolution table
+      const { rows: insertedEventArtist } = await db.query("INSERT INTO past_events_artists (past_event_id, artist_id) VALUES ($1, $2) RETURNING *", [req.flyerId, artistId]); //i know weird to use flyerId, but it's okay
+      if (insertedEventArtist.length === 0) {
+        throw new Error("Pg was unable to insert artist/event into past_events_artists");
+      }
+    };
+
+    return res.status(200).send();
+  } catch (e) {
+    console.error("Error occured while creating past event", e);
+    return res.status(500).json({ message: "Could not create past event" });
   }
 });
 
