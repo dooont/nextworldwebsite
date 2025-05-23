@@ -613,6 +613,37 @@ app.put("/members/:id", uploadUpdatedMemberImage.single("photo"), async (req, re
   }
 });
 
+//get member by type
+app.get("/members/:type", async (req, res) => {
+  const type = req.params.type;
+  if (!["executive", "other", ""].includes(type)) { //only accept certain types
+    return res.status(404).json("This type doesn't exist");
+  }
+
+  try {
+    const { rows: storedMembers } = await db.query("SELECT * FROM members WHERE type = $1", [type]);
+    let parsedMembers = [];
+    for (const storedMember of storedMembers) { //put each member in appropriate body
+      const member = {
+        id: storedMember.id,
+        firstName: storedMember.firstName,
+        lastName: storedMember.last_name,
+        role: storedMember.role,
+        photoUrl: "http://localhost:3000/" + "memberImages/" + storedMember.photo_file_name,
+        desc: storedMember.description,
+        funFact: storedMember.fun_fact,
+      }
+
+      parsedMembers.push(member);
+    }
+
+    return res.status(200).json({ members: parsedMembers });
+  } catch (e) {
+    console.error("Error occured while getting members: ", e);
+    return res.status(500).send();
+  }
+});
+
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
 });
