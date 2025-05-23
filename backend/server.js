@@ -192,7 +192,7 @@ app.delete("/admin/logout", async (req, res) => {
   }
 });
 
-//reset password request. send user link to front end page to reset password.
+//reset password request. CHANGE THE LINK YOUR SENDING TO APPROPRIATE FRONT END PAGE
 app.get("/admin/reset-password", async (req, res) => {
   const { email } = req.body;
   const { rows: foundUser } = await db.query("SELECT * FROM admin_users WHERE email = $1", [email]);
@@ -200,7 +200,7 @@ app.get("/admin/reset-password", async (req, res) => {
     return res.status(201).send(); //send this so users can't see if a user exists or not
   }
 
-  //generate random tokena nd insert to database
+  //generate random token and insert to database
   const id = foundUser[0].admin_id;
   const token = crypto.randomBytes(32).toString("hex");
   const expiresAt = new Date(Date.now() + 3600_000);
@@ -734,6 +734,35 @@ app.delete("/members/:id", async (req, res) => {
     return res.status(500).send();
   }
 })
+
+// FUNCTIONALITY //
+app.post("/emails", async (req, res) => {
+  const { firstName, lastName, userEmail, inquiryBody } = req.body;
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const mailOptions = {
+    from: `nxtworldcollective <${process.env.EMAIL_USER}>`,
+    to: userEmail,
+    subject: "New NextWorld Inquiry",
+    html: `
+      <p>You have recieved a new inqury from: </p>
+      <h3>${firstName} ${lastName}</h3>
+      <p>Their email: ${userEmail}</p>
+      <h2>Message: </h2>
+      <p>${inquiryBody}</p>
+    `
+  };
+
+  await transporter.sendMail(mailOptions);
+  return res.status(200).send();
+});
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
