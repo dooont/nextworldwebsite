@@ -4,6 +4,8 @@ import bcrypt, { hash } from 'bcrypt';
 import dotenv from 'dotenv/config';
 import session from 'express-session';
 import { unlink } from 'fs/promises';
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 import multer from 'multer';
 const upcomingFlyersStorage = multer.diskStorage({ //stores flyer for new upcoming event
   destination: 'upcomingShowFlyers',
@@ -190,6 +192,71 @@ app.delete("/admin/logout", async (req, res) => {
   }
 });
 
+//reset password request. send user link to front end page to reset password.
+app.get("/admin/reset-password", async (req, res) => {
+  const { email } = req.body;
+  const { rows: foundUser } = await db.query("SELECT * FROM admin_users WHERE email = $1", [email]);
+  if (foundUser.length === 0) {
+    return res.status(201).send(); //send this so users can't see if a user exists or not
+  }
+
+  //generate random tokena nd insert to database
+  const id = foundUser[0].admin_id;
+  const token = crypto.randomBytes(32).toString("hex");
+  const expiresAt = new Date(Date.now() + 3600_000);
+  await db.query("INSERT INTO reset_tokens VALUES($1, $2, $3) RETURNING *", [id, token, expiresAt]);
+
+  const resetUrl = `http://localhost:3000/reset-password?token=${token}`;
+
+  //email user
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+
+  const mailOptions = {
+    from: `nxtworldcollective <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: "Reset Your Admin Password",
+    html: `
+      <h1> Password Reset Request</h1>
+      <p>Click the link below to reset your password</p>
+      <a href="${resetUrl}">${resetUrl}</a>
+      <br/>
+      <p>Also, hi from developers: Matt and Elton :P</p>
+    `
+  };
+
+  await transporter.sendMail(mailOptions);
+  res.status(200).send();
+});
+
+//reset admin users password. recieves request from front end
+app.post("/reset-password", async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    //check if sent token is valid
+    const { rows } = await db.query("SELECT * FROM reset_tokens WHERE token = $1 AND expires_at > NOW()", [token]);
+    if (rows.length === 0) {
+      return res.status(401).send();
+    }
+
+    const userId = rows[0].admin_user_id;
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    //reset the password and delete token
+    await db.query("UPDATE admin_users SET password = $1 WHERE admin_id = $2", [hashedPassword, userId]);
+    await db.query("DELETE FROM reset_tokens WHERE token = $1", [token]);
+
+    res.status(200).send();
+  } catch (e) {
+    console.error("Error occured while reseting password: ", e);
+    return res.status(500).send();
+  }
+});
 
 //ARTICLES BACKEND//
 
