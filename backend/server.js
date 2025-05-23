@@ -342,6 +342,8 @@ app.delete("/upcoming-events/:id", authenticateUser, async (req, res) => {
     if (!(deleted.length > 0)) { //if not deleted
       throw new Error("Pg could not delete upcoming event");
     }
+
+    await unlink("upcomingShowFlyers/" + deleted[0].flyer_file_name);
     return res.status(200).send();
   } catch (e) {
     console.error("Error while deleting event with id:", id, e);
@@ -460,6 +462,8 @@ app.delete("/past-events/:id", authenticateUser, async (req, res) => {
     if (deletedEvent.length === 0) {
       throw new Error("Pg was unable to delete past event");
     }
+
+    await unlink("pastFlyers/" + deletedEvent[0].past_flyer_file_name);
 
     //return artists who aren't in any past events
     const { rows: artistIdsToDelete } = await db.query(`
@@ -613,8 +617,8 @@ app.put("/members/:id", uploadUpdatedMemberImage.single("photo"), async (req, re
   }
 });
 
-//get member by type
-app.get("/members/:type", async (req, res) => {
+//get members by type
+app.get("/members/:type", authenticateUser, async (req, res) => {
   const type = req.params.type;
   if (!["executive", "other", ""].includes(type)) { //only accept certain types
     return res.status(404).json("This type doesn't exist");
@@ -643,6 +647,26 @@ app.get("/members/:type", async (req, res) => {
     return res.status(500).send();
   }
 });
+
+//delete member
+app.delete("/members/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const { rows: deleted } = await db.query("DELETE FROM members WHERE id = $1 RETURNING *", [id]);
+    if (deleted.length == 0) {
+      throw new Error("Pg was unable to delete member");
+    }
+
+
+    //delete members photo
+    await unlink("memberImages/" + deleted[0].photo_file_name);
+
+    return res.status(200).send();
+  } catch (e) {
+    console.error("Error occured while deleting member with id " + id + ":", e);
+    return res.status(500).send();
+  }
+})
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log("server started on port: " + process.env.SERVER_PORT);
