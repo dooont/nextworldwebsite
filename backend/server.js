@@ -736,7 +736,9 @@ app.delete("/members/:id", async (req, res) => {
 })
 
 // FUNCTIONALITY //
-app.post("/emails", async (req, res) => {
+
+//contact endpoint
+app.post("/inquiries", async (req, res) => {
   const { firstName, lastName, userEmail, inquiryBody } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -748,7 +750,7 @@ app.post("/emails", async (req, res) => {
   });
 
   const mailOptions = {
-    from: `nxtworldcollective <${process.env.EMAIL_USER}>`,
+    from: `Next World Collective <${process.env.EMAIL_USER}>`,
     to: userEmail,
     subject: "New NextWorld Inquiry",
     html: `
