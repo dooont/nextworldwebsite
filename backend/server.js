@@ -6,6 +6,7 @@ import session from 'express-session';
 import { unlink } from 'fs/promises';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
+import cors from 'cors';
 import multer from 'multer';
 const upcomingFlyersStorage = multer.diskStorage({ //stores flyer for new upcoming event
   destination: 'upcomingShowFlyers',
@@ -58,6 +59,19 @@ const storeUpdateMemberImage = multer.diskStorage({
 const uploadUpdatedMemberImage = multer({ storage: storeUpdateMemberImage });
 
 const app = express();
+
+const allowedOrigins = ['http://localhost:5173'];
+app.use(cors({
+  origin: function (origin, cb) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      db(null, true);
+    } else {
+      callbackPromise(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+
 const db = new pg.Client({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
