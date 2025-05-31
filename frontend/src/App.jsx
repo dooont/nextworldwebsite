@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout'
+import AdminLayout from './layouts/AdminLayout';
 import HomePage from './pages/HomePage'
 import AboutUs from './pages/AboutUs';
 import Gallery from './pages/Gallery';
 import EventsPage from './pages/EventsPage';
+import AdminLogin from './pages/adminPages/AdminLogin';
 import './App.css';
 
 const router = createBrowserRouter([
@@ -16,6 +18,13 @@ const router = createBrowserRouter([
       { path: '/events', element: <EventsPage /> }, //this will be the events page, but for now it is the same as home
       { path: '/about-us', element: <AboutUs /> },
       { path: '/gallery', element: <Gallery /> },
+    ]
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      { path: '/admin/login', element: <AdminLogin /> },
     ]
   }
 ])

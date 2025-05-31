@@ -64,9 +64,9 @@ const allowedOrigins = ['http://localhost:5173'];
 app.use(cors({
   origin: function (origin, cb) {
     if (!origin || allowedOrigins.includes(origin)) {
-      db(null, true);
+      cb(null, true);
     } else {
-      callbackPromise(new Error('Not allowed by CORS'));
+      cb(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
