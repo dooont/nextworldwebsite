@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
+  const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(null);
   const [formData, setFormData] = useState({
     email: '',
@@ -24,7 +26,7 @@ export default function AdminLogin() {
       const response = await axios.post('http://localhost:3000/admin/login', formData, {
         withCredentials: true
       });
-      alert("Your logged in!");
+      navigate('/admin/home');
     } catch (e) {
       setAuthenticated(false);
     }

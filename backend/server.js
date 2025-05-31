@@ -107,24 +107,6 @@ app.use('/flyers', express.static('upcomingShowFlyers'));
 app.use('/pastFlyers', express.static('pastFlyers'));
 app.use('/memberImages', express.static('memberImages'));
 
-// endpoint template
-/*app.post("", async (req, res) => {
-  try {
-    if (req.session.user) { //if logged in
-      
-      if (inserted.length > 0) { //if it was ...
-        return res.status(200).send();
-      } else { //not ...
-        throw new Error("");
-      }
-    } else { //not logged in
-      return res.status(401).send({ message: "You do not have permission to do this action" });
-    }
-  } catch (e) {
-    console.error("Error while : ", e);
-    return res.status(500).json({ message: "" });
-  }
-});*/
 
 //test endpoint
 app.get('/test', async (req, res) => {
@@ -186,6 +168,13 @@ app.post('/admin/login', async (req, res) => {
     console.log("Server error logging in user");
     return res.status(500).json({ message: "Server error logging in user" });
   }
+});
+
+app.get('/admin/sessions', (req, res) => {
+  if (req.session.user) {
+    return res.status(200).send();
+  }
+  res.status(401).send();
 });
 
 //logout endpoint

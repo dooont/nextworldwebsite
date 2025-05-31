@@ -7,6 +7,9 @@ import Gallery from './pages/Gallery';
 import EventsPage from './pages/EventsPage';
 import AdminLogin from './pages/adminPages/AdminLogin';
 import './App.css';
+import AdminHome from './pages/adminPages/AdminHome';
+import ProtectedAdminRoute from './components/adminComponents/AdminValidator';
+import AdminEvents from './pages/adminPages/AdminEvents';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +27,16 @@ const router = createBrowserRouter([
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      { path: '/admin/login', element: <AdminLogin /> },
+      { path: '', element: <AdminLogin /> },
+      { path: 'login', element: <AdminLogin /> },
+      {
+        element: <ProtectedAdminRoute />, //protects all admin routes by seeing if user is logged in
+        children: [
+          { path: 'home', element: <AdminHome /> },
+          { path: 'events', element: <AdminEvents /> },
+          { path: 'about-us', element: < ></>/*<AdminAboutUs/>*/ },
+        ]
+      }
     ]
   }
 ])

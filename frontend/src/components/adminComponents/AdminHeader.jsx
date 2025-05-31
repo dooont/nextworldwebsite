@@ -22,7 +22,7 @@ export default function AdminHeader() {
         <ul className="flex space-x-5 bebas-kai-regular">
           <li>
             <NavLink
-              to="/"
+              to="/admin/home"
               end
               className={({ isActive }) =>
                 `text-[20px] ${isActive ? 'text-purple-900 font-semibold' : 'text-white hover:text-purple-500'}`
@@ -33,7 +33,7 @@ export default function AdminHeader() {
           </li>
           <li>
             <NavLink
-              to="/events"
+              to="/admin/events"
               className={({ isActive }) =>
                 `text-[20px] ${isActive ? 'text-purple-900 font-semibold' : 'text-white hover:text-purple-500'}`
               }
