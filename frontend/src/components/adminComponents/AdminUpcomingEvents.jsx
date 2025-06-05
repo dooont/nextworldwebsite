@@ -1,4 +1,58 @@
+import { useState } from 'react';
+import axios from 'axios';
+
 export default function AdminUpcomingEvents({ loading, upcomingEvents }) {
+  //for pretty file inputs
+  const [selectedFile, setSelectedFile] = useState('No file selected');
+  const [invalidForm, setInvalidForm] = useState(false);
+  const [submitUnsuccessful, setSubmitUnsuccessful] = useState(false);
+
+  //handles submission of upcoming event
+  function handleFlyerChange(e) {
+    setSelectedFile(e.target.files[0].name);
+  }
+
+  async function handleSubmitForm(e) {
+    //validate form
+    e.preventDefault();
+    const form = new FormData(e.target);
+    if (form.get('flyerImage').size === 0) {
+      setInvalidForm(true);
+      console.log("flyer");
+      return;
+    }
+    if (!form.get("title").trim()) {
+      setInvalidForm(true);
+      console.log("title");
+      return;
+    }
+    if (!form.get("subtitle").trim()) {
+      setInvalidForm(true);
+      console.log("subtitle");
+      return;
+    }
+    if (!form.get("url").trim()) {
+      setInvalidForm(true);
+      console.log("url");
+      return;
+    }
+
+    setInvalidForm(false);
+    try {
+      await axios.post("http://localhost:3000/upcoming-events", form, {
+        headers: {
+          'Content-Type': 'multipart/form-data', //not needed for most backend frameworks, but some do so ill keep it
+        },
+        withCredentials: true
+      });
+      setSubmitUnsuccessful(false);
+    } catch (e) {
+      setSubmitUnsuccessful(true);
+      console.log(e);
+      console.log("no")
+    }
+  }
+
   if (loading) {
     return <h2 className="text-white">Loading Events</h2>
   }
@@ -6,6 +60,31 @@ export default function AdminUpcomingEvents({ loading, upcomingEvents }) {
   if (upcomingEvents?.length > 0) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr mb-8">
+        <form
+          className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full items-center justify-evenly"
+          onSubmit={handleSubmitForm}
+        >
+          <div>
+            <label htmlFor="flyerImage" className="text-white hover:text-black transition font-bold block">Upload Flyer</label>
+            <input onChange={handleFlyerChange} name="flyerImage" id="flyerImage" type="file" className="border pl-2 text-white text-sm w-full ml-2 hidden block" />
+            {selectedFile === 'No file selected' ? <p className="text-gray-500">no file selected</p> : <p className="text-white text-center">{selectedFile}</p>}
+          </div>
+          <div className="w-3/5">
+            <label htmlFor="title" className="text-white block">title</label>
+            <input name="title" placeholder="title" className="border pl-2 text-white text-sm" />
+          </div>
+          <div className="w-3/5">
+            <label htmlFor="subtitle" className="text-white">Date</label>
+            <input name="subtitle" type="date" placeholder="date" className="border pl-2 text-white text-sm block w-full" />
+          </div>
+          <div className="w-3/5">
+            <label htmlFor="url" className="text-white">ticket link</label>
+            <input name="url" placeholder="ticket link" className="border pl-2 text-white text-sm block" />
+          </div>
+          {invalidForm ? <p className="text-red-600">Fill Out All Fields</p> : undefined}
+          {submitUnsuccessful ? <p className="text-red-600">Could not upload event</p> : undefined}
+          <button className="w-5/6 text-white bg-black  hover:text-black hover:bg-white transition">Add Event</button>
+        </form>
         {upcomingEvents.map((event) => (
           <div
             key={event.id}
@@ -27,6 +106,7 @@ export default function AdminUpcomingEvents({ loading, upcomingEvents }) {
             <button className="text-white bg-black mx-2 mb-2 hover:text-black hover:bg-white transition">Edit</button>
           </div>
         ))}
+
       </div >)
   }
 }
