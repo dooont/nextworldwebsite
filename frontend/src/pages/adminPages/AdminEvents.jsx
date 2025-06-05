@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import heroBackgroundVideo from '../../assets/events-nextworld-hero-background.mp4';
+import { useEffect } from 'react';
+import axios from 'axios';
+import AdminUpcomingEvents from '../../components/adminComponents/AdminUpcomingEvents';
 
 // Template
 //     id: 0,
@@ -273,8 +276,26 @@ const dummyEvents = [
 
 
 
-export default function AdminEvents({ events = dummyEvents, upcomingEvents = defaultUpcomingEvents }) {
+export default function AdminEvents({ events = dummyEvents }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [upcomingEvents, setUpcomingEvents] = useState(null);
+
+  //functionality is not done for getting events! 
+  //remember adminUpcomingEvents takes a loading if it's loading
+  useEffect(() => {
+    async function getEvents() {
+      try {
+        const response = await axios.get('http://localhost:3000/upcoming-events', {
+          withCredentials: true
+        });
+        setUpcomingEvents(response.data);
+      } catch (e) {
+        setUpcomingEvents(false);
+      }
+
+    };
+    getEvents();
+  }, [])
 
   const handleEventClick = (event) => {
     setSelectedEvent(event);
@@ -309,29 +330,8 @@ export default function AdminEvents({ events = dummyEvents, upcomingEvents = def
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Upcoming Events
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr mb-8">
-          {upcomingEvents.map((event) => (
-            <div
-              key={event.id}
-              onClick={() => window.open(event.url, '_blank')}
-              className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full"
-            >
-              <div className="relative h-40 w-full overflow-hidden bg-[#4b0082]">
-                <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-[#4b0082] bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity" />
-              </div>
-              <div className="p-4 flex flex-col justify-between flex-1">
-                <h3 className="text-xl font-semibold text-white bebas-kai-regular">
-                  {event.title}
-                </h3>
-                <p className="text-gray-200 text-sm oswald-400">
-                  {event.subtitle}
-                </p>
-              </div>
-            </div>
-          ))}
+        <AdminUpcomingEvents loading={false} upcomingEvents={defaultUpcomingEvents} />
 
-        </div>
 
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Past Events
