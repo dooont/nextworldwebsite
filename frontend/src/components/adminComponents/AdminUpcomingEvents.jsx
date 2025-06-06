@@ -13,7 +13,7 @@ export default function AdminUpcomingEvents({ loading, upcomingEvents }) {
   }
 
   async function handleSubmitForm(e) {
-    //validate form
+    //validate form. Did manual validation here, but for admin past events, input just has required (practice for both)
     e.preventDefault();
     const form = new FormData(e.target);
     if (form.get('flyerImage').size === 0) {
@@ -48,8 +48,6 @@ export default function AdminUpcomingEvents({ loading, upcomingEvents }) {
       setSubmitUnsuccessful(false);
     } catch (e) {
       setSubmitUnsuccessful(true);
-      console.log(e);
-      console.log("no")
     }
   }
 
@@ -60,13 +58,14 @@ export default function AdminUpcomingEvents({ loading, upcomingEvents }) {
   if (upcomingEvents?.length > 0) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr mb-8">
+        {/*FORM*/}
         <form
           className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full items-center justify-evenly"
           onSubmit={handleSubmitForm}
         >
           <div>
-            <label htmlFor="flyerImage" className="text-white hover:text-black transition font-bold block">Upload Flyer</label>
-            <input onChange={handleFlyerChange} name="flyerImage" id="flyerImage" type="file" className="border pl-2 text-white text-sm w-full ml-2 hidden block" />
+            <label htmlFor="flyerImage" className="text-white hover:text-black transition font-bold block text-center">Upload Flyer</label>
+            <input onChange={handleFlyerChange} name="flyerImage" id="flyerImage" type="file" className="border pl-2 text-white text-sm w-full ml-2 hidden block" required />
             {selectedFile === 'No file selected' ? <p className="text-gray-500">no file selected</p> : <p className="text-white text-center">{selectedFile}</p>}
           </div>
           <div className="w-3/5">

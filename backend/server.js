@@ -487,16 +487,18 @@ async function storePastEvent(req, res, next) {
 
 app.post("/past-events", authenticateUser, storePastEvent, uploadPastFlyers.single("pastFlyer"), async (req, res) => {
   const { title, subtitle, desc, artists: artistsJSON, place } = req.body
+  console.log(artistsJSON);
   try {
     //store past event, add event to database, create and add new artists, link artist with past event
     //store upcoming event
-    const { rows: insertedEvent } = await db.query("UPDATE past_events SET past_flyer_file_name = $1, title = $2, subtitle = $3, description = $4, place = $5 RETURNING *", [req.insertedFileName, title, subtitle, desc, place]);
+    const { rows: insertedEvent } = await db.query("UPDATE past_events SET past_flyer_file_name = $1, title = $2, subtitle = $3, description = $4, place = $5 WHERE id = $6 RETURNING *", [req.insertedFileName, title, subtitle, desc, place, req.flyerId]);
     if (insertedEvent.length === 0) {
       throw new Error("Pg was not able to fill in data for new past event.");
     }
 
     //store artists
     const artists = JSON.parse(artistsJSON);
+    console.log("parsed: ", artists);
     for (const artist of artists) { //using an advanced for loop, since forEach doesn't wait for await
       //only store artist in artist table if doesn't already exist
       const { rows: exists } = await db.query("SELECT * FROM artists WHERE name = $1", [artist.name])
