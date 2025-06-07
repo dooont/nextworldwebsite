@@ -10,6 +10,7 @@ import './App.css';
 import AdminHome from './pages/adminPages/AdminHome';
 import ProtectedAdminRoute from './components/adminComponents/AdminValidator';
 import AdminEvents from './pages/adminPages/AdminEvents';
+import AdminAboutUs from './pages/adminPages/AdminAboutUs';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
         children: [
           { path: 'home', element: <AdminHome /> },
           { path: 'events', element: <AdminEvents /> },
-          { path: 'about-us', element: < ></>/*<AdminAboutUs/>*/ },
+          { path: 'about-us', element: <AdminAboutUs /> },
         ]
       }
     ]
