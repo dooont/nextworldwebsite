@@ -43,7 +43,7 @@ export default function AdminHeader() {
           </li>
           <li>
             <NavLink
-              to="/about-us"
+              to="/admin/about-us"
               className={({ isActive }) =>
                 `text-[20px] ${isActive ? 'text-purple-900 font-semibold' : 'text-white hover:text-purple-500'}`
               }
