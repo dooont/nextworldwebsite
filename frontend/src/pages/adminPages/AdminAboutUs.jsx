@@ -2,6 +2,7 @@ import { useState } from 'react';
 import aboutHero from '../../assets/aboutUsHero1.jpg';
 import testHero from '../../assets/aboutUsHero4.jpg';
 import Staff from '../../components/Staff';
+import AdminStaff from '../../components/adminComponents/AdminStaff';
 
 //you are changing the direcotyr the images are for
 const execMembers = [
@@ -220,11 +221,11 @@ export default function AdminAboutUs() {
           <h3 className="text-2xl font-semibold text-left text-white oswald-400">
             Executive Team
           </h3>
-          <Staff teamMembers={execMembers} />
+          <AdminStaff teamMembers={execMembers} />
           <h3 className="text-2xl font-semibold text-left text-white oswald-400">
             Major Contributors
           </h3>
-          <Staff teamMembers={teamMembers} />
+          <AdminStaff teamMembers={teamMembers} />
 
         </section>
 
