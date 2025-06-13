@@ -221,11 +221,11 @@ export default function AdminAboutUs() {
           <h3 className="text-2xl font-semibold text-left text-white oswald-400">
             Executive Team
           </h3>
-          <AdminStaff teamMembers={execMembers} />
+          <AdminStaff teamMembers={execMembers} type="executive" />
           <h3 className="text-2xl font-semibold text-left text-white oswald-400">
             Major Contributors
           </h3>
-          <AdminStaff teamMembers={teamMembers} />
+          <AdminStaff teamMembers={teamMembers} type="other" />
 
         </section>
 
