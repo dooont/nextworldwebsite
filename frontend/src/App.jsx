@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       { path: '/home', element: <HomePage /> }, //duplicate home to make it prettier? i guess lol
       { path: '/events', element: <EventsPage /> }, //this will be the events page, but for now it is the same as home
       { path: '/about-us', element: <AboutUs /> },
-      { path: '/gallery', element: <Gallery /> },
+      /*{ path: '/gallery', element: <Gallery /> },*/
     ]
   },
   {
