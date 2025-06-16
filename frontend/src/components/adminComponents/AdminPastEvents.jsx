@@ -2,7 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 import axios from 'axios';
 
-export default function AdminPastEvents({ loading, pastEvents, handleEventClick }) {
+export default function AdminPastEvents({ pastEvents, handleEventClick }) {
   const [artists, setArtists] = useState([{
     name: '',
     contact: '',
@@ -62,6 +62,10 @@ export default function AdminPastEvents({ loading, pastEvents, handleEventClick 
     setSelectedFile(e.target.files[0].name);
   }
 
+  if (pastEvents === null) {
+    return <p className="text-white">Loading</p>
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
       {/*FORM*/}
@@ -112,7 +116,7 @@ export default function AdminPastEvents({ loading, pastEvents, handleEventClick 
         {submitUnsuccessful ? <p className="text-red-600">Could not upload event</p> : undefined}
         <button className="w-5/6 text-white bg-black  hover:text-black hover:bg-white transition mb-2">Add Event</button>
       </form >
-      {
+      {pastEvents.length > 0 ?
         pastEvents.map((event) => (
           <div
             key={event.id}
@@ -120,7 +124,7 @@ export default function AdminPastEvents({ loading, pastEvents, handleEventClick 
             className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full"
           >
             <div className="relative h-40 w-full overflow-hidden bg-[#4b0082]">
-              <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+              <img src={event.imageURL} alt={event.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-[#4b0082] bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity" />
             </div>
             <div className="p-4 flex flex-col justify-between flex-1">
@@ -128,11 +132,15 @@ export default function AdminPastEvents({ loading, pastEvents, handleEventClick 
                 {event.title}
               </h3>
               <p className="text-gray-200 text-sm oswald-400">
-                {event.subtitle}
+                {new Intl.DateTimeFormat('en-US', {
+                  month: 'long',
+                  day: '2-digit',
+                  year: 'numeric',
+                }).format(new Date(event.subtitle.split('T')[0]))}
               </p>
             </div>
           </div>
-        ))
+        )) : <p className="text-white">No Events Found</p>
       }
     </div >
   )

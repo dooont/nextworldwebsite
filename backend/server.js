@@ -563,16 +563,13 @@ app.get("/past-events", authenticateUser, async (req, res) => {
   try {
     //get all past event ids
     const { rows: allPastEvents } = await db.query("SELECT * FROM past_events");
-    if (allPastEvents.length === 0) {
-      throw new Error("Pg retrieved 0 events");
-    }
 
     //create past events to send per past event
     const returnPastEvents = [];
     for (const storedEvent of allPastEvents) {
       let parsedEvent = {
         id: storedEvent.id,
-        imageURL: 'http:localhost:3000' + '/pastFlyers' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+        imageURL: 'http://localhost:3000' + '/pastFlyers/' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
         title: storedEvent.title,
         subtitle: storedEvent.subtitle,
         desc: storedEvent.description,
@@ -618,7 +615,7 @@ app.get("/past-events/:id", authenticateUser, async (req, res) => {
     //create object to send
     const parsedEvent = {
       id: storedEventArtists[0].past_event_id,
-      imageURL: 'http:localhost:3000' + '/pastFlyers' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+      imageURL: 'http://localhost:3000' + '/pastFlyers/' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
       title: storedEventArtists[0].title,
       subtitle: storedEventArtists[0].subtitle,
       desc: storedEventArtists[0].description,

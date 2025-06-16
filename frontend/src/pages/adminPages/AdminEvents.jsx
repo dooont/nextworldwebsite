@@ -292,21 +292,24 @@ export default function AdminEvents({ events = dummyEvents }) {
         });
         setUpcomingEvents(response.data.upcomingEvents);
       } catch (e) {
-        setUpcomingEvents(false);
+        setUpcomingEvents(null);
       }
 
     };
+
     async function getPastEvents() {
       try {
-        const response = await axios.get("http://localhost:3000/upcoming-events", {
+        const response = await axios.get("http://localhost:3000/past-events", {
           withCredentials: true
         });
         setPastEvents(response.data.pastEvents);
+        console.log(response.data.pastEvents);
       } catch (e) {
-        setPastEvents(false);
+        setPastEvents(null);
       }
     }
     getUpcomingEvents();
+    getPastEvents();
   }, [])
 
   const handleEventClick = (event) => {
@@ -348,7 +351,7 @@ export default function AdminEvents({ events = dummyEvents }) {
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Past Events
         </h2>
-        <AdminPastEvents loading={false} pastEvents={dummyEvents} handleEventClick={handleEventClick} />
+        <AdminPastEvents pastEvents={pastEvents} handleEventClick={handleEventClick} />
       </section>
 
       {/* Simple Modal */}
@@ -363,19 +366,23 @@ export default function AdminEvents({ events = dummyEvents }) {
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-2xl font-bold mb-2 racing-sans-one-regular">{selectedEvent.title}</h3>
-            <p className="text-gray-600 mb-4 bebas-kai-regular">{selectedEvent.subtitle}</p>
+            <p className="text-gray-600 mb-4 bebas-kai-regular">{new Intl.DateTimeFormat('en-US', {
+              month: 'long',
+              day: '2-digit',
+              year: 'numeric',
+            }).format(new Date(selectedEvent.subtitle.split('T')[0]))}</p>
             {selectedEvent.desc && (
               <p className="text-gray-800 mb-4 oswald-400">{selectedEvent.desc}</p>
             )}
             {selectedEvent.place && (
               <p className="text-gray-700 italic mb-4 bebas-kai-regular">Location: {selectedEvent.place}</p>
             )}
-            {selectedEvent.artistContact.length > 0 && (
+            {selectedEvent.artists.length > 0 && (
               <>
                 <h4 className="text-lg font-semibold mb-2 racing-sans-one-regular">Artists</h4>
                 <ul className="list-disc list-inside mb-4 oswald-400">
-                  {selectedEvent.artists.map((artist, idx) => {
-                    const handle = selectedEvent.artistContact[idx];
+                  {selectedEvent.artists.map((artist) => {
+                    const handle = artist.contact;
                     return (
                       <li key={handle}>
                         <a
@@ -384,7 +391,7 @@ export default function AdminEvents({ events = dummyEvents }) {
                           rel="noopener noreferrer"
                           className="text-purple-800 hover:underline"
                         >
-                          {artist}
+                          {artist.name}
                         </a>
                       </li>
                     );
@@ -393,7 +400,7 @@ export default function AdminEvents({ events = dummyEvents }) {
               </>
             )}
             <img
-              src={selectedEvent.image}
+              src={selectedEvent.imageURL}
               alt={selectedEvent.title}
               className="w-full h-96 object-contain rounded mb-4"
             />
