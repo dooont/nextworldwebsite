@@ -345,7 +345,7 @@ export default function AdminEvents({ events = dummyEvents }) {
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Upcoming Events
         </h2>
-        <AdminUpcomingEvents loading={false} upcomingEvents={upcomingEvents} />
+        <AdminUpcomingEvents upcomingEvents={upcomingEvents} />
 
 
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
