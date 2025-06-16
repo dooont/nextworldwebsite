@@ -432,7 +432,7 @@ app.get("/upcoming-events", authenticateUser, async (req, res) => {
     rows.forEach((event) => {
       const storedEvent = {
         id: event.id,
-        image: 'http:localhost:3000' + '/flyers/' + event.flyer_file_name, //CHANGE THE BASE PATH TO A GLOBAL VARIABLE (MAYBE ENV)
+        image: 'http://localhost:3000' + '/flyers/' + event.flyer_file_name, //CHANGE THE BASE PATH TO A GLOBAL VARIABLE (MAYBE ENV)
         title: event.title,
         subtitle: event.subtitle,
         url: event.url

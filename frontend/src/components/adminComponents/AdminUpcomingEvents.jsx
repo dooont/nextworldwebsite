@@ -99,7 +99,11 @@ export default function AdminUpcomingEvents({ loading, upcomingEvents }) {
                 {event.title}
               </h3>
               <p className="text-gray-200 text-sm oswald-400">
-                {event.subtitle}
+                {new Intl.DateTimeFormat('en-US', {
+                  month: 'long',
+                  day: '2-digit',
+                  year: 'numeric',
+                }).format(new Date(event.subtitle.split('T')[0]))}
               </p>
             </div>
             <button className="text-white bg-black mx-2 mb-2 hover:text-black hover:bg-white transition">Edit</button>

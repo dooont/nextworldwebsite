@@ -289,7 +289,7 @@ export default function AdminEvents({ events = dummyEvents }) {
         const response = await axios.get('http://localhost:3000/upcoming-events', {
           withCredentials: true
         });
-        setUpcomingEvents(response.data);
+        setUpcomingEvents(response.data.upcomingEvents);
       } catch (e) {
         setUpcomingEvents(false);
       }
@@ -331,7 +331,7 @@ export default function AdminEvents({ events = dummyEvents }) {
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Upcoming Events
         </h2>
-        <AdminUpcomingEvents loading={false} upcomingEvents={defaultUpcomingEvents} />
+        <AdminUpcomingEvents loading={false} upcomingEvents={upcomingEvents} />
 
 
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
