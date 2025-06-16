@@ -5,8 +5,10 @@ import whoAreWe from '../../assets/who-are-we.jpg';
 //import EmailUsFooter from './EmailUs';
 import FadeInOnScroll from '../../components/FadeInOnScroll.jsx';
 import AdminArticles from '../../components/adminComponents/AdminArticles.jsx';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const articles = [
+/*const articles = [
   {
     "title": "More Than Just Music: The NEXT WORLD Community",
     "source": "Alyssa Cheung",
@@ -35,9 +37,27 @@ const articles = [
     "description": "But what really changed for brynne is that he found a community of artists beginning with KU-KAI, another musician who shares an ambitious vision for music and collaboration...",
     "link": "https://www.thebiaswrecker.com/blog/brynne-is-championing-the-next-generation-of-artists"
   },
-]
+]*/
 
 export default function AdminHome() {
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        let response = await axios.get("http://localhost:3000/articles", {
+          withCredentials: true,
+        });
+        setArticles(response.data.articles);
+      } catch (e) {
+        console.log("Error occured: ", e.response.data.message);
+      }
+
+    }
+
+    fetchArticles();
+  }, []);
+
   return (
     <div className="bg-black">
       {/* Hero Section */}
@@ -126,12 +146,6 @@ export default function AdminHome() {
           </div>
         </div>
       </section>
-
-
-
-
-
-
 
       {/* Articles Made About Us */}
       <section className="py-20 bg-black text-white">
