@@ -4,6 +4,7 @@ import heroBackgroundVideo from '../../assets/main-page-nextworld-hero-backgroun
 import whoAreWe from '../../assets/who-are-we.jpg';
 //import EmailUsFooter from './EmailUs';
 import FadeInOnScroll from '../../components/FadeInOnScroll.jsx';
+import AdminArticles from '../../components/adminComponents/AdminArticles.jsx';
 
 const articles = [
   {
@@ -134,28 +135,10 @@ export default function AdminHome() {
 
       {/* Articles Made About Us */}
       <section className="py-20 bg-black text-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-5xl font-bold text-center racing-sans-one-regular mb-10">
-            Articles About Us
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => (
-              <article key={article.title} className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col">
-                <h3 className="text-2xl font-semibold mb-2">{article.title}</h3>
-                <p className="text-sm text-gray-400 mb-4">{article.source} • {article.date}</p>
-                <p className="flex-1 oswald-400 mb-4">{article.description}</p>
-                <a
-                  href={article.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-auto text-blue-400 hover:underline"
-                >
-                  Read More
-                </a>
-              </article>
-            ))}
-          </div>
-        </div>
+        <h2 className="text-5xl font-bold text-center racing-sans-one-regular mb-10">
+          Articles About Us
+        </h2>
+        <AdminArticles articles={articles} />
       </section>
 
       {/* Contact Us */}
