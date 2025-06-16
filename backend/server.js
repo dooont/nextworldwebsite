@@ -699,7 +699,7 @@ app.get("/members/:type", authenticateUser, async (req, res) => {
     for (const storedMember of storedMembers) { //put each member in appropriate body
       const member = {
         id: storedMember.id,
-        firstName: storedMember.firstName,
+        firstName: storedMember.first_name,
         lastName: storedMember.last_name,
         role: storedMember.role,
         photoUrl: "http://localhost:3000/" + "memberImages/" + storedMember.photo_file_name,

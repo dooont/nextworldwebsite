@@ -3,7 +3,7 @@ import axios from 'axios';
 
 //accepts "type" prop, which is determines which group is in (ex: executive or other), NOT the members individual role.
 //the type prop is determined by which group the admin creates a new user from
-export default function AdminStaff({ teamMembers, type }) {
+export default function AdminStaff({ members, type }) {
   const [selectedMember, setSelectedMember] = useState(null);
   //for pretty file inputs
   const [selectedFile, setSelectedFile] = useState('No file selected'); //just stores file name
@@ -82,6 +82,10 @@ export default function AdminStaff({ teamMembers, type }) {
     }
   }
 
+  if (members === null) {
+    return <p className="text-white">Loading...</p>
+  }
+
   return (
     <>
       <div className="grid grid-cols-2 lg:grid-cols-5 sm:grid-cols-2 md:grid-cols-4 gap-8 auto-rows-fr">
@@ -108,8 +112,8 @@ export default function AdminStaff({ teamMembers, type }) {
         >
           <h2 className="text-white font-bold mt-2">New {type.charAt(0).toUpperCase() + type.slice(1)} Member</h2>
           <div>
-            <label htmlFor="photo" className="text-white hover:text-black transition font-bold block text-center">Upload Flyer</label>
-            <input onChange={handleFlyerChange} name="photo" id="photo" type="file" className="border pl-2 text-white text-sm w-full ml-2 opacity-0 absolute block" /> {/*absolute and opacity allows it to be invisible while not hidden, bypassing the "unfocusable" error that prevents the submit function from running*/}
+            <label htmlFor={type + "ImageInput"} className="text-white hover:text-black transition font-bold block text-center">Upload Photo</label>
+            <input onChange={handleFlyerChange} name="photo" id={type + "ImageInput"} type="file" className="border pl-2 text-white text-sm w-full ml-2 opacity-0 absolute block" /> {/*absolute and opacity allows it to be invisible while not hidden, bypassing the "unfocusable" error that prevents the submit function from running*/}
             {selectedFile === 'No file selected' ? <p className="text-gray-500">no file selected</p> : <p className="text-white text-center">{selectedFile}</p>}
           </div>
 
@@ -135,9 +139,9 @@ export default function AdminStaff({ teamMembers, type }) {
           </div>
           {invalidForm ? <p className="text-red-600">Fill Out All Fields</p> : undefined}
           {submitUnsuccessful ? <p className="text-red-600">Could not upload event</p> : undefined}
-          <button className="w-5/6 text-white bg-black  hover:text-black hover:bg-white transition mb-2">Add Event</button>
+          <button className="w-5/6 text-white bg-black  hover:text-black hover:bg-white transition mb-2">Add Member</button>
         </form>
-        {teamMembers.map((member) => (
+        {members.length > 0 ? members.map((member) => (
           <div
             key={member.id}
             onClick={() => setSelectedMember(member)}
@@ -153,18 +157,18 @@ export default function AdminStaff({ teamMembers, type }) {
           "
           >
             <img
-              src={member.photo}
-              alt={member.name}
+              src={member.photoUrl}
+              alt={member.firstName + " " + member.lastName}
               className="w-full h-48 object-cover object-top"
             />
             <div className="p-4 text-center">
               <h3 className="text-xl font-medium text-white bebas-kai-regular">
-                {member.name}
+                {member.firstName + " " + member.lastName}
               </h3>
               <p className="text-gray-400 oswald-400">{member.role}</p>
             </div>
           </div>
-        ))}
+        )) : <p className="text-white">No Members Found!</p>}
       </div>
 
       {/* Modal Popup */}
@@ -193,8 +197,8 @@ export default function AdminStaff({ teamMembers, type }) {
           >
             {/* Photo on the left */}
             <img
-              src={selectedMember.photo}
-              alt={selectedMember.name}
+              src={selectedMember.photoUrl}
+              alt={selectedMember.firstName + " " + selectedMember.lastName}
               className="w-48 h-48 object-cover rounded-lg flex-shrink-0 object-top"
             />
 
@@ -203,7 +207,7 @@ export default function AdminStaff({ teamMembers, type }) {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-2xl font-bold">
-                    {selectedMember.name}
+                    {selectedMember.firstName + " " + selectedMember.lastName}
                   </h3>
                   <p className="text-gray-400">{selectedMember.role}</p>
                 </div>

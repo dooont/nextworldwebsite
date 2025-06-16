@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import aboutHero from '../../assets/aboutUsHero1.jpg';
 import testHero from '../../assets/aboutUsHero4.jpg';
-import Staff from '../../components/Staff';
 import AdminStaff from '../../components/adminComponents/AdminStaff';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 //you are changing the direcotyr the images are for
 const execMembers = [
@@ -178,6 +179,37 @@ For David, there’s nothing more fulfilling—or exhilarating—than putting on
 
 export default function AdminAboutUs() {
   const [selectedMember, setSelectedMember] = useState(null);
+  const [execMembers, setExecMembers] = useState(null);
+  const [otherMembers, setOtherMembers] = useState(null);
+
+  useEffect(() => {
+    async function fetchExecMembers() {
+      try {
+        const response = await axios.get("http://localhost:3000/members/executive", {
+          withCredentials: true
+        })
+        setExecMembers(response.data.members);
+      } catch (e) {
+        setExecMembers(null);
+      }
+    }
+
+    async function fetchOtherMembers() {
+      try {
+        const response = await axios.get("http://localhost:3000/members/other", {
+          withCredentials: true
+        })
+        setOtherMembers(response.data.members);
+      } catch (e) {
+        console.log(e.response.data.message);
+        setExecMembers(null);
+      }
+    }
+
+    fetchExecMembers();
+    fetchOtherMembers();
+  }, []);
+
   return (
     <>
       <div className="bg-black">
@@ -221,11 +253,11 @@ export default function AdminAboutUs() {
           <h3 className="text-2xl font-semibold text-left text-white oswald-400">
             Executive Team
           </h3>
-          <AdminStaff teamMembers={execMembers} type="executive" />
+          <AdminStaff members={execMembers} type="executive" />
           <h3 className="text-2xl font-semibold text-left text-white oswald-400">
             Major Contributors
           </h3>
-          <AdminStaff teamMembers={teamMembers} type="other" />
+          <AdminStaff members={otherMembers} type="other" />
 
         </section>
 
