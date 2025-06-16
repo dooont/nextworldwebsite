@@ -2,7 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 import axios from 'axios';
 
-export default function AdminPastEvents({ loading, events, handleEventClick }) {
+export default function AdminPastEvents({ loading, pastEvents, handleEventClick }) {
   const [artists, setArtists] = useState([{
     name: '',
     contact: '',
@@ -113,10 +113,10 @@ export default function AdminPastEvents({ loading, events, handleEventClick }) {
         <button className="w-5/6 text-white bg-black  hover:text-black hover:bg-white transition mb-2">Add Event</button>
       </form >
       {
-        events.map((event) => (
+        pastEvents.map((event) => (
           <div
             key={event.id}
-            onClick={null/*() => handleEventClick(event)*/}
+            onClick={() => handleEventClick(event)}
             className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full"
           >
             <div className="relative h-40 w-full overflow-hidden bg-[#4b0082]">

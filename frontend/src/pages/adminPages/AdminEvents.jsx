@@ -280,11 +280,12 @@ const dummyEvents = [
 export default function AdminEvents({ events = dummyEvents }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState(null);
+  const [pastEvents, setPastEvents] = useState(null);
 
   //functionality is not done for getting events! 
   //remember adminUpcomingEvents takes a loading if it's loading
   useEffect(() => {
-    async function getEvents() {
+    async function getUpcomingEvents() {
       try {
         const response = await axios.get('http://localhost:3000/upcoming-events', {
           withCredentials: true
@@ -295,7 +296,17 @@ export default function AdminEvents({ events = dummyEvents }) {
       }
 
     };
-    getEvents();
+    async function getPastEvents() {
+      try {
+        const response = await axios.get("http://localhost:3000/upcoming-events", {
+          withCredentials: true
+        });
+        setPastEvents(response.data.pastEvents);
+      } catch (e) {
+        setPastEvents(false);
+      }
+    }
+    getUpcomingEvents();
   }, [])
 
   const handleEventClick = (event) => {
@@ -337,7 +348,7 @@ export default function AdminEvents({ events = dummyEvents }) {
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Past Events
         </h2>
-        <AdminPastEvents loading={false} events={dummyEvents} handleEventClick={handleEventClick} />
+        <AdminPastEvents loading={false} pastEvents={dummyEvents} handleEventClick={handleEventClick} />
       </section>
 
       {/* Simple Modal */}
