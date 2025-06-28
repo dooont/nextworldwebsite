@@ -7,7 +7,7 @@ date "YYYY-MM-DD"
 description
 link
 */
-export default function AdminArticles({ articles }) {
+export default function AdminArticles({ articles, handleDelete }) {
   const [submissionUnsuccessful, setSubmissionUnsuccessful] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -69,7 +69,7 @@ export default function AdminArticles({ articles }) {
         {submissionUnsuccessful && <p className="text-red-500">Article Not Created!</p>}
       </form>
       {articles.map((article) => (
-        <article key={article.title} className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col">
+        <article key={article.id} className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col">
           <h3 className="text-2xl font-semibold mb-2">{article.title}</h3>
           <p className="text-sm text-gray-400 mb-4">{article.source} • {new Intl.DateTimeFormat('en-US', {
             month: 'long',
@@ -84,6 +84,7 @@ export default function AdminArticles({ articles }) {
           >
             Read More
           </a>
+          <button onClick={() => { handleDelete(article.id) }} className="bg-red-500 hover:bg-black transition">Delete</button>
         </article>
       ))}
     </div>

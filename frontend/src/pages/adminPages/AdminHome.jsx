@@ -41,6 +41,7 @@ import axios from 'axios';
 
 export default function AdminHome() {
   const [articles, setArticles] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     async function fetchArticles() {
@@ -56,7 +57,18 @@ export default function AdminHome() {
     }
 
     fetchArticles();
-  }, []);
+  }, [refreshKey]);
+
+  async function handleDeleteArticle(articleId) {
+    try {
+      const response = await axios.delete("http://localhost:3000/articles/" + articleId, {
+        withCredentials: true
+      });
+      setRefreshKey((curr) => curr + 1);
+    } catch (e) {
+
+    }
+  }
 
   return (
     <div className="bg-black">
@@ -152,7 +164,7 @@ export default function AdminHome() {
         <h2 className="text-5xl font-bold text-center racing-sans-one-regular mb-10">
           Articles About Us
         </h2>
-        <AdminArticles articles={articles} />
+        <AdminArticles articles={articles} handleDelete={handleDeleteArticle} />
       </section>
 
       {/* Contact Us */}
