@@ -424,9 +424,7 @@ app.delete("/upcoming-events/:id", authenticateUser, async (req, res) => {
 app.get("/upcoming-events", authenticateUser, async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM upcoming_events");
-    if (rows.length === 0) {
-      throw Error("Pg is returning 0 rows");
-    }
+
     const events = [];
     rows.forEach((event) => {
       const storedEvent = {

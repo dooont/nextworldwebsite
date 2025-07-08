@@ -2,7 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 import axios from 'axios';
 
-export default function AdminPastEvents({ pastEvents, handleEventClick }) {
+export default function AdminPastEvents({ pastEvents, handleEventClick, onDeletePastEvent }) {
   const [artists, setArtists] = useState([{
     name: '',
     contact: '',
@@ -60,6 +60,18 @@ export default function AdminPastEvents({ pastEvents, handleEventClick }) {
 
   function handleFlyerChange(e) {
     setSelectedFile(e.target.files[0].name);
+  }
+
+  async function handleDeletePastEvent(pastEventId) {
+    try {
+      console.log("clicked!")
+      await axios.delete("http://localhost:3000/past-events/" + pastEventId, {
+        withCredentials: true
+      });
+      onDeletePastEvent(pastEventId);
+    } catch (e) {
+
+    }
   }
 
   if (pastEvents === null) {
@@ -139,8 +151,11 @@ export default function AdminPastEvents({ pastEvents, handleEventClick }) {
                 }).format(new Date(event.subtitle.split('T')[0]))}
               </p>
             </div>
+            <div className="flex justify-center w-full px-6">
+              <button onClick={(e) => { e.stopPropagation(); handleDeletePastEvent(event.id) }} className="text-white w-5/6 mb-2 bg-red-500 hover:bg-black transition">Delete</button>
+            </div>
           </div>
-        )) : <p className="text-white">No Events Found</p>
+        )) : <p className="text-white">No Past Events Found</p>
       }
     </div >
   )

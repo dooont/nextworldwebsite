@@ -281,6 +281,7 @@ export default function AdminEvents({ events = dummyEvents }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState(null);
   const [pastEvents, setPastEvents] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   //functionality is not done for getting events! 
   //remember adminUpcomingEvents takes a loading if it's loading
@@ -310,7 +311,7 @@ export default function AdminEvents({ events = dummyEvents }) {
     }
     getUpcomingEvents();
     getPastEvents();
-  }, [])
+  }, [refreshKey])
 
   const handleEventClick = (event) => {
     setSelectedEvent(event);
@@ -319,6 +320,10 @@ export default function AdminEvents({ events = dummyEvents }) {
   const closeModal = () => {
     setSelectedEvent(null);
   };
+
+  function handleRefreshPage() {
+    setRefreshKey((curr) => curr + 1);
+  }
 
   return (
     <div className="relative space-y-16 bg-black">
@@ -351,7 +356,7 @@ export default function AdminEvents({ events = dummyEvents }) {
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Past Events
         </h2>
-        <AdminPastEvents pastEvents={pastEvents} handleEventClick={handleEventClick} />
+        <AdminPastEvents pastEvents={pastEvents} handleEventClick={handleEventClick} onDeletePastEvent={handleRefreshPage} />
       </section>
 
       {/* Simple Modal */}
