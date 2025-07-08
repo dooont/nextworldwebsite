@@ -62,6 +62,7 @@ export default function AdminUpcomingEvents({ upcomingEvents, onRefreshPage }) {
       console.log("Could not delete event: ", e.response.body);
     }
   }
+
   if (upcomingEvents === null) {
     return <h2 className="text-white">Loading Events</h2>
   }

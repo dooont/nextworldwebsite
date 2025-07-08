@@ -181,6 +181,7 @@ export default function AdminAboutUs() {
   const [selectedMember, setSelectedMember] = useState(null);
   const [execMembers, setExecMembers] = useState(null);
   const [otherMembers, setOtherMembers] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     async function fetchExecMembers() {
@@ -208,7 +209,11 @@ export default function AdminAboutUs() {
 
     fetchExecMembers();
     fetchOtherMembers();
-  }, []);
+  }, [refreshKey]);
+
+  function handleRefreshPage() {
+    setRefreshKey((curr) => curr + 1);
+  }
 
   return (
     <>
@@ -253,11 +258,11 @@ export default function AdminAboutUs() {
           <h3 className="text-2xl font-semibold text-left text-white oswald-400">
             Executive Team
           </h3>
-          <AdminStaff members={execMembers} type="executive" />
+          <AdminStaff members={execMembers} type="executive" onRefresh={handleRefreshPage} />
           <h3 className="text-2xl font-semibold text-left text-white oswald-400">
             Major Contributors
           </h3>
-          <AdminStaff members={otherMembers} type="other" />
+          <AdminStaff members={otherMembers} type="other" onRefresh={handleRefreshPage} />
 
         </section>
 

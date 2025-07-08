@@ -3,7 +3,7 @@ import axios from 'axios';
 
 //accepts "type" prop, which is determines which group is in (ex: executive or other), NOT the members individual role.
 //the type prop is determined by which group the admin creates a new user from
-export default function AdminStaff({ members, type }) {
+export default function AdminStaff({ members, type, onRefresh }) {
   const [selectedMember, setSelectedMember] = useState(null);
   //for pretty file inputs
   const [selectedFile, setSelectedFile] = useState('No file selected'); //just stores file name
@@ -69,16 +69,24 @@ export default function AdminStaff({ members, type }) {
     setInvalidForm(false);
 
     try {
-      let response = await axios.post("http://localhost:3000/members", form, {
+      await axios.post("http://localhost:3000/members", form, {
         headers: {
           'Content-Type': 'multipart/form-data', //not needed for most backend frameworks, but some do so ill keep it
         },
         withCredentials: true
       });
-      console.log("submitted: ", response.data);
       setSubmitUnsuccessful(false);
+      onRefresh();
     } catch (e) {
       setSubmitUnsuccessful(true);
+    }
+  }
+
+  async function onDeleteMember(memberId) {
+    try {
+      await axios.delete("http://localhost:3000/members/" + memberId);
+      onRefresh();
+    } catch (e) {
     }
   }
 
@@ -138,7 +146,7 @@ export default function AdminStaff({ members, type }) {
             <input name="funFact" placeholder="fun fact" className="border pl-2 text-white text-sm block w-full" />
           </div>
           {invalidForm ? <p className="text-red-600">Fill Out All Fields</p> : undefined}
-          {submitUnsuccessful ? <p className="text-red-600">Could not upload event</p> : undefined}
+          {submitUnsuccessful ? <p className="text-red-600">Could not upload member</p> : undefined}
           <button className="w-5/6 text-white bg-black  hover:text-black hover:bg-white transition mb-2">Add Member</button>
         </form>
         {members.length > 0 ? members.map((member) => (
@@ -166,6 +174,9 @@ export default function AdminStaff({ members, type }) {
                 {member.firstName + " " + member.lastName}
               </h3>
               <p className="text-gray-400 oswald-400">{member.role}</p>
+            </div>
+            <div className="w-full p-2">
+              <button onClick={(e) => { e.stopPropagation(); onDeleteMember(member.id) }} className="bg-red-500 text-white w-full">Delete</button>
             </div>
           </div>
         )) : <p className="text-white">No Members Found!</p>}
