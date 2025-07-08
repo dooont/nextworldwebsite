@@ -2,7 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 import axios from 'axios';
 
-export default function AdminPastEvents({ pastEvents, handleEventClick, onDeletePastEvent }) {
+export default function AdminPastEvents({ pastEvents, handleEventClick, onRefreshPage }) {
   const [artists, setArtists] = useState([{
     name: '',
     contact: '',
@@ -52,6 +52,7 @@ export default function AdminPastEvents({ pastEvents, handleEventClick, onDelete
         withCredentials: true
       })
       setSubmitUnsuccessful(false);
+      onRefreshPage();
       e.target.reset();
     } catch (e) {
       setSubmitUnsuccessful(true);
@@ -68,7 +69,7 @@ export default function AdminPastEvents({ pastEvents, handleEventClick, onDelete
       await axios.delete("http://localhost:3000/past-events/" + pastEventId, {
         withCredentials: true
       });
-      onDeletePastEvent(pastEventId);
+      onRefreshPage();
     } catch (e) {
 
     }

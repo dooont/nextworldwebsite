@@ -357,7 +357,7 @@ export default function AdminEvents({ events = dummyEvents }) {
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Past Events
         </h2>
-        <AdminPastEvents pastEvents={pastEvents} handleEventClick={handleEventClick} onDeletePastEvent={handleRefreshPage} />
+        <AdminPastEvents pastEvents={pastEvents} handleEventClick={handleEventClick} onRefreshPage={handleRefreshPage} />
       </section>
 
       {/* Simple Modal */}
