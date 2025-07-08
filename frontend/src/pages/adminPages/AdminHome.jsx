@@ -59,17 +59,6 @@ export default function AdminHome() {
     fetchArticles();
   }, [refreshKey]);
 
-  async function handleDeleteArticle(articleId) {
-    try {
-      const response = await axios.delete("http://localhost:3000/articles/" + articleId, {
-        withCredentials: true
-      });
-      setRefreshKey((curr) => curr + 1);
-    } catch (e) {
-
-    }
-  }
-
   async function handleRefresh() {
     setRefreshKey((curr) => curr + 1);
   }
@@ -168,7 +157,7 @@ export default function AdminHome() {
         <h2 className="text-5xl font-bold text-center racing-sans-one-regular mb-10">
           Articles About Us
         </h2>
-        <AdminArticles articles={articles} handleDelete={handleDeleteArticle} handleRefresh={handleRefresh} />
+        <AdminArticles articles={articles} handleRefresh={handleRefresh} />
       </section>
 
       {/* Contact Us */}

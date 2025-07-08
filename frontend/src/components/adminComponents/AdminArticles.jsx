@@ -36,9 +36,19 @@ export default function AdminArticles({ articles, handleDelete, handleRefresh })
       setSubmissionUnsuccessful(false);
       handleRefresh();
     } catch (e) {
-      console.log("Bruh hitting error on submit form")
       console.log(e.response);
       setSubmissionUnsuccessful(true);
+    }
+  }
+
+  async function handleDeleteArticle(articleId) {
+    try {
+      const response = await axios.delete("http://localhost:3000/articles/" + articleId, {
+        withCredentials: true
+      });
+      handleRefresh();
+    } catch (e) {
+      console.log(e.response);
     }
   }
 
@@ -85,7 +95,7 @@ export default function AdminArticles({ articles, handleDelete, handleRefresh })
           >
             Read More
           </a>
-          <button onClick={() => { handleDelete(article.id) }} className="bg-red-500 hover:bg-black transition">Delete</button>
+          <button onClick={() => { handleDeleteArticle(article.id) }} className="bg-red-500 hover:bg-black transition">Delete</button>
         </article>
       ))}
     </div>
