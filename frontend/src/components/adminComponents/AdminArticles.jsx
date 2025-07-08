@@ -7,7 +7,7 @@ date "YYYY-MM-DD"
 description
 link
 */
-export default function AdminArticles({ articles, handleDelete }) {
+export default function AdminArticles({ articles, handleDelete, handleRefresh }) {
   const [submissionUnsuccessful, setSubmissionUnsuccessful] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -34,8 +34,9 @@ export default function AdminArticles({ articles, handleDelete }) {
         withCredentials: true,
       });
       setSubmissionUnsuccessful(false);
-      console.log("submitted!");
+      handleRefresh();
     } catch (e) {
+      console.log("Bruh hitting error on submit form")
       console.log(e.response);
       setSubmissionUnsuccessful(true);
     }

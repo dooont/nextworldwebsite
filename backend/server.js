@@ -284,7 +284,6 @@ app.post("/articles", async (req, res) => {
   try {
     if (req.session.user) { //if logged in
       const { rows: inserted } = await db.query("INSERT INTO articles(title, source, date, description, link) VALUES ($1, $2, $3, $4, $5) RETURNING *", [title, source, date, description, link]);
-      console.log("Returned array: ", inserted);
       if (inserted.length > 0) { //if it was inserted
         return res.status(200).send();
       } else { //not inserted

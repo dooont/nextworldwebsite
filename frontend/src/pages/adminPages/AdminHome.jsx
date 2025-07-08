@@ -70,6 +70,10 @@ export default function AdminHome() {
     }
   }
 
+  async function handleRefresh() {
+    setRefreshKey((curr) => curr + 1);
+  }
+
   return (
     <div className="bg-black">
       {/* Hero Section */}
@@ -164,7 +168,7 @@ export default function AdminHome() {
         <h2 className="text-5xl font-bold text-center racing-sans-one-regular mb-10">
           Articles About Us
         </h2>
-        <AdminArticles articles={articles} handleDelete={handleDeleteArticle} />
+        <AdminArticles articles={articles} handleDelete={handleDeleteArticle} handleRefresh={handleRefresh} />
       </section>
 
       {/* Contact Us */}
