@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function AdminUpcomingEvents({ upcomingEvents }) {
+export default function AdminUpcomingEvents({ upcomingEvents, onRefreshPage }) {
   //for pretty file inputs
   const [selectedFile, setSelectedFile] = useState('No file selected');
   const [invalidForm, setInvalidForm] = useState(false);
@@ -51,6 +51,17 @@ export default function AdminUpcomingEvents({ upcomingEvents }) {
     }
   }
 
+  async function handleDeleteUpcomingEvent(eventId) {
+    try {
+      await axios.delete("http://localhost:3000/upcoming-events/" + eventId, {
+        withCredentials: true
+      })
+      onRefreshPage();
+    } catch (e) {
+      console.log("Could not delete event: ", e.response.body);
+    }
+  }
+
   if (upcomingEvents === null) {
     return <h2 className="text-white">Loading Events</h2>
   }
@@ -82,7 +93,7 @@ export default function AdminUpcomingEvents({ upcomingEvents }) {
         </div>
         {invalidForm ? <p className="text-red-600">Fill Out All Fields</p> : undefined}
         {submitUnsuccessful ? <p className="text-red-600">Could not upload event</p> : undefined}
-        <button className="w-5/6 text-white bg-black  hover:text-black hover:bg-white transition">Add Event</button>
+        <button className="w-5/6 text-white bg-black  hover:text-black hover:bg-white transition m-2">Add Event</button>
       </form>
       {upcomingEvents.length > 0 ? upcomingEvents.map((event) => (
         <div
@@ -106,7 +117,7 @@ export default function AdminUpcomingEvents({ upcomingEvents }) {
               }).format(new Date(event.subtitle.split('T')[0]))}
             </p>
           </div>
-          <button className="text-white bg-black mx-2 mb-2 hover:text-black hover:bg-white transition">Edit</button>
+          <button onClick={(e) => { e.stopPropagation(); handleDeleteUpcomingEvent(event.id) }} className="text-white bg-red-500 mx-2 mb-2 hover:text-black hover:bg-white transition">Delete</button>
         </div>
       )) : <p className="text-white">No Upcoming Events Found</p>}
 

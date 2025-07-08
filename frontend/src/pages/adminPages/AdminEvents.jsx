@@ -325,6 +325,7 @@ export default function AdminEvents({ events = dummyEvents }) {
     setRefreshKey((curr) => curr + 1);
   }
 
+
   return (
     <div className="relative space-y-16 bg-black">
       {/* Hero Section */}
@@ -350,7 +351,7 @@ export default function AdminEvents({ events = dummyEvents }) {
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Upcoming Events
         </h2>
-        <AdminUpcomingEvents upcomingEvents={upcomingEvents} />
+        <AdminUpcomingEvents upcomingEvents={upcomingEvents} onRefreshPage={handleRefreshPage} />
 
 
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
