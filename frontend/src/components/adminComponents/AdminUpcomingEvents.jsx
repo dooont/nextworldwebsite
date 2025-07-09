@@ -47,6 +47,7 @@ export default function AdminUpcomingEvents({ upcomingEvents, onRefreshPage }) {
       });
       setSubmitUnsuccessful(false);
       onRefreshPage();
+      e.target.reset();
     } catch (e) {
       setSubmitUnsuccessful(true);
     }

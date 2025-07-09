@@ -35,6 +35,7 @@ export default function AdminArticles({ articles, handleDelete, handleRefresh })
       });
       setSubmissionUnsuccessful(false);
       handleRefresh();
+      e.target.reset();
     } catch (e) {
       console.log(e.response);
       setSubmissionUnsuccessful(true);

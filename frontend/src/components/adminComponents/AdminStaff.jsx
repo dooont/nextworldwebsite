@@ -77,6 +77,7 @@ export default function AdminStaff({ members, type, onRefresh }) {
       });
       setSubmitUnsuccessful(false);
       onRefresh();
+      e.target.reset();
     } catch (e) {
       setSubmitUnsuccessful(true);
     }
