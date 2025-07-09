@@ -266,12 +266,8 @@ app.post("/reset-password", async (req, res) => {
 //get all articles
 app.get("/articles", async (req, res) => {
   try {
-    if (req.session.user) { //logged in
-      const { rows: articles } = await db.query("SELECT * FROM articles");
-      return res.status(200).json({ articles: articles });
-    } else { //not logged in
-      return res.status(401).send({ message: "You do not have permission to do this action" });
-    }
+    const { rows: articles } = await db.query("SELECT * FROM articles");
+    return res.status(200).json({ articles: articles });
   } catch (e) {
     console.error("There was an error getting all articles: ", e);
     return res.status(500).json({ message: "Could not get articles" })

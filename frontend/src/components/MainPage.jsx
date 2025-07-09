@@ -4,8 +4,10 @@ import heroBackgroundVideo from '../assets/main-page-nextworld-hero-background.m
 import whoAreWe from '../assets/who-are-we.jpg';
 import EmailUsFooter from './EmailUs';
 import FadeInOnScroll from './FadeInOnScroll.jsx';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const articles = [
+const defaultArticles = [
   {
     "title": "More Than Just Music: The NEXT WORLD Community",
     "source": "Alyssa Cheung",
@@ -36,8 +38,27 @@ const articles = [
   },
 ]
 
-
 const MainPage = () => {
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        let response = await axios.get("http://localhost:3000/articles", {
+          withCredentials: true,
+        });
+        setArticles(response.data.articles);
+      } catch (e) {
+        if (e.response) {
+          console.log("Error occured: ", e.response.data.message);
+        } else {
+          console.log("Could not connect", e);
+        }
+      }
+    }
+    fetchArticles();
+  }, []);
+
   return (
     <div className="bg-black">
       {/* Hero Section */}
@@ -140,7 +161,7 @@ const MainPage = () => {
             Articles About Us
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => (
+            {articles.length > 0 && articles.map((article) => (
               <article key={article.title} className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col">
                 <h3 className="text-2xl font-semibold mb-2">{article.title}</h3>
                 <p className="text-sm text-gray-400 mb-4">{article.source} • {article.date}</p>
@@ -155,6 +176,24 @@ const MainPage = () => {
                 </a>
               </article>
             ))}
+
+            {/*fallback if no articles we're fetched*/}
+            {articles.length == 0 && defaultArticles.length > 0 && defaultArticles.map((article) => (
+              <article key={article.title} className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col">
+                <h3 className="text-2xl font-semibold mb-2">{article.title}</h3>
+                <p className="text-sm text-gray-400 mb-4">{article.source} • {article.date}</p>
+                <p className="flex-1 oswald-400 mb-4">{article.description}</p>
+                <a
+                  href={article.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-auto text-blue-400 hover:underline"
+                >
+                  Read More
+                </a>
+              </article>
+            ))}
+
           </div>
         </div>
       </section>
