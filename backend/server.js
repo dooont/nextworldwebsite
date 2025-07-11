@@ -417,7 +417,7 @@ app.delete("/upcoming-events/:id", authenticateUser, async (req, res) => {
 });//checking if thign with id exists would be beneficial, add later
 
 //get all upcoming events
-app.get("/upcoming-events", authenticateUser, async (req, res) => {
+app.get("/upcoming-events", async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM upcoming_events");
 
