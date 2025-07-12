@@ -739,14 +739,14 @@ app.post("/inquiries", async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER,
+      user: process.env.FROM_EMAIL,
       pass: process.env.EMAIL_PASS
     }
   });
 
   const mailOptions = {
-    from: `Next World Collective <${process.env.EMAIL_USER}>`,
-    to: userEmail,
+    from: `Next World Collective <${process.env.FROM_EMAIL}>`,
+    to: process.env.FROM_EMAIL,
     subject: "New NextWorld Inquiry",
     html: `
       <p>You have recieved a new inqury from: </p>

@@ -3,6 +3,7 @@ import nextworldWhite from '../assets/mainLogoWhite.png';
 import heroBackgroundVideo from '../assets/main-page-nextworld-hero-background.mp4';
 import whoAreWe from '../assets/who-are-we.jpg';
 import EmailUsFooter from './EmailUs';
+import ContactUs from './ContactUs';
 import FadeInOnScroll from './FadeInOnScroll.jsx';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -199,7 +200,7 @@ const MainPage = () => {
       </section>
 
       {/* Contact Us */}
-      {/* <EmailUsFooter /> */}
+      <ContactUs />
     </div>
   );
 };
