@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import aboutHero from '../assets/aboutUsHero1.jpg';
 import missionHero from '../assets/aboutUsHero2.jpg';
 import testHero from '../assets/aboutUsHero4.jpg';
 import Staff from './Staff';
+import axios from 'axios';
 
 
 
@@ -180,6 +181,25 @@ For David, there’s nothing more fulfilling—or exhilarating—than putting on
 
 export default function AboutUsComponent() {
   const [selectedMember, setSelectedMember] = useState(null);
+  const [executiveMembers, setExecutiveMembers] = useState([]);
+  const [otherMembers, setOtherMembers] = useState([]);
+
+  useEffect(() => {
+    async function fetchExecutiveMembers() {
+      try {
+        const response = await axios.get('http://localhost:3000/members/executive');
+        setExecutiveMembers(response.data.members);
+      } catch (e) {
+        if (e.response) {
+          console.log("Server returned an error: ", e.response.data.message);
+        } else {
+          console.log("An error occured while fetching executive members: ", e);
+        }
+      }
+    }
+
+    fetchExecutiveMembers();
+  }, []);
 
   return (
     <div className="bg-black">
@@ -223,11 +243,11 @@ export default function AboutUsComponent() {
         <h3 className="text-2xl font-semibold text-left text-white oswald-400">
           Executive Team
         </h3>
-        <Staff teamMembers={execMembers} />
+        <Staff teamMembers={executiveMembers} />
         <h3 className="text-2xl font-semibold text-left text-white oswald-400">
           Major Contributors
         </h3>
-        <Staff teamMembers={teamMembers} />
+        {/*<Staff teamMembers={teamMembers} />*/}
 
       </section>
 

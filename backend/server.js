@@ -680,7 +680,7 @@ app.put("/members/:id", uploadUpdatedMemberImage.single("photo"), async (req, re
 });
 
 //get members by type
-app.get("/members/:type", authenticateUser, async (req, res) => {
+app.get("/members/:type", async (req, res) => {
   const type = req.params.type;
   if (!["executive", "other", ""].includes(type)) { //only accept certain types
     return res.status(404).json("This type doesn't exist");
