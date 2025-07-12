@@ -275,9 +275,10 @@ const dummyEvents = [
 
 
 
-export default function EventsMedia({ events = dummyEvents }) {
+export default function EventsMedia() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]);
 
   const handleEventClick = (event) => {
     setSelectedEvent(event);
@@ -301,6 +302,19 @@ export default function EventsMedia({ events = dummyEvents }) {
       }
     };
 
+    async function fetchPastEvents() {
+      try {
+        const response = await axios.get('http://localhost:3000/past-events');
+        setPastEvents(response.data.pastEvents);
+      } catch (e) {
+        if (e.response) {
+          console.log("Server returned error: ", e.response.data.message);
+        } else {
+          console.log("Error while fetching: ", e);
+        }
+      }
+    }
+
     /*async function getPastEvents() {
       try {
         const response = await axios.get("http://localhost:3000/past-events", {
@@ -313,6 +327,7 @@ export default function EventsMedia({ events = dummyEvents }) {
       }
     }*/
     fetchUpcomingEvents();
+    fetchPastEvents();
   }, []);
 
   return (
@@ -384,14 +399,14 @@ export default function EventsMedia({ events = dummyEvents }) {
           Past Events
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
-          {events.map((event) => (
+          {pastEvents.map((event) => (
             <div
               key={event.id}
               onClick={() => handleEventClick(event)}
               className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full"
             >
               <div className="relative h-40 w-full overflow-hidden bg-[#4b0082]">
-                <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                <img src={event.imageURL} alt={event.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-[#4b0082] bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity" />
               </div>
               <div className="p-4 flex flex-col justify-between flex-1">
@@ -426,21 +441,20 @@ export default function EventsMedia({ events = dummyEvents }) {
             {selectedEvent.place && (
               <p className="text-gray-700 italic mb-4 bebas-kai-regular">Location: {selectedEvent.place}</p>
             )}
-            {selectedEvent.artistContact.length > 0 && (
+            {selectedEvent.artists.length > 0 && (
               <>
                 <h4 className="text-lg font-semibold mb-2 racing-sans-one-regular">Artists</h4>
                 <ul className="list-disc list-inside mb-4 oswald-400">
-                  {selectedEvent.artists.map((artist, idx) => {
-                    const handle = selectedEvent.artistContact[idx];
+                  {selectedEvent.artists.map((artist) => {
                     return (
-                      <li key={handle}>
+                      <li key={artist.id}>
                         <a
-                          href={`https://www.instagram.com/${handle}/`}
+                          href={`https://www.instagram.com/${artist.contact}/`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-purple-800 hover:underline"
                         >
-                          {artist}
+                          {artist.name}
                         </a>
                       </li>
                     );
@@ -449,7 +463,7 @@ export default function EventsMedia({ events = dummyEvents }) {
               </>
             )}
             <img
-              src={selectedEvent.image}
+              src={selectedEvent.imageURL}
               alt={selectedEvent.title}
               className="w-full h-96 object-contain rounded mb-4"
             />

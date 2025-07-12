@@ -552,7 +552,7 @@ app.delete("/past-events/:id", authenticateUser, async (req, res) => {
 });
 
 //get all past events
-app.get("/past-events", authenticateUser, async (req, res) => {
+app.get("/past-events", async (req, res) => {
   try {
     //get all past event ids
     const { rows: allPastEvents } = await db.query("SELECT * FROM past_events");
@@ -592,7 +592,7 @@ app.get("/past-events", authenticateUser, async (req, res) => {
 });
 
 //get past event by id
-app.get("/past-events/:id", authenticateUser, async (req, res) => {
+app.get("/past-events/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const { rows: storedEventArtists } = await db.query(`
