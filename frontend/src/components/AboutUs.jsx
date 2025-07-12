@@ -198,7 +198,21 @@ export default function AboutUsComponent() {
       }
     }
 
+    async function fetchOtherMembers() {
+      try {
+        const response = await axios.get('http://localhost:3000/members/other');
+        setOtherMembers(response.data.members);
+      } catch (e) {
+        if (e.response) {
+          console.log("Server error: ", e.response.data.message);
+        } else {
+          console.log("Error fetching other members: ", e);
+        }
+      }
+    }
+
     fetchExecutiveMembers();
+    fetchOtherMembers();
   }, []);
 
   return (
@@ -247,7 +261,7 @@ export default function AboutUsComponent() {
         <h3 className="text-2xl font-semibold text-left text-white oswald-400">
           Major Contributors
         </h3>
-        {/*<Staff teamMembers={teamMembers} />*/}
+        <Staff teamMembers={otherMembers} />
 
       </section>
 
