@@ -21,15 +21,19 @@ export default function AdminEvents() {
   const [pastEvents, setPastEvents] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  //functionality is not done for getting events! 
-  //remember adminUpcomingEvents takes a loading if it's loading
   useEffect(() => {
     async function getUpcomingEvents() {
       try {
         const response = await axios.get('http://localhost:3000/upcoming-events', {
           withCredentials: true
         });
-        setUpcomingEvents(response.data.upcomingEvents);
+        //sort events descending by date
+        const sortedEvents = response.data.upcomingEvents.slice().sort((a, b) => {
+          const dateA = new Date(a.subtitle);
+          const dateB = new Date(b.subtitle);
+          return dateB - dateA;
+        });
+        setUpcomingEvents(sortedEvents);
       } catch (e) {
         setUpcomingEvents(null);
       }

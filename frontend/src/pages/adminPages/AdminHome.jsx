@@ -45,11 +45,7 @@ export default function AdminHome() {
 
   // Sort articles descending by date (newest first) after fetching
   useEffect(() => {
-    if (articles.length > 0) {
-      setArticles(prevArticles =>
-        [...prevArticles].sort((a, b) => new Date(b.date) - new Date(a.date))
-      );
-    }
+    
   }, [articles]);
 
   useEffect(() => {
@@ -66,6 +62,11 @@ export default function AdminHome() {
     }
 
     fetchArticles();
+    if (articles.length > 0) {
+      setArticles(prevArticles =>
+        [...prevArticles].sort((a, b) => new Date(b.date) - new Date(a.date))
+      );
+    }
   }, [refreshKey]);
 
   async function handleRefresh() {

@@ -292,7 +292,12 @@ export default function EventsMedia() {
     async function fetchUpcomingEvents() {
       try {
         const response = await axios.get('http://localhost:3000/upcoming-events');
-        setUpcomingEvents(response.data.upcomingEvents);
+        const sortedEvents = response.data.upcomingEvents.slice().sort((a, b) => {
+          const dateA = new Date(a.subtitle);
+          const dateB = new Date(b.subtitle);
+          return dateB - dateA;
+        });
+        setUpcomingEvents(sortedEvents);
       } catch (e) {
         if (e.response) {
           console.log("Server returned error: ", e.response.data.message);
