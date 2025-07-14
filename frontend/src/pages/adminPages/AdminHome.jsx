@@ -43,6 +43,15 @@ export default function AdminHome() {
   const [articles, setArticles] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
+  // Sort articles descending by date (newest first) after fetching
+  useEffect(() => {
+    if (articles.length > 0) {
+      setArticles(prevArticles =>
+        [...prevArticles].sort((a, b) => new Date(b.date) - new Date(a.date))
+      );
+    }
+  }, [articles]);
+
   useEffect(() => {
     async function fetchArticles() {
       try {
