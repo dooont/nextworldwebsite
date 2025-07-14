@@ -186,7 +186,7 @@ const MainPage = () => {
               </article>
             ))}
 
-            {/*fallback if no articles we're fetched*/}
+            {/*fallback if no articles were fetched*/}
             {articles.length == 0 && defaultArticles.length > 0 && defaultArticles.map((article) => (
               <article key={article.title} className="bg-gray-900 p-6 rounded-lg shadow-lg flex flex-col">
                 <h3 className="text-2xl font-semibold mb-2">{article.title}</h3>
@@ -202,8 +202,8 @@ const MainPage = () => {
                 </a>
               </article>
             ))}
-
           </div>
+          {articles.length == 0 && <p className="text-center text-gray-400 oswald-400">We were not able to retrieve the latest articles, so these may not reflect the most up to date information.</p>}
         </div>
       </section>
 

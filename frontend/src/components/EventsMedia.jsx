@@ -278,6 +278,8 @@ const dummyEvents = [
 export default function EventsMedia() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [upcomingLoading, setUpcomingLoading] = useState(true);
+  const [upcomingError, setUpcomingError] = useState(false);
   const [pastEvents, setPastEvents] = useState([]);
 
   const handleEventClick = (event) => {
@@ -290,8 +292,11 @@ export default function EventsMedia() {
 
   useEffect(() => {
     async function fetchUpcomingEvents() {
+      setUpcomingLoading(true);
+      setUpcomingError(false);
       try {
         const response = await axios.get('http://localhost:3000/upcoming-events');
+        //sort events descending by date
         const sortedEvents = response.data.upcomingEvents.slice().sort((a, b) => {
           const dateA = new Date(a.subtitle);
           const dateB = new Date(b.subtitle);
@@ -299,11 +304,10 @@ export default function EventsMedia() {
         });
         setUpcomingEvents(sortedEvents);
       } catch (e) {
-        if (e.response) {
-          console.log("Server returned error: ", e.response.data.message);
-        } else {
-          console.log("Error while fetching: ", e);
-        }
+        setUpcomingError(true);
+        setUpcomingEvents([]);
+      } finally {
+        setUpcomingLoading(false);
       }
     };
 
@@ -360,45 +364,51 @@ export default function EventsMedia() {
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Upcoming Events
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr mb-8">
-          <div
-            onClick={() => window.open('https://www.instagram.com/nxtworldco/', '_blank')}
-            className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full"
-          >
-            <div className="relative h-40 w-full overflow-hidden bg-[#4b0082]">
-              <img src={whiteLogo} alt='next world logo' className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-[#4b0082] bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity" />
-            </div>
-            <div className="p-4 flex flex-col justify-between flex-1">
-              <h3 className="text-xl font-semibold text-white bebas-kai-regular">
-                MORE TO BE ANNOUNCED
-              </h3>
-              <p className="text-gray-200 text-sm oswald-400">
-                Dates TBA
-              </p>
-            </div>
-          </div>
-          {upcomingEvents.map((event) => (
+        {upcomingLoading ? (
+          <div className="text-white text-lg mb-8">Loading...</div>
+        ) : upcomingError ? (
+          <div className="text-red-500 text-lg mb-8">Unable to retrieve upcoming events</div>
+        ) : upcomingEvents.length === 0 ? null : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr mb-8">
             <div
-              key={event.id}
-              onClick={() => window.open(event.url, '_blank')}
+              onClick={() => window.open('https://www.instagram.com/nxtworldco/', '_blank')}
               className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full"
             >
               <div className="relative h-40 w-full overflow-hidden bg-[#4b0082]">
-                <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                <img src={whiteLogo} alt='next world logo' className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-[#4b0082] bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity" />
               </div>
               <div className="p-4 flex flex-col justify-between flex-1">
                 <h3 className="text-xl font-semibold text-white bebas-kai-regular">
-                  {event.title}
+                  MORE TO BE ANNOUNCED
                 </h3>
                 <p className="text-gray-200 text-sm oswald-400">
-                  {event.subtitle}
+                  Dates TBA
                 </p>
               </div>
             </div>
-          ))}
-        </div>
+            {upcomingEvents.map((event) => (
+              <div
+                key={event.id}
+                onClick={() => window.open(event.url, '_blank')}
+                className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full"
+              >
+                <div className="relative h-40 w-full overflow-hidden bg-[#4b0082]">
+                  <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-[#4b0082] bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity" />
+                </div>
+                <div className="p-4 flex flex-col justify-between flex-1">
+                  <h3 className="text-xl font-semibold text-white bebas-kai-regular">
+                    {event.title}
+                  </h3>
+                  <p className="text-gray-200 text-sm oswald-400">
+                    {event.subtitle}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         <h2 className="text-5xl text-white font-bold mb-6 racing-sans-one-regular">
           Past Events
