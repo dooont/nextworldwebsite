@@ -38,7 +38,7 @@ const defaultUpcomingEvents = [
 //     place: ''
 //   },
 
-const dummyEvents = [
+const defaultPastEvents = [
   {
     id: 10,
     image: new URL('../public/assets/10.png', import.meta.url).href,
@@ -324,17 +324,6 @@ export default function EventsMedia() {
       }
     }
 
-    /*async function getPastEvents() {
-      try {
-        const response = await axios.get("http://localhost:3000/past-events", {
-          withCredentials: true
-        });
-        setPastEvents(response.data.pastEvents);
-        console.log(response.data.pastEvents);
-      } catch (e) {
-        setPastEvents(null);
-      }
-    }*/
     fetchUpcomingEvents();
     fetchPastEvents();
   }, []);
@@ -367,7 +356,7 @@ export default function EventsMedia() {
         {upcomingLoading ? (
           <div className="text-white text-lg mb-8">Loading...</div>
         ) : upcomingError ? (
-          <div className="text-red-500 text-lg mb-8">Unable to retrieve upcoming events</div>
+          <div className="text-gray-400 oswald-400 text-lg mb-8">Unable to retrieve upcoming events</div>
         ) : upcomingEvents.length === 0 ? null : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr mb-8">
             <div
@@ -414,7 +403,7 @@ export default function EventsMedia() {
           Past Events
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr">
-          {pastEvents.map((event) => (
+          {pastEvents.length > 0 && pastEvents.map((event) => (
             <div
               key={event.id}
               onClick={() => handleEventClick(event)}
@@ -434,7 +423,30 @@ export default function EventsMedia() {
               </div>
             </div>
           ))}
+
+          {/*fallback if no past events were fetched or server error*/}
+          {pastEvents.length == 0 && defaultPastEvents.map((event) => (
+            <div
+              key={event.id}
+              onClick={() => handleEventClick(event)}
+              className="group bg-purple-950 rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer flex flex-col h-full"
+            >
+              <div className="relative h-40 w-full overflow-hidden bg-[#4b0082]">
+                <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-[#4b0082] bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-30 transition-opacity" />
+              </div>
+              <div className="p-4 flex flex-col justify-between flex-1">
+                <h3 className="text-xl font-semibold text-white bebas-kai-regular">
+                  {event.title}
+                </h3>
+                <p className="text-gray-200 text-sm oswald-400">
+                  {event.subtitle}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
+        {pastEvents.length == 0 && <p className="text-center text-gray-400 oswald-400">We were not able to retrieve the latest past events, so these may not reflect the most up to date information.</p>}
       </section>
 
       {/* Simple Modal */}
