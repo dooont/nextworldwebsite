@@ -196,7 +196,7 @@ app.delete("/admin/logout", async (req, res) => {
 });
 
 //reset password request. CHANGE THE LINK YOUR SENDING TO APPROPRIATE FRONT END PAGE
-app.get("/admin/reset-password", async (req, res) => {
+app.post("/admin/forgot-password", async (req, res) => {
   const { email } = req.body;
   const { rows: foundUser } = await db.query("SELECT * FROM admin_users WHERE email = $1", [email]);
   if (foundUser.length === 0) {
@@ -215,13 +215,13 @@ app.get("/admin/reset-password", async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER,
+      user: process.env.FROM_EMAIL,
       pass: process.env.EMAIL_PASS
     }
   });
 
   const mailOptions = {
-    from: `nxtworldcollective <${process.env.EMAIL_USER}>`,
+    from: `nxtworldcollective <${process.env.FROM_EMAIL}>`,
     to: email,
     subject: "Reset Your Admin Password",
     html: `
@@ -238,7 +238,7 @@ app.get("/admin/reset-password", async (req, res) => {
 });
 
 //reset admin users password. recieves request from front end
-app.post("/reset-password", async (req, res) => {
+app.post("/reset-password/:token", async (req, res) => {
   try {
     const { token, newPassword } = req.body;
     //check if sent token is valid

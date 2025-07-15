@@ -11,6 +11,7 @@ import AdminHome from './pages/adminPages/AdminHome';
 import ProtectedAdminRoute from './components/adminComponents/AdminValidator';
 import AdminEvents from './pages/adminPages/AdminEvents';
 import AdminAboutUs from './pages/adminPages/AdminAboutUs';
+import AdminForgotPassword from './pages/adminPages/AdminForgotPassword';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
     children: [
       { path: '', element: <AdminLogin /> },
       { path: 'login', element: <AdminLogin /> },
+      { path: 'forgot-password', element: <AdminForgotPassword /> },
       {
         element: <ProtectedAdminRoute />, //protects all admin routes by seeing if user is logged in
         children: [

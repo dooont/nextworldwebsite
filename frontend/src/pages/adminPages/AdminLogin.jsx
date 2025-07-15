@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ export default function AdminLogin() {
             Login
           </button>
         </form>
+        <Link to="/admin/forgot-password" className="text-purple-800 oswald-400 hover:text-purple-600">Forgot Password?</Link>
         <p className="text-fuchsia-500">{authenticated === false ? "Credentials not valid" : ""}</p>
       </div>
     </>
