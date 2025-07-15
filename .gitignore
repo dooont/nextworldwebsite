@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Backend Stuff
+*.env
+node_modules/
+notes.txt
+
+#don't send flyers, were still testing
+backend/upcomingShowFlyers/*
+backend/pastFlyers/*
+backend/memberImages/*
