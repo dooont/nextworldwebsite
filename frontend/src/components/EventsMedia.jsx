@@ -10,10 +10,14 @@ import heroBackgroundVideo from '../assets/events-nextworld-hero-background.mp4'
 const defaultUpcomingEvents = [
   {
     id: 12,
-    image: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
+    image: new URL('../public/assets/12.png', import.meta.url).href,
     title: 'CraftxNXTWORLD v.5',
     subtitle: 'July 19, 2025',
     url: 'https://maps.app.goo.gl/JnGgcdHYgdKdjVMX8',
+    //     desc: ``,
+    //     artists: [],
+    //     artistContact: [],
+    //     place: ''
   },
   {
     id: 0,
@@ -50,7 +54,12 @@ const dummyEvents = [
       "Keoni Usi",
       "Labit",
     ],
-    artistContact: [],
+    artistContact: [
+      "kimmypidazo",
+      "paper.crannes",
+      "keoni_usi",
+      "labitlabit",
+    ],
     place: ''
   },
   {
