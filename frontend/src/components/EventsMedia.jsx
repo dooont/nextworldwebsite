@@ -9,11 +9,11 @@ import heroBackgroundVideo from '../assets/events-nextworld-hero-background.mp4'
 //     url: '',
 const defaultUpcomingEvents = [
   {
-    id: 11,
-    image: new URL('../public/assets/11.jpg', import.meta.url).href,
-    title: 'Next World Showcase @ The Paramount v.2',
-    subtitle: 'June 29, 2025',
-    url: 'https://link.dice.fm/F6cb912c26af?dice_id=F6cb912c26af',
+    id: 12,
+    image: new URL('../assets/nextworld-mic-white.png', import.meta.url).href,
+    title: 'CraftxNXTWORLD v.5',
+    subtitle: 'July 19, 2025',
+    url: 'https://maps.app.goo.gl/JnGgcdHYgdKdjVMX8',
   },
   {
     id: 0,
@@ -37,6 +37,22 @@ const defaultUpcomingEvents = [
 //   },
 
 const dummyEvents = [
+  {
+    id: 11,
+    image: new URL('../public/assets/11.jpg', import.meta.url).href,
+    title: 'Next World Showcase @ The Paramount v.2',
+    subtitle: 'June 29, 2025',
+    // url: 'https://link.dice.fm/F6cb912c26af?dice_id=F6cb912c26af',
+    desc: ``,
+    artists: [
+      "Kimmy Pidazo",
+      "brynne",
+      "Keoni Usi",
+      "Labit",
+    ],
+    artistContact: [],
+    place: ''
+  },
   {
     id: 10,
     image: new URL('../public/assets/10.png', import.meta.url).href,
