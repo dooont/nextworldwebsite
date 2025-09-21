@@ -4,6 +4,8 @@ import missionHero from '../assets/aboutUsHero2.jpg';
 import testHero from '../assets/aboutUsHero4.jpg';
 import Staff from './Staff';
 import axios from 'axios';
+import background1 from '../assets/background1.jpg';
+import background2 from '../assets/background2.jpg'
 
 
 
@@ -253,7 +255,7 @@ export default function AboutUsComponent() {
       {/* About Us Hero */}
       <section
         className="relative w-screen h-screen bg-cover lg:bg-fixed lg:bg-fill"
-        style={{ backgroundImage: `url(${aboutHero})` }}
+        style={{ backgroundImage: `url(${background1})` }}
       >
         <div className="absolute inset-0 bg-black/65" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 space-y-4">
@@ -268,7 +270,7 @@ export default function AboutUsComponent() {
       {/* Our Mission Hero */}
       <section
         className="relative w-screen h-[101vh] bg-cover bg-center lg:bg-fixed lg:bg-center lg:bg-cover"
-        style={{ backgroundImage: `url(${testHero})` }}
+        style={{ backgroundImage: `url(${background2})` }}
       >
         <div className="absolute inset-0 bg-black/65" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 space-y-4 max-w-2xl mx-auto">
@@ -291,7 +293,7 @@ export default function AboutUsComponent() {
         <h3 className="text-2xl font-semibold text-left text-white oswald-400">
           Executive Team
         </h3>
-        {loadingExec ? <p className="text-white oswald-400">Loading...</p> : errorExec ?  <Staff teamMembers={defaultExecMembers} /> : <Staff teamMembers={executiveMembers} />}
+        {loadingExec ? <p className="text-white oswald-400">Loading...</p> : errorExec ? <Staff teamMembers={defaultExecMembers} /> : <Staff teamMembers={executiveMembers} />}
         <h3 className="text-2xl font-semibold text-left text-white oswald-400">
           Major Contributors
         </h3>

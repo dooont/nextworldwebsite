@@ -209,7 +209,7 @@ app.post("/admin/forgot-password", async (req, res) => {
   const expiresAt = new Date(Date.now() + 3600_000);
   await db.query("INSERT INTO reset_tokens VALUES($1, $2, $3) RETURNING *", [id, token, expiresAt]);
 
-  const resetUrl = `http://localhost:3000/reset-password?token=${token}`;
+  const resetUrl = `http://localhost:5173/admin/reset-password?token=${token}`;
 
   //email user
   const transporter = nodemailer.createTransport({
@@ -238,7 +238,7 @@ app.post("/admin/forgot-password", async (req, res) => {
 });
 
 //reset admin users password. recieves request from front end
-app.post("/reset-password/:token", async (req, res) => {
+app.post("/admin/reset-password", async (req, res) => {
   try {
     const { token, newPassword } = req.body;
     //check if sent token is valid
