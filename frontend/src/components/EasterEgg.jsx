@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import deezNuts from '../assets/deeznuts.jpg';
-// 👉 Your dev team data
+
 const developers = [
   {
     name: 'Matthew Maung',
@@ -12,7 +12,6 @@ const developers = [
     role: 'Software Engineer',
     contact: 'elton.salanic@gmail.com',
   },
-  // …add more folks here
 ];
 
 export default function EasterEgg() {
