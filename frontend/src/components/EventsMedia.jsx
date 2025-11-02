@@ -11,11 +11,15 @@ import axios from 'axios';
 //     url: '',
 const defaultUpcomingEvents = [
   {
-    id: 11,
-    image: new URL('../public/assets/11.jpg', import.meta.url).href,
-    title: 'Next World Showcase @ The Paramount v.2',
-    subtitle: 'June 29, 2025',
-    url: 'https://link.dice.fm/F6cb912c26af?dice_id=F6cb912c26af',
+    id: 12,
+    image: new URL('../public/assets/12.png', import.meta.url).href,
+    title: 'CraftxNXTWORLD v.5',
+    subtitle: 'July 19, 2025',
+    url: 'https://maps.app.goo.gl/JnGgcdHYgdKdjVMX8',
+    //     desc: ``,
+    //     artists: [],
+    //     artistContact: [],
+    //     place: ''
   },
   {
     id: 0,
@@ -39,6 +43,27 @@ const defaultUpcomingEvents = [
 //   },
 
 const defaultPastEvents = [
+  {
+    id: 11,
+    image: new URL('../public/assets/11.jpg', import.meta.url).href,
+    title: 'Next World Showcase @ The Paramount v.2',
+    subtitle: 'June 29, 2025',
+    // url: 'https://link.dice.fm/F6cb912c26af?dice_id=F6cb912c26af',
+    desc: ``,
+    artists: [
+      "Kimmy Pidazo",
+      "brynne",
+      "Keoni Usi",
+      "Labit",
+    ],
+    artistContact: [
+      "kimmypidazo",
+      "paper.crannes",
+      "keoni_usi",
+      "labitlabit",
+    ],
+    place: ''
+  },
   {
     id: 10,
     image: new URL('../public/assets/10.png', import.meta.url).href,
