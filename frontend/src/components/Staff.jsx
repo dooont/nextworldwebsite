@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
 
+// Template:
+// {
+//   id: 0,
+//   name: '',
+//   role: '',
+//   photo: new URL('../assets/meet-the-team/.png', import.meta.url).href,
+//   desc: ``,
+//   funFact: ''
+// },
+
 export default function Staff({ teamMembers }) {
   const [selectedMember, setSelectedMember] = useState(null);
 
