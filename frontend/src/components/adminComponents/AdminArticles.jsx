@@ -7,7 +7,7 @@ date "YYYY-MM-DD"
 description
 link
 */
-export default function AdminArticles({ articles, handleDelete, handleRefresh }) {
+export default function AdminArticles({ articles, handleRefresh }) {
   const [submissionUnsuccessful, setSubmissionUnsuccessful] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
