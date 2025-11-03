@@ -296,10 +296,6 @@ const defaultPastEvents = [
 ];
 
 
-
-
-
-
 export default function EventsMedia() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -382,7 +378,9 @@ export default function EventsMedia() {
           <div className="text-white text-lg mb-8">Loading...</div>
         ) : upcomingError ? (
           <div className="text-gray-400 oswald-400 text-lg mb-8">Unable to retrieve upcoming events</div>
-        ) : upcomingEvents.length === 0 ? null : (
+        ) : upcomingEvents.length === 0 ? (
+        <h2 className="text-xl text-white text-center oswald-400 mb-6">No Upcoming Events! Check back later</h2>)
+        : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr mb-8">
             <div
               onClick={() => window.open('https://www.instagram.com/nxtworldco/', '_blank')}
