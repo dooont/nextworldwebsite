@@ -4,6 +4,7 @@ import missionHero from '../assets/aboutUsHero2.jpg';
 import testHero from '../assets/aboutUsHero4.jpg';
 import Staff from './Staff';
 import DefaultExecMembers from './DefaultExecMembers';
+import DefaultOtherMembers from './DefaultOtherMembers';
 import axios from 'axios';
 import background1 from '../assets/background1.jpg';
 import background2 from '../assets/background2.jpg'
@@ -106,7 +107,7 @@ export default function AboutUsComponent() {
         <h3 className="text-2xl font-semibold text-left text-white oswald-400">
           Major Contributors
         </h3>
-        {loadingOther ? <p className="text-white oswald-400">Loading...</p> : errorOther ? <Staff teamMembers={defaultOtherMembers} /> : <Staff teamMembers={otherMembers} />}
+        {loadingOther ? <p className="text-white oswald-400">Loading...</p> : (errorOther || otherMembers.length == 0) ? <DefaultOtherMembers /> : <Staff teamMembers={otherMembers} />}
 
       </section>
 
