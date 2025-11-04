@@ -134,7 +134,7 @@ export default function AdminHome() {
         <div className="absolute inset-0 bg-black/60" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex flex-col justify-center lg:flex-row lg:items-center  lg:items-center lg:h-full">
+        <div className="relative z-10 max-w-screen-xl mx-auto px-6 flex flex-col justify-center lg:flex-row lg:items-center lg:h-full">
           {/* Left column: title + blurb */}
           <FadeInOnScroll>
             <div className="flex-1 text-center lg:text-left">

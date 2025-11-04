@@ -78,7 +78,7 @@ export default function AdminUpcomingEvents({ upcomingEvents, onRefreshPage }) {
       >
         <div>
           <label htmlFor="flyerImage" className="text-white hover:text-black transition font-bold block text-center">Upload Flyer</label>
-          <input onChange={handleFlyerChange} name="flyerImage" id="flyerImage" type="file" className="border pl-2 text-white text-sm w-full ml-2 hidden block" required />
+          <input onChange={handleFlyerChange} name="flyerImage" id="flyerImage" type="file" className="border pl-2 text-white text-sm w-full ml-2 hidden" required />
           {selectedFile === 'No file selected' ? <p className="text-gray-500">no file selected</p> : <p className="text-white text-center">{selectedFile}</p>}
         </div>
         <div className="w-3/5">
