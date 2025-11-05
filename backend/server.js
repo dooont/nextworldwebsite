@@ -6,6 +6,7 @@ import session from 'express-session';
 import { unlink } from 'fs/promises';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
+import cors from 'cors';
 import multer from 'multer';
 const upcomingFlyersStorage = multer.diskStorage({ //stores flyer for new upcoming event
   destination: 'upcomingShowFlyers',
@@ -58,6 +59,19 @@ const storeUpdateMemberImage = multer.diskStorage({
 const uploadUpdatedMemberImage = multer({ storage: storeUpdateMemberImage });
 
 const app = express();
+
+const allowedOrigins = ['http://localhost:5173'];
+app.use(cors({
+  origin: function (origin, cb) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+
 const db = new pg.Client({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -93,24 +107,6 @@ app.use('/flyers', express.static('upcomingShowFlyers'));
 app.use('/pastFlyers', express.static('pastFlyers'));
 app.use('/memberImages', express.static('memberImages'));
 
-// endpoint template
-/*app.post("", async (req, res) => {
-  try {
-    if (req.session.user) { //if logged in
-      
-      if (inserted.length > 0) { //if it was ...
-        return res.status(200).send();
-      } else { //not ...
-        throw new Error("");
-      }
-    } else { //not logged in
-      return res.status(401).send({ message: "You do not have permission to do this action" });
-    }
-  } catch (e) {
-    console.error("Error while : ", e);
-    return res.status(500).json({ message: "" });
-  }
-});*/
 
 //test endpoint
 app.get('/test', async (req, res) => {
@@ -174,6 +170,13 @@ app.post('/admin/login', async (req, res) => {
   }
 });
 
+app.get('/admin/sessions', (req, res) => {
+  if (req.session.user) {
+    return res.status(200).send();
+  }
+  res.status(401).send();
+});
+
 //logout endpoint
 app.delete("/admin/logout", async (req, res) => {
   try {
@@ -193,7 +196,7 @@ app.delete("/admin/logout", async (req, res) => {
 });
 
 //reset password request. CHANGE THE LINK YOUR SENDING TO APPROPRIATE FRONT END PAGE
-app.get("/admin/reset-password", async (req, res) => {
+app.post("/admin/forgot-password", async (req, res) => {
   const { email } = req.body;
   const { rows: foundUser } = await db.query("SELECT * FROM admin_users WHERE email = $1", [email]);
   if (foundUser.length === 0) {
@@ -206,19 +209,19 @@ app.get("/admin/reset-password", async (req, res) => {
   const expiresAt = new Date(Date.now() + 3600_000);
   await db.query("INSERT INTO reset_tokens VALUES($1, $2, $3) RETURNING *", [id, token, expiresAt]);
 
-  const resetUrl = `http://localhost:3000/reset-password?token=${token}`;
+  const resetUrl = `http://localhost:5173/admin/reset-password?token=${token}`;
 
   //email user
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER,
+      user: process.env.FROM_EMAIL,
       pass: process.env.EMAIL_PASS
     }
   });
 
   const mailOptions = {
-    from: `nxtworldcollective <${process.env.EMAIL_USER}>`,
+    from: `nxtworldcollective <${process.env.FROM_EMAIL}>`,
     to: email,
     subject: "Reset Your Admin Password",
     html: `
@@ -235,7 +238,7 @@ app.get("/admin/reset-password", async (req, res) => {
 });
 
 //reset admin users password. recieves request from front end
-app.post("/reset-password", async (req, res) => {
+app.post("/admin/reset-password", async (req, res) => {
   try {
     const { token, newPassword } = req.body;
     //check if sent token is valid
@@ -263,12 +266,8 @@ app.post("/reset-password", async (req, res) => {
 //get all articles
 app.get("/articles", async (req, res) => {
   try {
-    if (req.session.user) { //logged in
-      const { rows: articles } = await db.query("SELECT * FROM articles");
-      return res.status(200).json({ articles: articles });
-    } else { //not logged in
-      return res.status(401).send({ message: "You do not have permission to do this action" });
-    }
+    const { rows: articles } = await db.query("SELECT * FROM articles");
+    return res.status(200).json({ articles: articles });
   } catch (e) {
     console.error("There was an error getting all articles: ", e);
     return res.status(500).json({ message: "Could not get articles" })
@@ -281,7 +280,6 @@ app.post("/articles", async (req, res) => {
   try {
     if (req.session.user) { //if logged in
       const { rows: inserted } = await db.query("INSERT INTO articles(title, source, date, description, link) VALUES ($1, $2, $3, $4, $5) RETURNING *", [title, source, date, description, link]);
-      console.log("Returned array: ", inserted);
       if (inserted.length > 0) { //if it was inserted
         return res.status(200).send();
       } else { //not inserted
@@ -419,17 +417,15 @@ app.delete("/upcoming-events/:id", authenticateUser, async (req, res) => {
 });//checking if thign with id exists would be beneficial, add later
 
 //get all upcoming events
-app.get("/upcoming-events", authenticateUser, async (req, res) => {
+app.get("/upcoming-events", async (req, res) => {
   try {
     const { rows } = await db.query("SELECT * FROM upcoming_events");
-    if (rows.length === 0) {
-      throw Error("Pg is returning 0 rows");
-    }
+
     const events = [];
     rows.forEach((event) => {
       const storedEvent = {
         id: event.id,
-        image: 'http:localhost:3000' + '/flyers/' + event.flyer_file_name, //CHANGE THE BASE PATH TO A GLOBAL VARIABLE (MAYBE ENV)
+        image: 'http://localhost:3000' + '/flyers/' + event.flyer_file_name, //CHANGE THE BASE PATH TO A GLOBAL VARIABLE (MAYBE ENV)
         title: event.title,
         subtitle: event.subtitle,
         url: event.url
@@ -484,16 +480,18 @@ async function storePastEvent(req, res, next) {
 
 app.post("/past-events", authenticateUser, storePastEvent, uploadPastFlyers.single("pastFlyer"), async (req, res) => {
   const { title, subtitle, desc, artists: artistsJSON, place } = req.body
+  console.log(artistsJSON);
   try {
     //store past event, add event to database, create and add new artists, link artist with past event
     //store upcoming event
-    const { rows: insertedEvent } = await db.query("UPDATE past_events SET past_flyer_file_name = $1, title = $2, subtitle = $3, description = $4, place = $5 RETURNING *", [req.insertedFileName, title, subtitle, desc, place]);
+    const { rows: insertedEvent } = await db.query("UPDATE past_events SET past_flyer_file_name = $1, title = $2, subtitle = $3, description = $4, place = $5 WHERE id = $6 RETURNING *", [req.insertedFileName, title, subtitle, desc, place, req.flyerId]);
     if (insertedEvent.length === 0) {
       throw new Error("Pg was not able to fill in data for new past event.");
     }
 
     //store artists
     const artists = JSON.parse(artistsJSON);
+    console.log("parsed: ", artists);
     for (const artist of artists) { //using an advanced for loop, since forEach doesn't wait for await
       //only store artist in artist table if doesn't already exist
       const { rows: exists } = await db.query("SELECT * FROM artists WHERE name = $1", [artist.name])
@@ -554,20 +552,17 @@ app.delete("/past-events/:id", authenticateUser, async (req, res) => {
 });
 
 //get all past events
-app.get("/past-events", authenticateUser, async (req, res) => {
+app.get("/past-events", async (req, res) => {
   try {
     //get all past event ids
     const { rows: allPastEvents } = await db.query("SELECT * FROM past_events");
-    if (allPastEvents.length === 0) {
-      throw new Error("Pg retrieved 0 events");
-    }
 
     //create past events to send per past event
     const returnPastEvents = [];
     for (const storedEvent of allPastEvents) {
       let parsedEvent = {
         id: storedEvent.id,
-        imageURL: 'http:localhost:3000' + '/pastFlyers' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+        imageURL: 'http://localhost:3000' + '/pastFlyers/' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
         title: storedEvent.title,
         subtitle: storedEvent.subtitle,
         desc: storedEvent.description,
@@ -597,7 +592,7 @@ app.get("/past-events", authenticateUser, async (req, res) => {
 });
 
 //get past event by id
-app.get("/past-events/:id", authenticateUser, async (req, res) => {
+app.get("/past-events/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const { rows: storedEventArtists } = await db.query(`
@@ -613,7 +608,7 @@ app.get("/past-events/:id", authenticateUser, async (req, res) => {
     //create object to send
     const parsedEvent = {
       id: storedEventArtists[0].past_event_id,
-      imageURL: 'http:localhost:3000' + '/pastFlyers' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+      imageURL: 'http://localhost:3000' + '/pastFlyers/' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
       title: storedEventArtists[0].title,
       subtitle: storedEventArtists[0].subtitle,
       desc: storedEventArtists[0].description,
@@ -685,7 +680,7 @@ app.put("/members/:id", uploadUpdatedMemberImage.single("photo"), async (req, re
 });
 
 //get members by type
-app.get("/members/:type", authenticateUser, async (req, res) => {
+app.get("/members/:type", async (req, res) => {
   const type = req.params.type;
   if (!["executive", "other", ""].includes(type)) { //only accept certain types
     return res.status(404).json("This type doesn't exist");
@@ -697,7 +692,7 @@ app.get("/members/:type", authenticateUser, async (req, res) => {
     for (const storedMember of storedMembers) { //put each member in appropriate body
       const member = {
         id: storedMember.id,
-        firstName: storedMember.firstName,
+        firstName: storedMember.first_name,
         lastName: storedMember.last_name,
         role: storedMember.role,
         photoUrl: "http://localhost:3000/" + "memberImages/" + storedMember.photo_file_name,
@@ -744,14 +739,14 @@ app.post("/inquiries", async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER,
+      user: process.env.FROM_EMAIL,
       pass: process.env.EMAIL_PASS
     }
   });
 
   const mailOptions = {
-    from: `Next World Collective <${process.env.EMAIL_USER}>`,
-    to: userEmail,
+    from: `Next World Collective <${process.env.FROM_EMAIL}>`,
+    to: process.env.FROM_EMAIL,
     subject: "New NextWorld Inquiry",
     html: `
       <p>You have recieved a new inqury from: </p>
