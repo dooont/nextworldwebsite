@@ -562,7 +562,7 @@ app.get("/past-events", async (req, res) => {
     for (const storedEvent of allPastEvents) {
       let parsedEvent = {
         id: storedEvent.id,
-        imageURL: 'http://localhost:3000' + '/pastFlyers/' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+        image: 'http://localhost:3000' + '/pastFlyers/' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
         title: storedEvent.title,
         subtitle: storedEvent.subtitle,
         desc: storedEvent.description,
@@ -608,7 +608,7 @@ app.get("/past-events/:id", async (req, res) => {
     //create object to send
     const parsedEvent = {
       id: storedEventArtists[0].past_event_id,
-      imageURL: 'http://localhost:3000' + '/pastFlyers/' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+      image: 'http://localhost:3000' + '/pastFlyers/' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
       title: storedEventArtists[0].title,
       subtitle: storedEventArtists[0].subtitle,
       desc: storedEventArtists[0].description,
