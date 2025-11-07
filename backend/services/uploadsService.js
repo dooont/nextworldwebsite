@@ -2,6 +2,7 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import dotenv from "dotenv/config";
 import crypto from "crypto";
+import { AppError } from "../errors/AppError.js";
 
 const awsRegion = process.env.AWS_S3_REGION;
 const accessKey = process.env.AWS_ACCESS_KEY;
