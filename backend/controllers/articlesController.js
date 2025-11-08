@@ -1,4 +1,4 @@
-import { createArticle, editArticle, getAllArticles } from "../services/articlesService.js";
+import { createArticle, editArticle, getAllArticles, removeArticle } from "../services/articlesService.js";
 import { AppError } from "../errors/AppError.js";
 
 export async function addArticle(req, res){
@@ -18,4 +18,11 @@ export async function updateArticle(req, res){
 export async function getArticles(req, res){
   const articles = await getAllArticles();
   res.status(200).json({ articles });
+}
+
+export async function deleteArticle(req, res){
+  const { id } = req.params;
+  
+  await removeArticle(id);
+  res.status(200).send();
 }
