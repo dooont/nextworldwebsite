@@ -5,6 +5,7 @@ import session from "express-session";
 import uploadsRouter from "./routes/uploadsRoutes.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import articlesRouter from "./routes/articlesRoutes.js";
 
 
 const app = express();
@@ -30,6 +31,8 @@ const serverPort = process.env.SERVER_PORT;
 app.use('/uploads', uploadsRouter);
 
 app.use('/admin', adminRoutes);
+
+app.use('/articles', articlesRouter);
 
 app.use(errorHandler);
 

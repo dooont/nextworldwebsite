@@ -1,8 +1,8 @@
 import express from "express";
 import { getPresignedUrl } from "../controllers/uploadsController.js";
 
-const router = express.Router();
+const uploadsRouter = express.Router();
 
-router.get('/presign', getPresignedUrl);
+uploadsRouter.get('/presign', getPresignedUrl);
 
-export default router;
+export default uploadsRouter;

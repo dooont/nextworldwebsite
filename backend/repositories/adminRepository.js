@@ -1,4 +1,5 @@
 import dbPool from "./pool.js";
+import DatabaseError from "../errors/DatabaseError.js";
 
 
 export async function findUserByEmail(email){
