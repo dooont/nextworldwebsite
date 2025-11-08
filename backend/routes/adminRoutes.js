@@ -1,6 +1,10 @@
 import express from "express";
-import { login } from "../controllers/adminController.js";
+import { login, logout } from "../controllers/adminController.js";
 
-export default adminRoutes = express.Router();
+const adminRoutes = express.Router();
 
-router.post('/users', login);
+adminRoutes.post('/login', login);
+
+adminRoutes.delete('/logout', logout);
+
+export default adminRoutes;
