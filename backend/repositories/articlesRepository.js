@@ -26,3 +26,15 @@ export async function updateArticle(id, title='', source='', date='', descriptio
     throw new DatabaseError('Could not update article');
   }
 }
+
+export async function findAllArticles(){
+  try{
+    const result = await dbPool.query(
+      'SELECT * FROM articles'
+    );
+    
+    return result.rows;
+  }catch(err){
+    throw new DatabaseError('Could not retrieve articles');
+  }
+}
