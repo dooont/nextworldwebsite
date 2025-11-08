@@ -10,3 +10,19 @@ export async function saveArticle(title='', source='', date='', description='', 
     throw new DatabaseError('Could not complete request');
   }
 }
+
+export async function updateArticle(id, title='', source='', date='', description='', link=''){
+  try{
+    const result = await dbPool.query(
+      'UPDATE articles SET title = $1, source = $2, date = $3, description = $4, link = $5 WHERE id = $6 RETURNING *',
+      [title, source, date, description, link, id]
+    );
+    
+    if(result.rows.length === 0){
+      throw new DatabaseError('Article not found', 404);
+    }
+  }catch(err){
+    console.log("custom erro:", err);
+    throw new DatabaseError('Could not update article');
+  }
+}
