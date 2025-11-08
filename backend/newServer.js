@@ -1,14 +1,35 @@
 import express from "express";
 import dotenv from "dotenv/config";
+import session from "express-session";
 
 import uploadsRouter from "./routes/uploadsRoutes.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
-const serverPort = process.env.SERVER_PORT;
 
 const app = express();
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60,
+      secure: false,
+    },
+  })
+);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const serverPort = process.env.SERVER_PORT;
+
+
 app.use('/uploads', uploadsRouter);
+
+app.use('/admin', adminRoutes);
 
 app.use(errorHandler);
 
