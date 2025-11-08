@@ -43,13 +43,13 @@ CREATE TABLE IF NOT EXISTS public.members
 
 CREATE TABLE IF NOT EXISTS public.past_events
 (
-    id integer NOT NULL DEFAULT nextval('past_shows_id_seq'::regclass),
+    id serial NOT NULL,
     past_flyer_file_name text COLLATE pg_catalog."default",
     title text COLLATE pg_catalog."default",
     subtitle text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     place text COLLATE pg_catalog."default",
-    CONSTRAINT past_shows_pkey PRIMARY KEY (id)
+    CONSTRAINT past_events_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.past_events_artists
