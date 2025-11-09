@@ -19,7 +19,7 @@ export async function updateUpcomingEvent(id, title='', subtitle='', url='', ima
       [title, subtitle, url, image, id]
     );
     
-    if(result.rowasds.length === 0){
+    if(result.rows.length === 0){
       throw new DatabaseError('Upcoming event not found', 404);
     }
   }catch(err){
@@ -27,5 +27,34 @@ export async function updateUpcomingEvent(id, title='', subtitle='', url='', ima
       throw err;
     }
     throw new DatabaseError('Could not update upcoming event');
+  }
+}
+
+export async function deleteUpcomingEventById(id){
+  try{
+    const result = await dbPool.query(
+      'DELETE FROM upcoming_events WHERE id = $1 RETURNING *',
+      [id]
+    );
+    
+    if(result.rows.length === 0){
+      throw new DatabaseError('Upcoming event not found', 404);
+    }
+  }catch(err){
+    if(err instanceof DatabaseError){
+      throw err;
+    }
+    throw new DatabaseError('Could not delete upcoming event');
+  }
+}
+
+export async function findAllUpcomingEvents(){
+  try{
+    const result = await dbPool.query(
+      'SELECT * FROM upcoming_events'
+    );
+    return result.rows;
+  }catch(err){
+    throw new DatabaseError('Could not retrieve upcoming events');
   }
 }
