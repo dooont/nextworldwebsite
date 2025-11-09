@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS public.upcoming_events
     title text COLLATE pg_catalog."default",
     subtitle text COLLATE pg_catalog."default",
     url text COLLATE pg_catalog."default",
-    flyer_file_name text COLLATE pg_catalog."default",
+    flyer_url text COLLATE pg_catalog."default",
     CONSTRAINT upcoming_events_pkey PRIMARY KEY (id)
 );
 
