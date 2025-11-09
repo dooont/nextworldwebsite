@@ -1,0 +1,8 @@
+import { createUpcomingEvent } from "../services/upcomingEventsService.js";
+
+export async function addUpcomingEvent(req, res){
+  console.log(req.body);
+  const {image, title, subtitle, url} = req.body;
+  await createUpcomingEvent(title, subtitle, url, image);
+  res.status(200).send();
+}
