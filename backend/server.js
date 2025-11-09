@@ -562,7 +562,7 @@ app.get("/past-events", async (req, res) => {
     for (const storedEvent of allPastEvents) {
       let parsedEvent = {
         id: storedEvent.id,
-        imageURL: 'http://localhost:3000' + '/pastFlyers/' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+        image: 'http://localhost:3000' + '/pastFlyers/' + storedEvent.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
         title: storedEvent.title,
         subtitle: storedEvent.subtitle,
         desc: storedEvent.description,
@@ -608,7 +608,7 @@ app.get("/past-events/:id", async (req, res) => {
     //create object to send
     const parsedEvent = {
       id: storedEventArtists[0].past_event_id,
-      imageURL: 'http://localhost:3000' + '/pastFlyers/' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
+      image: 'http://localhost:3000' + '/pastFlyers/' + storedEventArtists.past_flyer_file_name, //CHANGE BASE PATH URL TO GLOBAL OR ENV
       title: storedEventArtists[0].title,
       subtitle: storedEventArtists[0].subtitle,
       desc: storedEventArtists[0].description,
@@ -692,10 +692,9 @@ app.get("/members/:type", async (req, res) => {
     for (const storedMember of storedMembers) { //put each member in appropriate body
       const member = {
         id: storedMember.id,
-        firstName: storedMember.first_name,
-        lastName: storedMember.last_name,
+        name: storedMember.first_name + " " + storedMember.last_name,
         role: storedMember.role,
-        photoUrl: "http://localhost:3000/" + "memberImages/" + storedMember.photo_file_name,
+        photo: "http://localhost:3000/" + "memberImages/" + storedMember.photo_file_name,
         desc: storedMember.description,
         funFact: storedMember.fun_fact,
       }
