@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS public.members
 CREATE TABLE IF NOT EXISTS public.past_events
 (
     id serial NOT NULL,
-    past_flyer_file_name text COLLATE pg_catalog."default",
+    flyer text COLLATE pg_catalog."default",
     title text COLLATE pg_catalog."default",
     subtitle text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
