@@ -1,11 +1,20 @@
 import { AppError } from "../errors/AppError.js";
-import { saveMember } from "../repositories/membersRepository.js";
+import { saveMember, updateMember } from "../repositories/membersRepository.js";
 
-export async function createMember(firstName, lastName, role, photo, description, funFact, type){
+function isValidMemberType(type){
   const allowedTypes = ['exec', 'other'];
   if(!allowedTypes.includes(type)){
-    throw new AppError('Role must be "exec" or "other"', 400);
+    throw new AppError('Member type must be "exec" or "other', 400);
   }
+}
+
+export async function createMember(firstName, lastName, role, photo, description, funFact, type){
+  isValidMemberType(type);
   return await saveMember(firstName, lastName, role, photo, description, funFact, type);
+}
+
+export async function editMember(id, firstName, lastName, role, photo, description, funFact, type){
+  isValidMemberType(type);
+  return await updateMember(id, firstName, lastName, role, photo, description, funFact, type);
 }
 
