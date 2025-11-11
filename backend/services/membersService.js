@@ -1,5 +1,5 @@
 import { AppError } from "../errors/AppError.js";
-import { saveMember, updateMember } from "../repositories/membersRepository.js";
+import { saveMember, updateMember, deleteMemberById } from "../repositories/membersRepository.js";
 
 function isValidMemberType(type){
   const allowedTypes = ['exec', 'other'];
@@ -16,5 +16,9 @@ export async function createMember(firstName, lastName, role, photo, description
 export async function editMember(id, firstName, lastName, role, photo, description, funFact, type){
   isValidMemberType(type);
   return await updateMember(id, firstName, lastName, role, photo, description, funFact, type);
+}
+
+export async function removeMember(id){
+  return await deleteMemberById(id);
 }
 

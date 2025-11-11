@@ -33,3 +33,23 @@ export async function updateMember(id, firstName='', lastName='', role='', photo
     throw new DatabaseError('Could not update member');
   }
 }
+
+export async function deleteMemberById(id){
+  try{
+    const result = await dbPool.query(
+      'DELETE FROM members WHERE id = $1 RETURNING *',
+      [id]
+    );
+    
+    if(result.rows.length === 0){
+      throw new DatabaseError('Member not found', 404);
+    }
+    
+    return result.rows[0];
+  }catch(err){
+    if(err instanceof DatabaseError){
+      throw err;
+    }
+    throw new DatabaseError('Could not delete member');
+  }
+}
