@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS public.members
     first_name text COLLATE pg_catalog."default",
     last_name text COLLATE pg_catalog."default",
     role text COLLATE pg_catalog."default",
-    photo_file_name text COLLATE pg_catalog."default",
+    photo text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     fun_fact text COLLATE pg_catalog."default",
     type text COLLATE pg_catalog."default",
