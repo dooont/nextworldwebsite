@@ -96,3 +96,46 @@ export async function deletePastEventById(id=''){
     client.release();
   }
 }
+
+export async function findAllPastEvents(){
+  try{
+    const {rows: allPastEvents} = await dbPool.query('SELECT * FROM past_events');
+    
+    const returnPastEvents = [];
+    
+    for (const storedEvent of allPastEvents) {
+      let parsedEvent = {
+        id: storedEvent.id,
+        flyer: storedEvent.flyer,
+        title: storedEvent.title,
+        subtitle: storedEvent.subtitle,
+        description: storedEvent.description,
+        artists: [],
+        place: storedEvent.place
+      };
+      
+      const storedEventsArtistsResult = await dbPool.query(
+        `SELECT * FROM past_events_artists pea
+         RIGHT JOIN artists a ON a.id = pea.artist_id
+         WHERE past_event_id = $1`,
+        [storedEvent.id]
+      );
+      
+      if (storedEventsArtistsResult.rows.length > 0) {
+        for (const eventArtist of storedEventsArtistsResult.rows) {
+          parsedEvent.artists.push({
+            id: eventArtist.id,
+            name: eventArtist.name,
+            contact: eventArtist.contact
+          });
+        }
+      }
+      
+      returnPastEvents.push(parsedEvent);
+    }
+    
+    return returnPastEvents;
+  }catch(err){
+    throw new DatabaseError('Could not retrieve past events');
+  }
+}

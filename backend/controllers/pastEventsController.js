@@ -1,4 +1,4 @@
-import { createPastEvent, removePastEvent } from "../services/pastEventsService.js";
+import { createPastEvent, removePastEvent, getAllPastEvents } from "../services/pastEventsService.js";
 
 export async function addPastEvent(req, res){
   const {flyer, title, subtitle, description, artists, place} = req.body;
@@ -12,4 +12,9 @@ export async function deletePastEvent(req, res){
   
   await removePastEvent(id);
   res.status(200).send();
+}
+
+export async function getPastEvents(req, res){
+  const pastEvents = await getAllPastEvents();
+  res.status(200).json(pastEvents);
 }
