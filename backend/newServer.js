@@ -8,6 +8,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import articlesRouter from "./routes/articlesRoutes.js";
 import upcomingEventsRouter from "./routes/upcomingEventsRoutes.js";
 import pastEventsRouter from "./routes/pastEventsRoutes.js";
+import membersRouter from "./routes/membersRoutes.js";
 
 
 const app = express();
@@ -39,6 +40,8 @@ app.use('/articles', articlesRouter);
 app.use('/upcoming-events', upcomingEventsRouter);
 
 app.use('/past-events', pastEventsRouter);
+
+app.use('/members', membersRouter);
 
 app.use(errorHandler);
 
