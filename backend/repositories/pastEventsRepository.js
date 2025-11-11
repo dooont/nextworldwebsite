@@ -49,3 +49,50 @@ export async function savePastEventWithArtists(flyer='', title='', subtitle='', 
     client.release();
   }
 }
+
+export async function deletePastEventById(id=''){
+  const client = await dbPool.connect();
+  
+  try{
+    await client.query('BEGIN');
+    
+    const deletedEvent = await client.query(
+      'DELETE FROM past_events WHERE id = $1 RETURNING *',
+      [id]
+    );
+    
+    if(deletedEvent.rows.length === 0){
+      throw new DatabaseError('Past event not found', 404);
+    }
+    
+    //delete event from join table
+    await client.query('DELETE FROM past_events_artists WHERE past_event_id = $1', [id]);
+    
+    //find orpahned artists (in no other events)
+    const orphanedArtists = await client.query(
+        `SELECT * FROM past_events_artists pea
+        RIGHT JOIN artists a ON pea.artist_id = a.id
+        WHERE past_event_id IS NULL;`
+      );
+
+    //remove said orphaned artists
+    for(const artist of orphanedArtists){
+      await client.query(
+        'DELETE FROM artists WHERE id = $1',
+        [artist.id]
+      );
+    }
+
+    await client.query('COMMIT');
+    return deletedEvent.rows[0];
+    
+  }catch(err){
+    await client.query('ROLLBACK');
+    if(err instanceof DatabaseError){
+      throw err;
+    }
+    throw new DatabaseError('Could not delete past event');
+  }finally{
+    client.release();
+  }
+}
