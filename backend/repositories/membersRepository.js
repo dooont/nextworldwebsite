@@ -53,3 +53,15 @@ export async function deleteMemberById(id){
     throw new DatabaseError('Could not delete member');
   }
 }
+
+export async function findMembersByType(type=''){
+  try{
+    const result = await dbPool.query(
+      'SELECT * FROM members WHERE type = $1',
+      [type]
+    );
+    return result.rows;
+  }catch(err){
+    throw new DatabaseError('Could not retrieve members');
+  }
+}
