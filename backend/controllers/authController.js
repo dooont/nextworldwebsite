@@ -1,14 +1,10 @@
-import { authenticateUser } from "../services/adminService.js";
+import { authenticateUser } from "../services/authService.js";
 
 export async function login(req, res){
   const {email, password} = req.body;
 
-  if(await authenticateUser(email, password)){
-    req.session.user = {email: email};
-    return res.status(200).send();
-  }else{
-    return res.status(401).send();
-  }
+  const token = await authenticateUser(email, password);
+  res.status(200).json(token);
 }
 
 export function logout(req, res){

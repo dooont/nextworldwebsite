@@ -1,9 +1,9 @@
 import express from "express";
-import { login, logout } from "../controllers/adminController.js";
+import { login, logout } from "../controllers/authController.js";
 
 const adminRoutes = express.Router();
 
-adminRoutes.post('/login', login);
+adminRoutes.get('/login', login);
 
 adminRoutes.delete('/logout', logout);
 
