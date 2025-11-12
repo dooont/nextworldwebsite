@@ -67,6 +67,17 @@ CREATE TABLE IF NOT EXISTS public.reset_tokens
     CONSTRAINT reset_tokens_pkey PRIMARY KEY (token)
 );
 
+CREATE TABLE IF NOT EXISTS public.refresh_tokens
+(
+    id serial NOT NULL,
+    admin_user_id integer NOT NULL,
+    token text COLLATE pg_catalog."default" NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT refresh_tokens_pkey PRIMARY KEY (id),
+    CONSTRAINT refresh_tokens_token_key UNIQUE (token)
+);
+
 CREATE TABLE IF NOT EXISTS public.upcoming_events
 (
     id serial NOT NULL,
