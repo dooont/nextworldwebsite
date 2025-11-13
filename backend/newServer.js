@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv/config";
+import cookieParser from "cookie-parser";
 
 import uploadsRouter from "./routes/uploadsRoutes.js";
 import errorHandler from "./middlewares/errorHandler.js";
@@ -15,7 +16,7 @@ const app = express();
 
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 const serverPort = process.env.SERVER_PORT;
 

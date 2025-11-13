@@ -1,9 +1,13 @@
 import express from "express";
-import { login, logout } from "../controllers/authController.js";
+import { login, logout, refresh } from "../controllers/authController.js";
+import authenticateAdminUser from "../middlewares/authenticateAdminUser.js";
 
 const adminRoutes = express.Router();
 
-adminRoutes.get('/login', login);
+
+adminRoutes.post('/login', login);
+
+adminRoutes.post('/refresh', refresh);
 
 adminRoutes.delete('/logout', logout);
 
