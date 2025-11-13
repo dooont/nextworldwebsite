@@ -1,4 +1,5 @@
 import { findUserByEmail, findUserById } from "../repositories/adminUserRepository.js";
+import { saveToken } from "../repositories/passwordResetTokenRepository.js";
 import { saveRefreshToken, findRefreshToken, deleteRefreshToken, deleteAllUserRefreshTokens } from "../repositories/refreshTokenRepository.js";
 import bcrypt from 'bcrypt';
 import * as jose from 'jose'
@@ -6,6 +7,7 @@ import crypto from 'crypto';
 import dotenv from 'dotenv/config';
 import { AppError } from "../errors/AppError.js";
 import AuthError from "../errors/AuthError.js";
+import { sendPasswordResetRequestEmail } from "./emailService.js";
 
 
 async function generateAccessToken(user){
@@ -93,4 +95,24 @@ export async function revokeRefreshToken(refreshToken){
 
 export async function revokeAllUserTokens(adminUserId){
   await deleteAllUserRefreshTokens(adminUserId);
+}
+
+export async function createResetPasswordRequest(email){
+  const user = await findUserByEmail(email);
+  if(!user){
+    console.error("Password Request for email: ", email, "not found.");
+    return; //don't let user know if user exists or not
+  }
+
+  //generate reset token
+  const user_id = user.admin_id;
+  const token = crypto.randomBytes(32).toString("hex");
+  const expiresAt = new Date(Date.now() + 3600_000); //expires an hour
+  await saveToken(user_id, token, expiresAt);
+
+  const url = process.env.FRONTEND_PASSWORD_RESET_URL;
+  const s = process.env.NODE_ENV === 'development' ? '' : 's';
+  const resetUrl = `http${s}://${url}?token=${token}`;
+
+  await sendPasswordResetRequestEmail(email);
 }
