@@ -1,6 +1,7 @@
-import { findUserByEmail, findUserById } from "../repositories/adminUserRepository.js";
+import { findUserByEmail, findUserById, updateUserPassword } from "../repositories/adminUserRepository.js";
 import { saveToken } from "../repositories/passwordResetTokenRepository.js";
 import { saveRefreshToken, findRefreshToken, deleteRefreshToken, deleteAllUserRefreshTokens } from "../repositories/refreshTokenRepository.js";
+import { findValidResetToken, deleteResetToken } from "../repositories/resetTokenRepository.js";
 import bcrypt from 'bcrypt';
 import * as jose from 'jose'
 import crypto from 'crypto';
@@ -95,6 +96,21 @@ export async function revokeRefreshToken(refreshToken){
 
 export async function revokeAllUserTokens(adminUserId){
   await deleteAllUserRefreshTokens(adminUserId);
+}
+
+export async function resetUserPassword(token, newPassword){
+  const resetToken = await findValidResetToken(token);
+  
+  if(!resetToken){
+    throw new AuthError('Invalid or expired reset token', 401);
+  }
+  
+  const userId = resetToken.admin_user_id;
+  const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+  const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+  
+  await updateUserPassword(userId, hashedPassword);
+  await deleteResetToken(token);
 }
 
 export async function createResetPasswordRequest(email){

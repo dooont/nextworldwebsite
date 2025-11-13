@@ -1,4 +1,4 @@
-import { authenticateUser, refreshAccessToken, revokeRefreshToken, createResetPasswordRequest } from "../services/authService.js";
+import { authenticateUser, refreshAccessToken, revokeRefreshToken, createResetPasswordRequest, resetUserPassword } from "../services/authService.js";
 
 export async function login(req, res){
   const {email, password} = req.body;
@@ -53,4 +53,12 @@ export async function resetPasswordRequest(req, res){
   await createResetPasswordRequest(email);
   
   return res.status(200).send();
+}
+
+export async function resetPassword(req, res){
+  const {token, newPassword} = req.body;
+  
+  await resetUserPassword(token, newPassword);
+  
+  res.status(200).send();
 }

@@ -25,3 +25,14 @@ export async function findUserById(adminUserId){
     throw new DatabaseError('Could not complete request');
   }
 }
+
+export async function updateUserPassword(adminUserId, hashedPassword){
+  try{
+    await dbPool.query(
+      'UPDATE admin_users SET password = $1 WHERE admin_id = $2',
+      [hashedPassword, adminUserId]
+    );
+  }catch(err){
+    throw new DatabaseError('Could not update password');
+  }
+}
