@@ -22,7 +22,6 @@ export async function updateArticle(id, title='', source='', date='', descriptio
       throw new DatabaseError('Article not found', 404);
     }
   }catch(err){
-    console.log("custom erro:", err);
     throw new DatabaseError('Could not update article');
   }
 }

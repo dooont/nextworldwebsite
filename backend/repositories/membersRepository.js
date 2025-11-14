@@ -9,7 +9,6 @@ export async function saveMember(firstName='', lastName='', role='', photo='', d
     );
     return result.rows[0];
   }catch(err){
-    console.log(err);
     throw new DatabaseError('Could not create member');
   }
 }

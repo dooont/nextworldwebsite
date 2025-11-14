@@ -24,7 +24,6 @@ export default async function authenticateAdminUser(req, res, next){
       throw new AuthError('Token invalid', 401);
     }
     
-    console.log("orig error", err);
     throw new AuthError('Authentication failed', 401)
   }
 }
