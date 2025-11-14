@@ -17,7 +17,7 @@ export async function updateArticle(req, res){
 
 export async function getArticles(req, res){
   const articles = await getAllArticles();
-  res.status(200).json({ articles });
+  res.status(200).json(articles);
 }
 
 export async function deleteArticle(req, res){
