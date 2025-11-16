@@ -124,7 +124,7 @@ app.get('/test', async (req, res) => {
 //ADMIN ENDPOINTS//
 
 //create an admin user
-app.post('/admin/users', async (req, res) => {
+/*app.post('/admin/users', async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -141,7 +141,7 @@ app.post('/admin/users', async (req, res) => {
     console.log("Server error creating user");
     return res.status(500).json({ message: "Server error creating user" });
   }
-});
+});*/
 
 //login endpoint
 app.post('/admin/login', async (req, res) => {

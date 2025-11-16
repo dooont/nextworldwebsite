@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS public.members
     first_name text COLLATE pg_catalog."default",
     last_name text COLLATE pg_catalog."default",
     role text COLLATE pg_catalog."default",
-    photo_file_name text COLLATE pg_catalog."default",
+    photo text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     fun_fact text COLLATE pg_catalog."default",
     type text COLLATE pg_catalog."default",
@@ -43,13 +43,13 @@ CREATE TABLE IF NOT EXISTS public.members
 
 CREATE TABLE IF NOT EXISTS public.past_events
 (
-    id integer NOT NULL DEFAULT nextval('past_shows_id_seq'::regclass),
-    past_flyer_file_name text COLLATE pg_catalog."default",
+    id serial NOT NULL,
+    flyer text COLLATE pg_catalog."default",
     title text COLLATE pg_catalog."default",
     subtitle text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     place text COLLATE pg_catalog."default",
-    CONSTRAINT past_shows_pkey PRIMARY KEY (id)
+    CONSTRAINT past_events_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.past_events_artists
@@ -67,13 +67,24 @@ CREATE TABLE IF NOT EXISTS public.reset_tokens
     CONSTRAINT reset_tokens_pkey PRIMARY KEY (token)
 );
 
+CREATE TABLE IF NOT EXISTS public.refresh_tokens
+(
+    id serial NOT NULL,
+    admin_user_id integer NOT NULL,
+    token text COLLATE pg_catalog."default" NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT refresh_tokens_pkey PRIMARY KEY (id),
+    CONSTRAINT refresh_tokens_token_key UNIQUE (token)
+);
+
 CREATE TABLE IF NOT EXISTS public.upcoming_events
 (
     id serial NOT NULL,
     title text COLLATE pg_catalog."default",
     subtitle text COLLATE pg_catalog."default",
     url text COLLATE pg_catalog."default",
-    flyer_file_name text COLLATE pg_catalog."default",
+    flyer_url text COLLATE pg_catalog."default",
     CONSTRAINT upcoming_events_pkey PRIMARY KEY (id)
 );
 

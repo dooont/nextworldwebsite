@@ -33,3 +33,6 @@ notes.txt
 backend/upcomingShowFlyers/*
 backend/pastFlyers/*
 backend/memberImages/*
+
+#temp files
+insertAdminUser.js
