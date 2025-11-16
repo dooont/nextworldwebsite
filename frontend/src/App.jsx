@@ -17,6 +17,18 @@ const router = createBrowserRouter([
       { path: '/about-us', element: <AboutUs /> },
       /*{ path: '/gallery', element: <Gallery /> },*/
     ]
+  },
+  {
+    path: '/admin',
+    element: <MainLayout />,
+    children: [
+      {
+        element: /*admin validator here*/<></>, 
+        children: [
+          /*all admin pages should go here*/
+        ]
+      }
+    ]
   }
 ])
 /*keeping the route elements in a single folder (pages). If the site grows, we should split it into
