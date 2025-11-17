@@ -10,10 +10,12 @@ import upcomingEventsRouter from "./routes/upcomingEventsRoutes.js";
 import pastEventsRouter from "./routes/pastEventsRoutes.js";
 import membersRouter from "./routes/membersRoutes.js";
 import inquiriesRouter from "./routes/inquiriesRoutes.js";
+import corsConfig from "./config/cors.js";
 
 
 const app = express();
 
+app.use(corsConfig);
 
 app.use(express.json());
 app.use(cookieParser());
