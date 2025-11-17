@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import AboutUs from './pages/AboutUs';
 import Gallery from './pages/Gallery';
 import EventsPage from './pages/EventsPage';
+import AdminLogin from './pages/admin/AdminLogin';
 import './App.css';
 
 const router = createBrowserRouter([
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     path: '/admin',
     element: <MainLayout />,
     children: [
+      {path: '/admin/login', element: <AdminLogin />},
       {
         element: /*admin validator here*/<></>, 
         children: [
