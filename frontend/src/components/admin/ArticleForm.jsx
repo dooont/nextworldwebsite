@@ -1,32 +1,18 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../../api/axios.js';
 import {useForm} from 'react-hook-form';
 import ErrorMessage from '../ErrorMessage.jsx';
+import useCreateArticle from '../../hooks/useCreateArticle.jsx';
 
 export default function ArticlesForm(){
-  const queryClient = useQueryClient();
-  const { register, handleSubmit, formState: { errors} } = useForm(); //calls this first to validate
-
-  const onSubmit = (formData) => { //passes this to handleSubmit. calls this after validation
-    formMutation.mutate(formData);
-  }
-
-  const formMutation = useMutation({ //does the actual post with updating
-    mutationFn: (data) => {
-      return api.post('/articles', data);
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({queryKey: ['articles']});
-    }
-  });
-
+  const {register, handleSubmit, formState: { errors } } = useForm();
+  const { isPending, isError: isArticleError, mutate: createArticle } = useCreateArticle();
+  
   return(
     <div className="bg-gray-900 rounded-lg shadow-2xl p-8 fade-in delay-200">
             <h2 className="text-3xl font-bold text-white racing-sans-one-regular mb-6">
               Create New Article
             </h2>
             
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <form onSubmit={handleSubmit((article) => createArticle(article))} className="space-y-5">
               {/* title */}
               <div>
                 <label 
@@ -133,11 +119,12 @@ export default function ArticlesForm(){
               {/* submit button */}
               <button
                 type="submit"
-                disabled={formMutation.isPending}
+                disabled={isPending}
                 className="w-full py-3 bg-purple-950 hover:bg-purple-800 text-white rounded-lg font-semibold oswald-700 text-lg transition transform hover:scale-[1.02] active:scale-[0.98] disabled:scale-[1] disabled:bg-gray-800 shadow-lg shadow-purple-900/50"
               >
-                Create Article
+                { isPending ? 'Submitting' : 'Create Article' }
               </button>
+              { isArticleError && <ErrorMessage>Could not submit article</ErrorMessage>}
             </form>
           </div>
   )

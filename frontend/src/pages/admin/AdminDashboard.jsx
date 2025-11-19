@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ArticleForm from '../../components/admin/ArticleForm.jsx';
 import ItemsList from '../../components/admin/ItemsList.jsx';
+import useArticles from '../../hooks/useArticles.jsx';
+import ArticleCard from '../../components/admin/ArticleCard.jsx';
 
 const API_BASE_URL = 'http://localhost:3000';
 
@@ -17,7 +19,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* form */}
           <ArticleForm />
-          <ItemsList items='Articles' />  
+          <ItemsList itemsName='Articles' CardComponent={ArticleCard} useFetchHook={useArticles} emptyMessage='No articles yet. Add your first one!' />  
         </div>
       </div>
     </div>
