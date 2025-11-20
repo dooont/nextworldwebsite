@@ -4,9 +4,19 @@ import ItemsList from '../../components/admin/ItemsList.jsx';
 import useArticles from '../../hooks/useArticles.jsx';
 import ArticleCard from '../../components/admin/ArticleCard.jsx';
 
-const API_BASE_URL = 'http://localhost:3000';
 
 export default function AdminDashboard() {
+  const [editingArticle, setEditingArticle] = useState(null);
+
+  function handleArticleEditClick(article){
+    setEditingArticle((prev) => {
+      if(prev?.id === article.id){
+        return null;
+      }
+      return article;
+    });
+  }
+  
   return (
     <div className="bg-black min-h-screen py-12 px-6">
       <div className="max-w-7xl mx-auto">
@@ -18,8 +28,8 @@ export default function AdminDashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* form */}
-          <ArticleForm />
-          <ItemsList itemsName='Articles' CardComponent={ArticleCard} useFetchHook={useArticles} emptyMessage='No articles yet. Add your first one!' />  
+          <ArticleForm article={editingArticle}/>
+          <ItemsList itemsName='Articles' CardComponent={ArticleCard} useFetchHook={useArticles} emptyMessage='No articles yet. Add your first one!' onEdit={handleArticleEditClick}/>  
         </div>
       </div>
     </div>

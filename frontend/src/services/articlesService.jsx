@@ -11,3 +11,7 @@ export function createArticle(article){
 export function deleteArticleById(id){
   return api.delete(`/articles/${id}`);
 }
+
+export function editArticle(id, article){
+  return api.put(`/articles/${id}`, article);
+}

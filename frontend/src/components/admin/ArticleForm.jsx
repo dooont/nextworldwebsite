@@ -1,18 +1,51 @@
 import {useForm} from 'react-hook-form';
 import ErrorMessage from '../ErrorMessage.jsx';
 import useCreateArticle from '../../hooks/useCreateArticle.jsx';
+import useEditArticle from '../../hooks/useEditArticle.jsx';
+import { useEffect } from 'react';
+import Loading from '../Loading.jsx';
 
-export default function ArticlesForm(){
-  const {register, handleSubmit, formState: { errors } } = useForm();
-  const { isPending, isError: isArticleError, mutate: createArticle } = useCreateArticle();
+export default function ArticlesForm( {article} ){
+
+  const {register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { isPending: isCreatePending, isError: isCreateError, mutate: createArticle } = useCreateArticle();
+  const { isPending: isEditPending, isError: isEditError, mutate: editArticle } = useEditArticle();
+
+  useEffect(() => {
+    if(article){
+      reset({
+        title: article.title,
+        source: article.source,
+        date: article.date.split('T')[0],
+        description: article.description,
+        link: article.link
+      });
+    }else{
+      reset({
+        title: '',
+        source: '',
+        date: '',
+        description: '',
+        link: ''
+      });
+    }
+  }, [article]);
+
+  function onSubmit(articleToSubmit){
+    if(article){
+      editArticle({ id: article.id, article: articleToSubmit });
+    } else {
+      createArticle(articleToSubmit);
+    }
+  }
   
   return(
     <div className="bg-gray-900 rounded-lg shadow-2xl p-8 fade-in delay-200">
             <h2 className="text-3xl font-bold text-white racing-sans-one-regular mb-6">
-              Create New Article
+              {article ? 'Edit Article' : 'Create New Article'}
             </h2>
             
-            <form onSubmit={handleSubmit((article) => createArticle(article))} className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* title */}
               <div>
                 <label 
@@ -119,12 +152,15 @@ export default function ArticlesForm(){
               {/* submit button */}
               <button
                 type="submit"
-                disabled={isPending}
+                disabled={isCreatePending || isEditPending}
                 className="w-full py-3 bg-purple-950 hover:bg-purple-800 text-white rounded-lg font-semibold oswald-700 text-lg transition transform hover:scale-[1.02] active:scale-[0.98] disabled:scale-[1] disabled:bg-gray-800 shadow-lg shadow-purple-900/50"
               >
-                { isPending ? 'Submitting' : 'Create Article' }
+                { isCreatePending || isEditPending ? 'Submitting' :
+                article ? 'Edit Article' :
+                'Create Article' }
               </button>
-              { isArticleError && <ErrorMessage>Could not submit article</ErrorMessage>}
+              { isCreateError && <ErrorMessage>Could not submit article</ErrorMessage>}
+              { isEditError && <ErrorMessage>Could not edit article</ErrorMessage>}
             </form>
           </div>
   )

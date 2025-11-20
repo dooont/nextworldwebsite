@@ -2,8 +2,9 @@ import Loading from "../Loading.jsx";
 import InfoMessage from "../InfoMessage.jsx";
 import ErrorMessage from "../ErrorMessage.jsx";
 
+//this component is meant to be reusable for any item
 
-export default function ItemsList({itemsName, CardComponent, useFetchHook, emptyMessage}){
+export default function ItemsList({itemsName, CardComponent, useFetchHook, emptyMessage, onEdit}){
   const {isLoading, isError: fetchError, data: response} = useFetchHook();
 
   const items = response?.data || [];
@@ -15,9 +16,9 @@ export default function ItemsList({itemsName, CardComponent, useFetchHook, empty
       </h2>
 
       {isLoading ? <Loading item={itemsName} /> :
-        fetchError ? <ErrorMessage>Could not retrieve articles. Contact developer</ErrorMessage> :
+        fetchError ? <ErrorMessage>Could not retrieve {itemsName}. Contact developer</ErrorMessage> :
         items.length === 0 ? <InfoMessage>{emptyMessage}</InfoMessage> :
-        items.map((item) => <CardComponent key={item.id} item={item} />)
+        items.map((item) => <CardComponent key={item.id} item={item} onEdit={onEdit} />)
       }
     </div>
   )
