@@ -10,7 +10,7 @@ export default function ItemsList({itemsName, CardComponent, useFetchHook, empty
   const items = response?.data || [];
   
   return (
-    <div className="bg-gray-900 rounded-lg shadow-2xl p-8 fade-in delay-400 flex flex-col gap-4">
+    <div className="bg-gray-900 rounded-lg shadow-2xl p-8 fade-in delay-400 flex flex-col gap-4 flex-1">
       <h2 className="text-3xl font-bold text-white racing-sans-one-regular mb-6">
         All {itemsName}
       </h2>

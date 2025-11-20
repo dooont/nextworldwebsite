@@ -7,7 +7,7 @@ import Gallery from './pages/Gallery';
 import EventsPage from './pages/EventsPage';
 import AdminLogin from './pages/admin/AdminLogin';
 import './App.css';
-import AdminDashboard from './pages/admin/AdminDashboard.jsx';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     children: [
       {path: '/admin/login', element: <AdminLogin />},
       /*admin validator parent here*/
-      { path: '/admin/dashboard', element: <AdminDashboard />}
+      { path: '/admin/dashboard', element: <AdminDashboard /> }
     ]
   }
 ])
