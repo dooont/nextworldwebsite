@@ -1,13 +1,10 @@
-import Loading from "../Loading.jsx";
-import InfoMessage from "../InfoMessage.jsx";
-import ErrorMessage from "../ErrorMessage.jsx";
+import Loading from "../ui/Loading.jsx";
+import InfoMessage from "../ui/InfoMessage.jsx";
+import ErrorMessage from "../ui/ErrorMessage.jsx";
+import ItemCard from "./ItemCard.jsx";
 
-//this component is meant to be reusable for any item
-
-export default function ItemsList({itemsName, CardComponent, useFetchHook, emptyMessage, onEdit}){
-  const {isLoading, isError: fetchError, data: response} = useFetchHook();
-
-  const items = response?.data || [];
+//this component is meant to be reusable for any item. Pass the Card (CardComponent) of the item you want to render. You can build this card using ItemCard and pass all text components you want to render inide
+export default function ItemsList({ itemsName, onEditClick, onDeleteClick, children }){
   
   return (
     <div className="bg-gray-900 rounded-lg shadow-2xl p-8 fade-in delay-400 flex flex-col gap-4 flex-1">
@@ -15,11 +12,7 @@ export default function ItemsList({itemsName, CardComponent, useFetchHook, empty
         All {itemsName}
       </h2>
 
-      {isLoading ? <Loading item={itemsName} /> :
-        fetchError ? <ErrorMessage>Could not retrieve {itemsName}. Contact developer</ErrorMessage> :
-        items.length === 0 ? <InfoMessage>{emptyMessage}</InfoMessage> :
-        items.map((item) => <CardComponent key={item.id} item={item} onEdit={onEdit} />)
-      }
+      {children}
     </div>
   )
 }
