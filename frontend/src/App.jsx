@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import AboutUs from './pages/AboutUs';
@@ -6,6 +7,17 @@ import Gallery from './pages/Gallery';
 import EventsPage from './pages/EventsPage';
 import AdminLogin from './pages/admin/AdminLogin';
 import './App.css';
+import AdminDashboard from './pages/admin/AdminDashboard';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 10 * 60 * 1000, //10 min
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -24,12 +36,8 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {path: '/admin/login', element: <AdminLogin />},
-      {
-        element: /*admin validator here*/<></>, 
-        children: [
-          /*all admin pages should go here*/
-        ]
-      }
+      /*admin validator parent here*/
+      { path: '/admin/dashboard', element: <AdminDashboard /> }
     ]
   }
 ])
@@ -38,7 +46,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   )
 }
 
