@@ -32,12 +32,12 @@ function generateRandomFileName(fileName) {
   return `${randomString}${extension}`;
 }
 
-export async function generatePresignedUrl(fileName, contentType) {
+export async function generatePresignedUrl(fileName, contentType, folder) {
   const randomFileName = generateRandomFileName(fileName);
 
   const command = new PutObjectCommand({
     Bucket: imageBucketName,
-    Key: randomFileName,
+    Key: `${folder}${randomFileName}`,
     ContentType: contentType,
   });
 
