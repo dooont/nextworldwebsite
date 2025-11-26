@@ -1,24 +1,24 @@
 import dbPool from "./pool.js";
 import DatabaseError from "../errors/DatabaseError.js";
 
-export async function savePastEventWithArtists(flyer='', title='', subtitle='', description='', place='', artists=[]){
+export async function savePastEventWithArtists(flyerUrl, title, date, description, place, artists) {
   const client = await dbPool.connect();
-  
-  try{
+
+  try {
     await client.query('BEGIN');
-    
+
     const eventResult = await client.query(
       'INSERT INTO past_events(flyer, title, subtitle, description, place) VALUES($1, $2, $3, $4, $5) RETURNING *',
-      [flyer, title, subtitle, description, place]
+      [flyerUrl, title, date, description, place]
     );
     const insertedEvent = eventResult.rows[0];
-    
+
     for (const artist of artists) {
       const existingArtistResult = await client.query(
         'SELECT * FROM artists WHERE contact = $1',
         [artist.contact]
       );
-      
+
       let artistId;
       if (existingArtistResult.rows.length > 0) {
         artistId = existingArtistResult.rows[0].id;
@@ -30,97 +30,113 @@ export async function savePastEventWithArtists(flyer='', title='', subtitle='', 
         );
         artistId = newArtistResult.rows[0].id;
       }
-      
+
       //add artist to past event
       await client.query(
         'INSERT INTO past_events_artists (past_event_id, artist_id) VALUES ($1, $2)',
         [insertedEvent.id, artistId]
       );
     }
-    
+
     await client.query('COMMIT');
     return insertedEvent;
-    
-  }catch(err){
+
+  } catch (err) {
     await client.query('ROLLBACK');
     throw new DatabaseError('Could not create past event with artists');
-  }finally{
-    // Release client back to pool
+  } finally {
     client.release();
   }
 }
 
-export async function deletePastEventById(id=''){
+export async function deletePastEventById(id) {
   const client = await dbPool.connect();
-  
-  try{
+
+  try {
     await client.query('BEGIN');
-    
+
     const deletedEvent = await client.query(
       'DELETE FROM past_events WHERE id = $1 RETURNING *',
       [id]
     );
-    
-    if(deletedEvent.rows.length === 0){
+
+    if (deletedEvent.rows.length === 0) {
       throw new DatabaseError('Past event not found', 404);
     }
-    
+
     //delete event from join table
     await client.query('DELETE FROM past_events_artists WHERE past_event_id = $1', [id]);
-    
-    //find orpahned artists (in no other events)
-    const orphanedArtists = await client.query(
-        `SELECT * FROM past_events_artists pea
+
+    //find orpahned artists (artists in no other events)
+    const { rows: orphanedArtists } = await client.query(
+      /*sql*/
+      `SELECT * FROM past_events_artists pea
         RIGHT JOIN artists a ON pea.artist_id = a.id
         WHERE past_event_id IS NULL;`
-      );
+    );
 
     //remove said orphaned artists
-    for(const artist of orphanedArtists){
+    for (const artist of orphanedArtists) {
       await client.query(
-        'DELETE FROM artists WHERE id = $1',
+        /*sql*/
+        `DELETE FROM artists
+        WHERE id = $1`,
         [artist.id]
       );
     }
 
     await client.query('COMMIT');
     return deletedEvent.rows[0];
-    
-  }catch(err){
+
+  } catch (err) {
     await client.query('ROLLBACK');
-    if(err instanceof DatabaseError){
+    if (err instanceof DatabaseError) {
       throw err;
     }
+    console.log(err);
     throw new DatabaseError('Could not delete past event');
-  }finally{
+  } finally {
     client.release();
   }
 }
 
-export async function findAllPastEvents(){
-  try{
-    const {rows: allPastEvents} = await dbPool.query('SELECT * FROM past_events');
-    
+export async function findAllPastEvents() {
+  try {
+    const { rows: allPastEvents } = await dbPool.query(
+      /*sql*/
+      `SELECT 
+        id,
+        flyer AS "flyerUrl",
+        title,
+        subtitle AS "date",
+        description,
+        place
+      FROM past_events`
+    );
+
     const returnPastEvents = [];
-    
+
+    //add artists to events
     for (const storedEvent of allPastEvents) {
       let parsedEvent = {
         id: storedEvent.id,
-        flyer: storedEvent.flyer,
+        flyerUrl: storedEvent.flyerUrl,
         title: storedEvent.title,
-        subtitle: storedEvent.subtitle,
+        date: storedEvent.date,
         description: storedEvent.description,
         artists: [],
         place: storedEvent.place
       };
-      
+
       const storedEventsArtistsResult = await dbPool.query(
-        `SELECT * FROM past_events_artists pea
-         RIGHT JOIN artists a ON a.id = pea.artist_id
-         WHERE past_event_id = $1`,
+        /*sql*/
+        `SELECT * 
+        FROM past_events_artists pea
+        RIGHT JOIN artists a ON a.id = pea.artist_id
+        WHERE past_event_id = $1`,
         [storedEvent.id]
       );
-      
+
       if (storedEventsArtistsResult.rows.length > 0) {
         for (const eventArtist of storedEventsArtistsResult.rows) {
           parsedEvent.artists.push({
@@ -130,12 +146,12 @@ export async function findAllPastEvents(){
           });
         }
       }
-      
+
       returnPastEvents.push(parsedEvent);
     }
-    
+
     return returnPastEvents;
-  }catch(err){
+  } catch (err) {
     throw new DatabaseError('Could not retrieve past events');
   }
 }

@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import dotenv from "dotenv/config";
 import crypto from "crypto";
@@ -43,4 +43,15 @@ export async function generatePresignedUrl(fileName, contentType, folder) {
 
   const presignedUrl = await getSignedUrl(s3, command, { expiresIn: 60 });
   return presignedUrl;
+}
+
+export async function deleteFileFromS3(folder, key){
+  folder.endsWith('/') ? folder : folder + '/'; //make sure folder ends with slash
+  
+  await s3.send(
+    new DeleteObjectCommand({
+      Bucket: imageBucketName,
+      Key: `${folder}${key}`
+    })
+  );
 }
