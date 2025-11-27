@@ -10,7 +10,7 @@ import ErrorMessage from '../../ui/ErrorMessage.jsx';
 
 export default function ArticleAdminList({ onEditClick }) {
   const { isPending, isError, data: articles } = useFetch({ queryFn: getArticles, queryKey: ['articles'], config: { staleTime: 10 * 60 * 1000 } });
-  const { isDeletePending, isDeleteError, mutate: deleteArticle } = useDelete({ mutationFn: deleteArticleById, queryKey: ['articles'] });
+  const { isPending: isDeletePending, isError: isDeleteError, mutate: deleteArticle } = useDelete({ mutationFn: deleteArticleById, queryKey: ['articles'] });
 
   return (
     <ItemsList itemsName="Articles">
