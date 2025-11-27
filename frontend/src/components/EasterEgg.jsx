@@ -19,11 +19,11 @@ export default function EasterEgg() {
   const [open, setOpen] = useState(false);
   const devSequence = ['d', 'e', 'v'];
   const konamiSequence = [
-    'ArrowUp','ArrowUp',
-    'ArrowDown','ArrowDown',
-    'ArrowLeft','ArrowRight',
-    'ArrowLeft','ArrowRight',
-    'b','a'
+    'ArrowUp', 'ArrowUp',
+    'ArrowDown', 'ArrowDown',
+    'ArrowLeft', 'ArrowRight',
+    'ArrowLeft', 'ArrowRight',
+    'b', 'a'
   ];
 
   const posDevRef = useRef(0);
@@ -32,6 +32,9 @@ export default function EasterEgg() {
   // listen for the sequences "dev" or Konami
   useEffect(() => {
     const handleSequence = (e) => {
+      if (!e.key) {
+        return
+      }
       const key = e.key;
       const keyLower = key.toLowerCase();
 
