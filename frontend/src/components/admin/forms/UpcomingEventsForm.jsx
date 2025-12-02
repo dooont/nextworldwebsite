@@ -8,22 +8,25 @@ import Button from "../../ui/Button.jsx";
 import ErrorMessage from "../../ui/ErrorMessage.jsx";
 import Loading from "../../ui/Loading.jsx";
 import { dateValidatorPattern, linkValidatorPattern } from "../../../validators/validators.js";
+import LoadingSpinner from "../../ui/LoadingSpinner.jsx";
+import { useState } from "react";
 
 const defaultUpcomingEvents = {
   title: '',
   flyerUrl: '',
   ticketLink: '',
+  imageFile: null,
   date: '',
 }
 
 export default function UpcomingEventsForm({ editingItem }) {
-
-  const editUpcomingEventMutation = useEdit({
+  const [currentFlyerLoaded, setCurrentFlyerLoaded] = useState(false);
+  const { mutate: editMutationFn, isPending: isEditPending, error: editError } = useEdit({
     mutationFn: editUpcomingEventWithImage,
     queryKey: ['upcomingEvents']
   });
 
-  const createUpcomingEventMutation = useCreate({
+  const { mutate: createMutationFn, isPending: isCreatePending, error: createError } = useCreate({
     mutationFn: createUpcomingEventWithImage,
     queryKey: ['upcomingEvents']
   });
@@ -32,13 +35,11 @@ export default function UpcomingEventsForm({ editingItem }) {
     register,
     submitForm,
     setValue,
-    formState: { errors },
-    createState: { isCreatePending, isCreateError },
-    editState: { isEditPending, isEditError }
+    formState: { errors }
   } = useCreateEditForm({
     defaultFormValue: defaultUpcomingEvents,
-    createMutation: createUpcomingEventMutation,
-    editMutation: editUpcomingEventMutation,
+    createMutationFn: createMutationFn,
+    editMutationFn: editMutationFn,
     editingItem
   });
 
@@ -55,13 +56,17 @@ export default function UpcomingEventsForm({ editingItem }) {
 
       {/*show current flyer when editing */}
       {editingItem && editingItem.flyerUrl && (
-        <div className="mb-4">
+        <div className="mb-4 w-full">
           <p className="text-white text-sm mb-2">Current Flyer:</p>
-          <img
-            src={editingItem.flyerUrl}
-            alt="Current flyer"
-            className="max-w-xs border border-purple-900 rounded"
-          />
+          <div className="w-full flex justify-center items-center">
+            {!currentFlyerLoaded && <LoadingSpinner className="h-20 w-auto" />}
+            <img
+              src={editingItem.flyerUrl}
+              alt="Current flyer"
+              className="max-w-xs"
+              onLoad={() => { setCurrentFlyerLoaded(true) }}
+            />
+          </div>
         </div>
       )}
 
@@ -76,10 +81,8 @@ export default function UpcomingEventsForm({ editingItem }) {
       <Button disabled={isCreatePending || isEditPending} type="submit">Submit</Button>
       {isCreatePending && <Loading />}
       {isEditPending && <Loading />}
-      {isCreateError && <ErrorMessage>Could not create upcoming event</ErrorMessage>}
-      {isEditError && <ErrorMessage>Could not edit upcoming event</ErrorMessage>}
-      {editUpcomingEventMutation.error && <ErrorMessage>{editUpcomingEventMutation.error.message}</ErrorMessage>}
-      {createUpcomingEventMutation.error && <ErrorMessage>{createUpcomingEventMutation.error.message}</ErrorMessage>}
+      {createError && <ErrorMessage>Could not create upcoming event</ErrorMessage>}
+      {editError && <ErrorMessage>Could not edit upcoming event</ErrorMessage>}
     </Form>
   );
 }
