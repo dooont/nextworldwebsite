@@ -2,7 +2,6 @@ import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import dotenv from "dotenv/config";
 import crypto from "crypto";
-import { AppError } from "../errors/AppError.js";
 
 const awsRegion = process.env.AWS_S3_REGION;
 const accessKey = process.env.AWS_ACCESS_KEY;
@@ -45,13 +44,16 @@ export async function generatePresignedUrl(fileName, contentType, folder) {
   return presignedUrl;
 }
 
-export async function deleteFileFromS3(folder, key){
-  folder.endsWith('/') ? folder : folder + '/'; //make sure folder ends with slash
-  
-  await s3.send(
-    new DeleteObjectCommand({
-      Bucket: imageBucketName,
-      Key: `${folder}${key}`
-    })
-  );
+/**
+ * 
+ * @param {String} key - The key without leading slash
+ * @example deleteImageFromS3("upcoming-events/f38abbbcce50a4c4756a00e8a2458257.webp")
+ */
+export async function deleteImageFromS3(key) {
+  const command = new DeleteObjectCommand({
+    Bucket: imageBucketName,
+    Key: key,
+  });
+
+  await s3.send(command);
 }
