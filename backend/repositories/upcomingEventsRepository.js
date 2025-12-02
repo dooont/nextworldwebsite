@@ -1,5 +1,6 @@
 import dbPool from "./pool.js";
 import DatabaseError from "../errors/DatabaseError.js";
+import { deleteImageFromS3 } from "../services/uploadsService.js";
 
 export async function saveUpcomingEvent(title, date, ticketLink, flyerUrl) {
   try {
@@ -15,8 +16,14 @@ export async function saveUpcomingEvent(title, date, ticketLink, flyerUrl) {
 export async function updateUpcomingEvent(id, title, date, ticketLink, flyerUrl) {
   try {
     const result = await dbPool.query(
-      'UPDATE upcoming_events SET title = $1, subtitle = $2, url = $3, flyer_url = $4 WHERE id = $5 RETURNING *',
-      [title, date, ticketLink, flyerUrl, id]
+      /*sql*/
+      `UPDATE upcoming_events
+      SET title = $1,
+      subtitle = $2,
+      url = $3,
+      flyer_url = $4
+      WHERE id = $5`
+      , [title, date, ticketLink, flyerUrl, id]
     );
 
     if (result.rows.length === 0) {
@@ -31,16 +38,30 @@ export async function updateUpcomingEvent(id, title, date, ticketLink, flyerUrl)
 }
 
 export async function deleteUpcomingEventById(id) {
+  const client = await dbPool.connect();
+
   try {
-    const result = await dbPool.query(
-      'DELETE FROM upcoming_events WHERE id = $1 RETURNING *',
-      [id]
+    await client.query('BEGIN');
+    const result = await client.query(
+      /*sql*/
+      `
+      DELETE FROM upcoming_events
+      WHERE id = $1
+      RETURNING id, title, subtitle AS "date", url AS "ticketLink", flyer_url AS "flyerUrl"
+      `, [id]
     );
 
     if (result.rows.length === 0) {
       throw new DatabaseError('Upcoming event not found', 404);
     }
+
+    const upcomingEvent = result.rows[0];
+    const imageKey = new URL(upcomingEvent.flyerUrl).pathname.slice[1];
+    await deleteImageFromS3(upcomingEvent.flyerUrl);
+
+    client.query('COMMIT');
   } catch (err) {
+    client.query('ROLLBACK');
     if (err instanceof DatabaseError) {
       throw err;
     }
@@ -63,5 +84,27 @@ export async function findAllUpcomingEvents() {
     return result.rows;
   } catch (err) {
     throw new DatabaseError('Could not retrieve upcoming events');
+  }
+}
+
+export async function findUpcomingEventById(id) {
+  try {
+    const result = await dbPool.query(
+      /*sql*/
+      `
+      SELECT
+      id,
+      title,
+      subtitle AS "date",
+      url AS "ticketLink",
+      flyer_url AS "flyerUrl",
+      FROM upcoming_events
+      WHERE id = $1
+      `, [id]
+    );
+
+    return result.rows[0];
+  } catch (e) {
+    throw new DatabaseError('Could not retrieve upcoming event');
   }
 }
