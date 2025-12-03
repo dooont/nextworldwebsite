@@ -69,7 +69,9 @@ export async function deleteUpcomingEventById(id) {
     if (err instanceof DatabaseError) {
       throw err;
     }
-    throw err;
+    throw new DatabaseError('Could not delete upcoming event');
+  } finally {
+    client.release();
   }
 }
 
