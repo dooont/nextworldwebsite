@@ -87,6 +87,27 @@ export async function deleteMemberById(id) {
   }
 }
 
+export async function findAllMembers() {
+  try {
+    const result = await dbPool.query(
+      /*sql*/
+      `SELECT 
+      id,
+      first_name AS "firstName",
+      last_name AS "lastName",
+      role,
+      photo AS "photoUrl",
+      description,
+      fun_fact AS "funFact",
+      type
+      FROM members`
+    );
+    return result.rows;
+  } catch (err) {
+    throw new DatabaseError('Could not retrieve members');
+  }
+}
+
 export async function findMembersByType(type) {
   try {
     const result = await dbPool.query(
