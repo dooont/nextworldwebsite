@@ -5,7 +5,13 @@ export async function getMembersByType(type) {
     throw new Error("Type must be exec or other");
   }
 
-  return await api.get(`/members/${type}`);
+  const response = await api.get(`/members/${type}`);
+  return response.data;
+}
+
+export async function getAllMembers() {
+  const response = await api.get('/members');
+  return response.data;
 }
 
 export async function deleteMemberById(id) {
