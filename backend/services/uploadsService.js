@@ -48,8 +48,12 @@ export async function generatePresignedUrl(fileName, contentType, folder) {
  * 
  * @param {String} key - The key without leading slash
  * @example deleteImageFromS3("upcoming-events/f38abbbcce50a4c4756a00e8a2458257.webp")
+ * @throws {Error} If key is not supplied
  */
 export async function deleteImageFromS3(key) {
+  if (!key) {
+    throw new Error('Key not supplied');
+  }
   const command = new DeleteObjectCommand({
     Bucket: imageBucketName,
     Key: key,

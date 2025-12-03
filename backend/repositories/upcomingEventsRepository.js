@@ -37,6 +37,10 @@ export async function updateUpcomingEvent(id, title, date, ticketLink, flyerUrl)
   }
 }
 
+/**
+ * Deletes upcoming event and it's s3 image
+ * @param {*} id 
+ */
 export async function deleteUpcomingEventById(id) {
   const client = await dbPool.connect();
 
@@ -56,8 +60,8 @@ export async function deleteUpcomingEventById(id) {
     }
 
     const upcomingEvent = result.rows[0];
-    const imageKey = new URL(upcomingEvent.flyerUrl).pathname.slice[1];
-    await deleteImageFromS3(upcomingEvent.flyerUrl);
+    const imageKey = new URL(upcomingEvent.flyerUrl).pathname.slice(1);
+    await deleteImageFromS3(imageKey);
 
     client.query('COMMIT');
   } catch (err) {
@@ -65,7 +69,7 @@ export async function deleteUpcomingEventById(id) {
     if (err instanceof DatabaseError) {
       throw err;
     }
-    throw new DatabaseError('Could not delete upcoming event');
+    throw err;
   }
 }
 
