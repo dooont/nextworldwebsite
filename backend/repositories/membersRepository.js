@@ -1,5 +1,6 @@
 import dbPool from "./pool.js";
 import DatabaseError from "../errors/DatabaseError.js";
+import { deleteImageFromS3 } from "../services/uploadsService.js";
 
 export async function saveMember(firstName, lastName, role, photoUrl, description, funFact, type = '') {
   try {
@@ -46,13 +47,21 @@ export async function updateMember(id, firstName, lastName, role, photoUrl, desc
   }
 }
 
+/**
+ * Deletes member and its s3 image
+ * @param {*} id 
+ * @returns 
+ */
 export async function deleteMemberById(id) {
+  const client = await dbPool.connect();
+
   try {
-    const result = await dbPool.query(
+    await client.query('BEGIN');
+    const result = await client.query(
       /*sql*/
       `DELETE FROM members
       WHERE id = $1
-      RETURNING *`,
+      RETURNING id, photo AS "photoUrl"`,
       [id]
     );
 
@@ -60,12 +69,21 @@ export async function deleteMemberById(id) {
       throw new DatabaseError('Member not found', 404);
     }
 
-    return result.rows[0];
+    const deletedMember = result.rows[0];
+    const imageKey = new URL(deletedMember.photoUrl).pathname.slice(1);
+    await deleteImageFromS3(imageKey);
+
+    client.query('COMMIT');
   } catch (err) {
+    client.query('ROLLBACK');
+
     if (err instanceof DatabaseError) {
       throw err;
     }
-    throw new DatabaseError('Could not delete member');
+
+    throw err;
+  } finally {
+    client.release();
   }
 }
 
