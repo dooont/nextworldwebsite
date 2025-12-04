@@ -21,7 +21,7 @@ export async function getPresignedUrl(folder, fileName, contentType) {
  * @returns {Object} - Axios response object
  */
 export async function uploadImageToS3(presignedUrl, file, contentType) {
-  return await axios.put(presignedUrl, file, {
+  await axios.put(presignedUrl, file, {
     headers: {
       'Content-Type': contentType
     }
