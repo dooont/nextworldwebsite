@@ -10,9 +10,9 @@ export default function MembersAdminList() {
   const { isPending: isMembersPending, isMembersError, data: allMembers } = useFetch({ queryFn: getAllMembers, queryKey: ['members'], config: { staleTime: 10 * 60 * 1000 } });
 
   return (
-    <ItemsList itemsName="Past Events">
+    <ItemsList itemsName="Members">
       {isMembersPending ? <div className="w-full flex justify-center"><LoadingSpinner className="h-20 w-20" /></div> :
-        isMembersError ? <ErrorMessage>Could not get past events</ErrorMessage> :
+        isMembersError ? <ErrorMessage>Could not get members</ErrorMessage> :
           allMembers.map((member) => {
             return (
               <ItemCard key={member.id} onDelete={() => deletepastEvent(member.id)} onEdit={() => onEditClick(member)}>
