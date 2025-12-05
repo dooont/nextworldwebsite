@@ -1,5 +1,6 @@
 import dbPool from "./pool.js";
 import DatabaseError from "../errors/DatabaseError.js";
+import { deleteImageFromS3 } from "../services/uploadsService.js";
 
 export async function savePastEventWithArtists(flyerUrl, title, date, description, place, artists) {
   const client = await dbPool.connect();
@@ -49,6 +50,11 @@ export async function savePastEventWithArtists(flyerUrl, title, date, descriptio
   }
 }
 
+/**
+ * 
+ * @param {number} id - Deletes a past event by id. Including s3 flyer
+ * 
+ */
 export async function deletePastEventById(id) {
   const client = await dbPool.connect();
 
@@ -56,7 +62,12 @@ export async function deletePastEventById(id) {
     await client.query('BEGIN');
 
     const deletedEvent = await client.query(
-      'DELETE FROM past_events WHERE id = $1 RETURNING *',
+      /*sql*/
+      `
+      DELETE FROM past_events
+      WHERE id = $1
+      RETURNING id,
+      flyer AS "flyerUrl"`,
       [id]
     );
 
@@ -84,6 +95,10 @@ export async function deletePastEventById(id) {
         [artist.id]
       );
     }
+
+    const flyerKey = new URL(deletedEvent.rows[0].flyerUrl).pathname.slice(1);
+    //delete flyer from s3
+    await deleteImageFromS3(flyerKey);
 
     await client.query('COMMIT');
     return deletedEvent.rows[0];
