@@ -4,12 +4,12 @@ import MembersAdminList from "../lists/MembersAdminList.jsx";
 import AdminSection from "./AdminSection.jsx";
 
 export default function MembersAdminSection() {
-  const { editingMember, setEditingMember } = useEditState();
+  const { editingItem, handleSetEdit } = useEditState();
 
   return (
     <AdminSection>
-      <MembersForm editingItem={editingMember}/>
-      <MembersAdminList />
+      <MembersForm editingItem={editingItem}/>
+      <MembersAdminList onEditClick={handleSetEdit}/>
     </AdminSection>
   )
 }

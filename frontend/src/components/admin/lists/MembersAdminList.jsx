@@ -5,9 +5,10 @@ import Loading from "../../ui/Loading.jsx";
 import ItemCard from "../ItemCard.jsx";
 import H3 from "../../ui/H3.jsx";
 import LoadingSpinner from "../../ui/LoadingSpinner.jsx";
+import ErrorMessage from "../../ui/ErrorMessage.jsx";
 
-export default function MembersAdminList() {
-  const { isPending: isMembersPending, isMembersError, data: allMembers } = useFetch({ queryFn: getAllMembers, queryKey: ['members'], config: { staleTime: 10 * 60 * 1000 } });
+export default function MembersAdminList({ onEditClick }) {
+  const { isPending: isMembersPending, isError: isMembersError, data: allMembers } = useFetch({ queryFn: getAllMembers, queryKey: ['members'], config: { staleTime: 10 * 60 * 1000 } });
 
   return (
     <ItemsList itemsName="Members">

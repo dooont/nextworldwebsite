@@ -3,12 +3,13 @@ import { useState } from "react";
 import Input from "../../ui/Input.jsx";
 import Select from "../../ui/Select.jsx";
 import useCreateEditForm from "../../../hooks/useCreateEditForm.jsx";
-import { createMemberWithImage, updateMemberById } from "../../../services/membersService.js";
+import { createMemberWithImage, editMemberWithImage } from "../../../services/membersService.js";
 import useCreate from "../../../hooks/useCreate.jsx";
 import useEdit from '../../../hooks/useEdit.jsx';
 import Button from "../../ui/Button.jsx";
 import Loading from "../../ui/Loading.jsx";
 import ErrorMessage from "../../ui/ErrorMessage.jsx";
+import LoadingSpinner from "../../ui/LoadingSpinner.jsx";
 
 const defaultFormValue = {
   firstName: '',
@@ -17,16 +18,15 @@ const defaultFormValue = {
   photoUrl: '',
   description: '',
   funFact: '',
-  type: 'other'
+  type: 'other',
+  photoFile: null
 }
 
 export default function MembersForm({ editingItem }) {
   const { mutate: createMutationFn, isPending: isCreatePending, error: createError } = useCreate({ mutationFn: createMemberWithImage, queryKey: ['members'] });
-  const { mutate: editMutationFn, isPending: isEditPending, error: editError } = useEdit({ mutationFn: updateMemberById, queryKey: ['articles'] });
+  const { mutate: editMutationFn, isPending: isEditPending, error: editError } = useEdit({ mutationFn: editMemberWithImage, queryKey: ['members'] });
 
-  function tempSubmitForm(data) {
-    console.log(data);
-  }
+  const [currentPhotoLoaded, setCurrentPhotoLoaded] = useState(false);
 
   const { 
     submitForm,
@@ -37,11 +37,11 @@ export default function MembersForm({ editingItem }) {
     defaultFormValue,
     editingItem,
     createMutationFn: createMutationFn,
-    editMutation: editMutationFn
+    editMutationFn: editMutationFn
   });
 
   return (
-    <Form onSubmit={submitForm}>
+    <Form onSubmit={submitForm} title={editingItem ? 'Edit Member' : 'Add Member'}>
       <Input {...register('firstName', {required: 'First Name is required'})} label="First Name"/>
       {errors.firstName && <ErrorMessage>{errors.firstName.message}</ErrorMessage>}
       
@@ -70,14 +70,28 @@ export default function MembersForm({ editingItem }) {
       onChange={(e) => setValue('photoFile', e.target.files[0])}
       accept="image/*"
       required={!editingItem} type="file" label="Photo"/>
+
+      {/*show current member photo when editing */}
+      {editingItem && editingItem.photoUrl && (
+        <div className="mb-4 w-full">
+          <p className="text-white text-sm mb-2">Current Photo:</p>
+          <div className="w-full flex justify-center items-center">
+            {!currentPhotoLoaded && <LoadingSpinner className="h-20 w-auto" />}
+            <img
+              src={editingItem.photoUrl}
+              alt="Current photo"
+              className="max-w-xs"
+              onLoad={() => { setCurrentPhotoLoaded(true) }}
+            />
+          </div>
+        </div>
+      )}
       
       <Button disabled={isCreatePending || isEditPending} type="submit">Submit</Button>
       {isCreatePending && <Loading />}
       {isEditPending && <Loading />}
       {createError && <ErrorMessage>Could not create member</ErrorMessage>}
-      {createError && <ErrorMessage>{createError.message}</ErrorMessage>}
       {editError && <ErrorMessage>Could not edit member</ErrorMessage>}
-
     </Form>
   );
 }

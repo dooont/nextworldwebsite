@@ -1,5 +1,5 @@
 import { api } from '../api/axios.js';
-import { getPresignedUrl, uploadImageToS3 } from './s3Service.jsx';
+import { deleteImageFromS3, getPresignedUrl, uploadImageToS3 } from './s3Service.jsx';
 
 export async function getMembersByType(type) {
   if (type !== "exec" || type !== "other") {
@@ -42,6 +42,29 @@ export async function deleteMemberById(id) {
   return await api.delete(`/members/${id}`);
 }
 
-export async function updateMemberById(id, updatedMember) {
-  return await api.put(`/members/${id}`, updatedMember);
+export async function editMemberWithImage(id, updatedMemberFormData) {
+  //If photoFile is sent, it means flyer was changed and should be uploaded to s3. Get new s3 link and delete old one
+  const { photoFile, ...formWithoutPhotoFile } = updatedMemberFormData;
+
+  if(!photoFile){
+    return await editMember(id, formWithoutPhotoFile);
+  }
+
+  await deleteImageFromS3(formWithoutPhotoFile.photoUrl);
+
+  const { data: { presignedUrl } } = await getPresignedUrl('members/', photoFile.name, photoFile.type);
+  await uploadImageToS3(presignedUrl, photoFile, photoFile.type);
+  const photoUrl = presignedUrl.split('?')[0];
+
+  const editedMember = {
+    ...formWithoutPhotoFile,
+    photoUrl
+  }
+
+
+  return await editMember(id, editedMember);
+}
+
+export async function editMember(id, updatedMemberFormData){
+  return await api.put(`/members/${id}`, updatedMemberFormData);
 }
