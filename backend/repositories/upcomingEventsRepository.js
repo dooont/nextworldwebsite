@@ -22,7 +22,8 @@ export async function updateUpcomingEvent(id, title, date, ticketLink, flyerUrl)
       subtitle = $2,
       url = $3,
       flyer_url = $4
-      WHERE id = $5`
+      WHERE id = $5
+      RETURNING id`
       , [title, date, ticketLink, flyerUrl, id]
     );
 

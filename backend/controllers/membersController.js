@@ -30,10 +30,7 @@ export async function getMembers(req, res) {
   res.status(200).json(members);
 }
 
-export async function getAllMembersController(req, res) {
-  setTimeout(async () => {
-    const members = await getAllMembers();
-    res.status(200).json(members);
-  }, 2000);
-
+export async function getEveryMember(req, res) {
+  const members = await getAllMembers();
+  res.status(200).json(members);
 }
