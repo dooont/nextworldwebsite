@@ -1,4 +1,4 @@
-import { createMember, editMember, removeMember, getMembersByType } from "../services/membersService.js";
+import { createMember, editMember, removeMember, getMembersByType, getAllMembers } from "../services/membersService.js";
 
 export async function addMember(req, res) {
   const { firstName, lastName, role, photoUrl, description, funFact, type } = req.body;
@@ -30,3 +30,7 @@ export async function getMembers(req, res) {
   res.status(200).json(members);
 }
 
+export async function getEveryMember(req, res) {
+  const members = await getAllMembers();
+  res.status(200).json(members);
+}

@@ -64,7 +64,7 @@ export async function editUpcomingEventWithImage(id, eventFormData) {
   await deleteImageFromS3(formWithoutFlyerImage.flyerUrl);
 
   const { data: { presignedUrl } } = await getPresignedUrl('upcoming-events/', imageFile.name, imageFile.type);
-  uploadImageToS3(presignedUrl, imageFile, imageFile.type);
+  await uploadImageToS3(presignedUrl, imageFile, imageFile.type);
   const flyerUrl = presignedUrl.split('?')[0];
 
   const editedUpcomingEvent = {

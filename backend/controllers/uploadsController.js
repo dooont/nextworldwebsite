@@ -12,7 +12,7 @@ export async function deleteS3Image(req, res) {
 
   const url = new URL(fileUrl);
 
-  const key = url.pathname
+  const key = url.pathname.slice(1);
 
   await deleteImageFromS3(key);
   res.status(200).send();

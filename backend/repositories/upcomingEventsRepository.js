@@ -22,7 +22,8 @@ export async function updateUpcomingEvent(id, title, date, ticketLink, flyerUrl)
       subtitle = $2,
       url = $3,
       flyer_url = $4
-      WHERE id = $5`
+      WHERE id = $5
+      RETURNING id`
       , [title, date, ticketLink, flyerUrl, id]
     );
 
@@ -69,7 +70,9 @@ export async function deleteUpcomingEventById(id) {
     if (err instanceof DatabaseError) {
       throw err;
     }
-    throw err;
+    throw new DatabaseError('Could not delete upcoming event');
+  } finally {
+    client.release();
   }
 }
 
