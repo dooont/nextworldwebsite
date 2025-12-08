@@ -170,3 +170,98 @@ export async function findAllPastEvents() {
     throw new DatabaseError('Could not retrieve past events');
   }
 }
+
+export async function editPastEventById(id, flyerUrl, title, date, description, place, artists) {
+  const client = await dbPool.connect();
+  try {
+    await client.query('BEGIN');
+
+    //update past event
+    const result = await client.query(
+      /*sql*/`
+      UPDATE past_events
+      SET flyer = $1,
+      title = $2,
+      subtitle = $3,
+      description = $4,
+      place = $5
+      WHERE id = $6
+      RETURNING *
+      `, [flyerUrl, title, date, description, place, id]
+    );
+
+    if (result.rows.length === 0) {
+      throw new DatabaseError('Past Event not found');
+    }
+
+    await client.query(
+      /*sql*/
+      `
+      DELETE FROM past_events_artists
+      WHERE past_event_id = $1
+      `, [id]
+    );
+
+    await addArtistsToEvent(client, id, artists);
+
+    await removeOrphanedArtists(client);
+
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.log('Your error: ', err);
+    if(err instanceof DatabaseError){
+      throw err
+    }
+    throw new DatabaseError('Could not update past event');
+  } finally {
+    await client.release();
+  }
+}
+
+//associates array of artists with event, without creating duplicate artists (compares contact)
+async function addArtistsToEvent(client, eventId, artists){
+  for (const artist of artists) {
+
+    //get all artists from event
+    const existingArtistResult = await client.query(
+      'SELECT * FROM artists WHERE contact = $1',
+      [artist.contact]
+    );
+
+    //check if current artist exists already
+    let artistId;
+    if (existingArtistResult.rows.length > 0) {
+      //use existing id if exists
+      artistId = existingArtistResult.rows[0].id;
+    } else {
+      //create new artist if doesn't exist
+      const newArtistResult = await client.query(
+        'INSERT INTO artists (name, contact) VALUES ($1, $2) RETURNING *',
+        [artist.name, artist.contact]
+      );
+      artistId = newArtistResult.rows[0].id;
+    }
+
+    //add artist to past event
+    await client.query(
+      'INSERT INTO past_events_artists (past_event_id, artist_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+      [eventId, artistId]
+    );
+  }
+}
+
+//removes orphaned artists (artists no longer in any event)
+async function removeOrphanedArtists(client){
+  await client.query(
+    /*sql*/
+    `
+    DELETE FROM artists
+    WHERE NOT EXISTS (
+      SELECT 1 
+      FROM past_events_artists 
+      WHERE past_events_artists.artist_id = artists.id
+      );
+    `
+  )
+}
