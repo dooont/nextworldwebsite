@@ -11,8 +11,8 @@ export default function AdminDashboard() {
         Admin Dashboard
       </h1>
       <ArticlesAdminSection />
-      {/*<UpcomingEventsAdminSection />*/}
-      {/*<MembersAdminSection />*/}
+      <UpcomingEventsAdminSection />
+      <MembersAdminSection />
       <PastEventsAdminSection />
     </div>
   );
