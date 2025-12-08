@@ -22,19 +22,18 @@ const defaultFormValue = {
 
 export default function ArticlesForm({ editingItem }) {
 
-  const createMutation = useCreate({ mutationFn: createArticle, queryKey: ['articles'] });
-  const editMutation = useEdit({ mutationFn: editArticle, queryKey: ['articles'] });
+  const { mutate: createMutation, isPending: isCreatePending, isError: isCreateError} = useCreate({ mutationFn: createArticle, queryKey: ['articles'] });
+  const { mutate: editMutation, isPending: isEditPending, isError: isEditError } = useEdit({ mutationFn: editArticle, queryKey: ['articles'] });
 
-  const { submitForm,
+  const { 
+     submitForm,
     register,
     formState: { errors },
-    createState: { isCreatePending, isCreateError },
-    editState: { isEditPending, isEditError }
   } = useCreateEditForm({
     defaultFormValue,
     editingItem,
-    createMutation,
-    editMutation
+    createMutationFn: createMutation,
+    editMutationFn: editMutation,
   });
 
   return (
