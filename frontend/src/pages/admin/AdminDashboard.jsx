@@ -1,6 +1,7 @@
 import ArticlesAdminSection from '../../components/admin/sections/ArticlesAdminSection.jsx';
 import MembersAdminSection from '../../components/admin/sections/MembersAdminSection.jsx';
 import UpcomingEventsAdminSection from '../../components/admin/sections/UpcomingEventsAdminSection.jsx';
+import PastEventsAdminSection from '../../components/admin/sections/PastEventsAdminSection.jsx';
 
 
 export default function AdminDashboard() {
@@ -11,7 +12,8 @@ export default function AdminDashboard() {
       </h1>
       {/*<ArticlesAdminSection />*/}
       {/*<UpcomingEventsAdminSection />*/}
-      <MembersAdminSection />
+      {/*<MembersAdminSection />*/}
+      <PastEventsAdminSection />
     </div>
   );
 }

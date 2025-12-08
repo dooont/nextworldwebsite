@@ -15,7 +15,7 @@ import { useState } from "react";
  */
 
 export default function useCreateEditForm({ defaultFormValue, createMutationFn, editMutationFn, editingItem }) {
-  const { register, handleSubmit, formState, setValue, reset } = useForm({ defaultValues: defaultFormValue });
+  const { register, handleSubmit, formState, setValue, reset, control } = useForm({ defaultValues: defaultFormValue });
 
   useEffect(() => { //set default form values
     if (editingItem) {
@@ -38,6 +38,7 @@ export default function useCreateEditForm({ defaultFormValue, createMutationFn, 
     register,
     submitForm: handleSubmit(submitForm),
     setValue,
-    formState
+    formState,
+    control
   }
 }
