@@ -2,7 +2,7 @@ import { api } from '../api/axios.js';
 import { deleteImageFromS3, getPresignedUrl, uploadImageToS3 } from './s3Service.jsx';
 
 export async function getMembersByType(type) {
-  if (type !== "exec" || type !== "other") {
+  if (type !== "exec" && type !== "other") {
     throw new Error("Type must be exec or other");
   }
 
