@@ -73,8 +73,8 @@ export default function PastEventsForm({ editingItem }) {
           <div key={field.id}>
             <Input label={`Artist ${index + 1}`} {...register(`artists.${index}.name`, { required: 'Name is required' })} placeholder="Artist Name"/>
             <Input {...register(`artists.${index}.contact`, { required: 'Contact is required' })} placeholder="Artist Handle (e.g. nxtworldco)"/>
-            { errors.artists?.[index].name && <ErrorMessage>{errors.artists[index].name.message}</ErrorMessage>}
-            { errors.artists?.[index].contact && <ErrorMessage>{errors.artists[index].contact.message}</ErrorMessage>}
+            { errors?.artists?.[index].name && <ErrorMessage>{errors.artists?.[index]?.name?.message}</ErrorMessage>}
+            { errors?.artists?.[index].contact && <ErrorMessage>{errors.artists?.[index]?.contact?.message}</ErrorMessage>}
             <Button type="button" onClick={() => remove(index)} className="bg-red-600 hover:bg-red-700 max-w-1/4 !py-0 !text-sm mt-2 max-h-10">Remove Artist</Button>
           </div>
         ) 
