@@ -13,7 +13,7 @@ export async function saveMember(firstName, lastName, role, photoUrl, descriptio
     );
     return result.rows[0];
   } catch (err) {
-    throw new DatabaseError('Could not create member');
+    throw new DatabaseError('Could not create member', 500, err);
   }
 }
 
@@ -43,7 +43,7 @@ export async function updateMember(id, firstName, lastName, role, photoUrl, desc
     if (err instanceof DatabaseError) {
       throw err;
     }
-    throw new DatabaseError('Could not update member');
+    throw new DatabaseError('Could not update member', 500, err);
   }
 }
 
@@ -104,7 +104,7 @@ export async function findAllMembers() {
     );
     return result.rows;
   } catch (err) {
-    throw new DatabaseError('Could not retrieve members');
+    throw new DatabaseError('Could not retrieve members', 500, err);
   }
 }
 
@@ -127,6 +127,6 @@ export async function findMembersByType(type) {
     );
     return result.rows;
   } catch (err) {
-    throw new DatabaseError('Could not retrieve members');
+    throw new DatabaseError('Could not retrieve members', 500, err);
   }
 }

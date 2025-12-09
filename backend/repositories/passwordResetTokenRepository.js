@@ -7,7 +7,7 @@ export async function saveToken(adminUserId='', token='', expiresAt=''){
       [adminUserId, token, expiresAt]
     );
   }catch(err){
-    throw new DatabaseError('Could not create reset token');
+    throw new DatabaseError('Could not create reset token', 500, err);
   }
 }
 

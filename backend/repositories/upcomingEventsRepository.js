@@ -9,7 +9,7 @@ export async function saveUpcomingEvent(title, date, ticketLink, flyerUrl) {
       [title, date, ticketLink, flyerUrl]
     );
   } catch (err) {
-    throw new DatabaseError('Could not complete request');
+    throw new DatabaseError('Could not complete request', 500, err);
   }
 }
 
@@ -34,7 +34,7 @@ export async function updateUpcomingEvent(id, title, date, ticketLink, flyerUrl)
     if (err instanceof DatabaseError) {
       throw err;
     }
-    throw new DatabaseError('Could not update upcoming event');
+    throw new DatabaseError('Could not update upcoming event', 500, err);
   }
 }
 
@@ -70,7 +70,7 @@ export async function deleteUpcomingEventById(id) {
     if (err instanceof DatabaseError) {
       throw err;
     }
-    throw new DatabaseError('Could not delete upcoming event');
+    throw new DatabaseError('Could not delete upcoming event', 500, err);
   } finally {
     client.release();
   }
@@ -90,7 +90,7 @@ export async function findAllUpcomingEvents() {
     );
     return result.rows;
   } catch (err) {
-    throw new DatabaseError('Could not retrieve upcoming events');
+    throw new DatabaseError('Could not retrieve upcoming events', 500, err);
   }
 }
 
@@ -112,6 +112,6 @@ export async function findUpcomingEventById(id) {
 
     return result.rows[0];
   } catch (e) {
-    throw new DatabaseError('Could not retrieve upcoming event');
+    throw new DatabaseError('Could not retrieve upcoming event', 500, e);
   }
 }

@@ -31,7 +31,7 @@ export async function sendPasswordResetRequestEmail(toEmail, resetUrl){
   try{
     await transporter.sendMail(mailOptions);
   }catch(err){
-    throw new EmailError('Could not send reset email', 500);
+    throw new EmailError('Could not send reset email', 500, err);
   }
 }
 
@@ -54,6 +54,6 @@ export async function sendInquiryEmail(firstName, lastName, userEmail, inquiryBo
   try{
     await transporter.sendMail(mailOptions);
   }catch(err){
-    throw new EmailError('Could not send inquiry email', 500);
+    throw new EmailError('Could not send inquiry email', 500, err);
   }
 }
