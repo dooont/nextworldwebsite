@@ -8,7 +8,7 @@ export async function saveRefreshToken(adminUserId, token, expiresAt){
       [adminUserId, token, expiresAt]
     );
   }catch(err){
-    throw new DatabaseError('Could not save refresh token');
+    throw new DatabaseError('Could not save refresh token', 500, err);
   }
 }
 
@@ -20,7 +20,7 @@ export async function findRefreshToken(token){
     );
     return result.rows[0];
   }catch(err){
-    throw new DatabaseError('Error finding refresh token');
+    throw new DatabaseError('Error finding refresh token', 500, err);
   }
 }
 
@@ -31,7 +31,7 @@ export async function deleteRefreshToken(token){
       [token]
     );
   }catch(err){
-    throw new DatabaseError('Could not delete refresh token');
+    throw new DatabaseError('Could not delete refresh token', 500, err);
   }
 }
 
@@ -42,7 +42,7 @@ export async function deleteAllUserRefreshTokens(adminUserId){
       [adminUserId]
     );
   }catch(err){
-    throw new DatabaseError('Could not delete user refresh tokens');
+    throw new DatabaseError('Could not delete user refresh tokens', 500, err);
   }
 }
 

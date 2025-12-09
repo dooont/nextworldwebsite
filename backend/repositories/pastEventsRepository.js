@@ -44,7 +44,7 @@ export async function savePastEventWithArtists(flyerUrl, title, date, descriptio
 
   } catch (err) {
     await client.query('ROLLBACK');
-    throw new DatabaseError('Could not create past event with artists');
+    throw new DatabaseError('Could not create past event with artists', 500, err);
   } finally {
     client.release();
   }
@@ -109,7 +109,7 @@ export async function deletePastEventById(id) {
       throw err;
     }
     console.log(err);
-    throw new DatabaseError('Could not delete past event');
+    throw new DatabaseError('Could not delete past event', 500, err);
   } finally {
     client.release();
   }
@@ -167,7 +167,7 @@ export async function findAllPastEvents() {
 
     return returnPastEvents;
   } catch (err) {
-    throw new DatabaseError('Could not retrieve past events');
+    throw new DatabaseError('Could not retrieve past events', 500, err);
   }
 }
 
@@ -213,7 +213,7 @@ export async function editPastEventById(id, flyerUrl, title, date, description, 
     if(err instanceof DatabaseError){
       throw err
     }
-    throw new DatabaseError('Could not update past event');
+    throw new DatabaseError('Could not update past event', 500, err);
   } finally {
     await client.release();
   }

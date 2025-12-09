@@ -10,7 +10,7 @@ export async function findUserByEmail(email){
     );
     return result.rows[0]; //returns undefined if user not found
   }catch(err){
-    throw new DatabaseError('Could not complete request');
+    throw new DatabaseError('Could not complete request', 500, err);
   }
 }
 
@@ -22,7 +22,7 @@ export async function findUserById(adminUserId){
     );
     return result.rows[0];
   }catch(err){
-    throw new DatabaseError('Could not complete request');
+    throw new DatabaseError('Could not complete request', 500, err);
   }
 }
 
@@ -33,6 +33,6 @@ export async function updateUserPassword(adminUserId, hashedPassword){
       [hashedPassword, adminUserId]
     );
   }catch(err){
-    throw new DatabaseError('Could not update password');
+    throw new DatabaseError('Could not update password', 500, err);
   }
 }

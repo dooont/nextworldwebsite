@@ -7,6 +7,7 @@ export default function errorHandler(err, req, res, next) {
   console.error('Error: ', {
     message: err.message,
     stack: err.stack,
+    cause: err.cause,
     statusCode,
     path: req.path,
     method: req.method
@@ -22,6 +23,7 @@ export default function errorHandler(err, req, res, next) {
   if (isDevelopment) {
     response.error.stack = err.stack;
     response.error.name = err.name;
+    response.error.cause = err.cause;
   }
 
   res.status(statusCode).json(response);

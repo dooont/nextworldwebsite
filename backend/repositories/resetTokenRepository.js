@@ -9,7 +9,7 @@ export async function findValidResetToken(token){
     );
     return result.rows[0];
   }catch(err){
-    throw new DatabaseError('Could not find reset token');
+    throw new DatabaseError('Could not find reset token', 500, err);
   }
 }
 
@@ -20,7 +20,7 @@ export async function deleteResetToken(token){
       [token]
     );
   }catch(err){
-    throw new DatabaseError('Could not delete reset token');
+    throw new DatabaseError('Could not delete reset token', 500, err);
   }
 }
 

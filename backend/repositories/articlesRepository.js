@@ -7,7 +7,7 @@ export async function saveArticle(title='', source='', date='', description='', 
       'INSERT INTO articles(title, source, date, description, link) VALUES($1, $2, $3, $4, $5)',
     [title, source, date, description, link]);
   }catch(err){
-    throw new DatabaseError('Could not complete request');
+    throw new DatabaseError('Could not complete request', 500, err);
   }
 }
 
@@ -22,7 +22,10 @@ export async function updateArticle(id, title='', source='', date='', descriptio
       throw new DatabaseError('Article not found', 404);
     }
   }catch(err){
-    throw new DatabaseError('Could not update article');
+    if(err instanceof DatabaseError){
+      throw err;
+    }
+    throw new DatabaseError('Could not update article', 500, err);
   }
 }
 
@@ -34,7 +37,7 @@ export async function findAllArticles(){
     
     return result.rows;
   }catch(err){
-    throw new DatabaseError('Could not retrieve articles');
+    throw new DatabaseError('Could not retrieve articles', 500, err);
   }
 }
 
@@ -52,6 +55,6 @@ export async function deleteArticleById(id){
     if(err instanceof DatabaseError){
       throw err;
     }
-    throw new DatabaseError('Could not delete article');
+    throw new DatabaseError('Could not delete article', 500, err);
   }
 }
