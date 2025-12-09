@@ -2,9 +2,9 @@ import React from 'react';
 import nextworldWhite from '../assets/mainLogoWhite.png';
 import heroBackgroundVideo from '../assets/main-page-nextworld-hero-background.mp4';
 import whoAreWe from '../assets/who-are-we.jpg';
-import EmailUsFooter from './EmailUs';
 import FadeInOnScroll from './FadeInOnScroll.jsx';
 import ArticlesContainer from './ArticlesContainer.jsx';
+import ContactForm from './ContactForm.jsx';
 
 
 const MainPage = () => {
@@ -101,7 +101,7 @@ const MainPage = () => {
       <ArticlesContainer />
 
       {/* Contact Us */}
-      {/* <EmailUsFooter /> */}
+      <ContactForm />
     </div>
   );
 };
