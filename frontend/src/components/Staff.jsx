@@ -22,13 +22,15 @@ export default function Staff({ teamMembers }) {
           "
           >
             <img
-              src={member.photo}
-              alt={member.name}
+              src={member.photoUrl || member.photo}
+              alt={`${member.firstName || member.name} ${member.lastName || ''}`}
               className="w-full h-48 object-cover object-top"
             />
             <div className="p-4 text-center">
               <h3 className="text-xl font-medium text-white bebas-kai-regular">
-                {member.name}
+                {member.firstName && member.lastName 
+                  ? `${member.firstName} ${member.lastName}`
+                  : member.name}
               </h3>
               <p className="text-gray-400 oswald-400">{member.role}</p>
             </div>
@@ -62,8 +64,8 @@ export default function Staff({ teamMembers }) {
           >
             {/* Photo on the left */}
             <img
-              src={selectedMember.photo}
-              alt={selectedMember.name}
+              src={selectedMember.photoUrl || selectedMember.photo}
+              alt={`${selectedMember.firstName || selectedMember.name} ${selectedMember.lastName || ''}`}
               className="w-48 h-48 object-cover rounded-lg flex-shrink-0 object-top"
             />
 
@@ -72,7 +74,9 @@ export default function Staff({ teamMembers }) {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-2xl font-bold">
-                    {selectedMember.name}
+                    {selectedMember.firstName && selectedMember.lastName 
+                      ? `${selectedMember.firstName} ${selectedMember.lastName}`
+                      : selectedMember.name}
                   </h3>
                   <p className="text-gray-400">{selectedMember.role}</p>
                 </div>
@@ -84,7 +88,7 @@ export default function Staff({ teamMembers }) {
                 </button>
               </div>
               <div className="mt-4 prose prose-invert text-gray-300">
-                <p>{selectedMember.desc}</p>
+                <p>{selectedMember.description}</p>
                 <p><strong>Fun Fact:</strong> {selectedMember.funFact}</p>
               </div>
             </div>
