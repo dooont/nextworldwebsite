@@ -35,7 +35,8 @@ const router = createBrowserRouter([
     path: '/admin',
     element: <MainLayout />,
     children: [
-      {path: '/admin/login', element: <AdminLogin />},
+      { path: '/admin', element: <AdminLogin />},
+      { path: '/admin/login', element: <AdminLogin />},
       /*admin validator parent here*/
       { path: '/admin/dashboard', element: <AdminDashboard /> }
     ]
