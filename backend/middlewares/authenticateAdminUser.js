@@ -12,7 +12,7 @@ export default async function authenticateAdminUser(req, res, next) {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
   try {
-    const shit = await jwtVerify(token, secret);
+    await jwtVerify(token, secret);
     next();
   } catch (err) {
     if (err instanceof errors.JWTExpired) {
@@ -20,7 +20,7 @@ export default async function authenticateAdminUser(req, res, next) {
     }
 
     if (err instanceof errors.JWSInvalid) {
-      throw new AuthError("Token invalid", 403);
+      throw new AuthError("Token invalid", 401);
     }
 
     if (err instanceof AuthError) {
