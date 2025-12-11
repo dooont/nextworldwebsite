@@ -8,7 +8,7 @@ import { api } from "../api/axios.js";
  * @returns {string} - Access Token
  */
 export async function login(credentials) {
-  const response = await api.post('/auth/login', credentials);
+  const response = await api.post('/auth/login', credentials, { withCredentials: true });
   return response.data.accessToken;
 }
 
@@ -21,9 +21,9 @@ export async function logout() {
 
 /**
  * Retrieves a new access token. Requires cookie with accessToken
- * @returns {string} refreshToken
+ * @returns {string} accessToken
  */
 export async function refreshToken() {
-  const response = await api.post('/auth/refresh');
+  const response = await api.post('/auth/refresh', {}, { withCredentials: true });
   return response.accessToken;
 }
