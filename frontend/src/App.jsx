@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MainLayout from './layouts/MainLayout'
+import AdminLayout from './layouts/AdminLayout.jsx';
 import HomePage from './pages/HomePage'
 import AboutUs from './pages/AboutUs';
 import Gallery from './pages/Gallery';
@@ -8,6 +9,7 @@ import EventsPage from './pages/EventsPage';
 import AdminLogin from './pages/admin/AdminLogin';
 import './App.css';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminValidator from './components/admin/AdminValidator.jsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,12 +35,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <MainLayout />,
+    element: <AdminLayout />,
     children: [
-      { path: '/admin', element: <AdminLogin />},
-      { path: '/admin/login', element: <AdminLogin />},
-      /*admin validator parent here*/
-      { path: '/admin/dashboard', element: <AdminDashboard /> }
+      { index: true, element: <AdminLogin />},
+      { path: 'login', element: <AdminLogin />}, 
+      { path: 'dashboard', element: <AdminValidator> <AdminDashboard /> </AdminValidator> }
     ]
   }
 ])

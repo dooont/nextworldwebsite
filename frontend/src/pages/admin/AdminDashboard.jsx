@@ -2,7 +2,8 @@ import ArticlesAdminSection from '../../components/admin/sections/ArticlesAdminS
 import MembersAdminSection from '../../components/admin/sections/MembersAdminSection.jsx';
 import UpcomingEventsAdminSection from '../../components/admin/sections/UpcomingEventsAdminSection.jsx';
 import PastEventsAdminSection from '../../components/admin/sections/PastEventsAdminSection.jsx';
-
+import { useAuth } from '../../context/AuthContext.jsx';
+import { useEffect } from 'react';
 
 export default function AdminDashboard() {
   return (

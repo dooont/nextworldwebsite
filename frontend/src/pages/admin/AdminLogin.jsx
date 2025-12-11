@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +9,20 @@ import Button from "../../components/ui/Button.jsx";
 import ErrorMessage from "../../components/ui/ErrorMessage.jsx";
 import Loading from "../../components/ui/Loading.jsx";
 import Form from "../../components/ui/Form.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState(null);
+
+  //check if user is already logged in
+  const { isAuthenticated, setIsAuthenticated, setAccessToken } = useAuth();
+  
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/admin/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
 
   const {
     register,
@@ -27,7 +37,9 @@ export default function AdminLogin() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (accessToken) => {
+      setIsAuthenticated(true);
+      setAccessToken(accessToken);
       navigate("/admin/dashboard");
     },
     onError: (error) => {
