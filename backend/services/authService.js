@@ -130,5 +130,5 @@ export async function createResetPasswordRequest(email){
   const s = process.env.NODE_ENV === 'development' ? '' : 's';
   const resetUrl = `http${s}://${url}?token=${token}`;
 
-  await sendPasswordResetRequestEmail(email);
+  await sendPasswordResetRequestEmail(email, resetUrl);
 }

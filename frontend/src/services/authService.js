@@ -27,3 +27,20 @@ export async function refreshToken() {
   const response = await api.post('/auth/refresh', {}, { withCredentials: true });
   return response.accessToken;
 }
+
+/**
+ * Sends a password reset email
+ * @param {string} email - The email to send the reset link to
+ */
+export async function sendPasswordResetEmail(email) {
+  await api.post('/auth/forgot-password', { email });
+}
+
+/**
+ * Resets the password using a token
+ * @param {string} token - The reset token
+ * @param {string} newPassword - The new password
+ */
+export async function resetPassword(token, newPassword) {
+  await api.post('/auth/reset-password', { token, newPassword });
+}
