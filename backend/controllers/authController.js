@@ -9,6 +9,7 @@ export async function login(req, res){
   res.cookie('refreshToken', tokens.refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
     maxAge: (parseInt(process.env.REFRESH_EXPIRY_DAYS) * 24 * 60 * 60 * 1000) //in milliseconds
   });
   res.status(200).json(tokens);
@@ -26,6 +27,7 @@ export async function refresh(req, res){
   res.cookie('refreshToken', tokens.refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
     maxAge: (parseInt(process.env.REFRESH_EXPIRY_DAYS) * 24 * 60 * 60 * 1000) //in milliseconds
   });
 
