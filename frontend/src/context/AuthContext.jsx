@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { refreshToken } from "../services/authService.js";
+import { api } from "../api/axios.js";
 
 const AuthContext = createContext();
 
@@ -30,6 +30,23 @@ export function AuthProvider({ children }) {
     };
     attemptLogin();
   }, []);
+
+  // Automatically attach/detach the token to the axios instance whenever it changes
+  useEffect(() => {
+    const requestInterceptor = api.interceptors.request.use(
+      (config) => {
+        if (accessToken) {
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    return () => {
+      api.interceptors.request.eject(requestInterceptor);
+    };
+  }, [accessToken]);
 
   return (
     <AuthContext.Provider value={{ accessToken, isAuthenticated, setAccessToken, setIsAuthenticated }}>
