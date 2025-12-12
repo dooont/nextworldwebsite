@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 nextworldwebsite.code-workspace
+frontend/jsconfig.json
 
 #Backend Stuff
 *.env

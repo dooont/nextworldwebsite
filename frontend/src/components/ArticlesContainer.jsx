@@ -1,5 +1,5 @@
 import useFetch from '../hooks/useFetch.jsx';
-import { getArticles } from '../services/articlesService.jsx';
+import { getArticles } from '../services/articlesService.js';
 import ArticleCard from './ArticleCard.jsx';
 import Loading from './ui/Loading.jsx';
 import ErrorMessage from './ui/ErrorMessage.jsx';

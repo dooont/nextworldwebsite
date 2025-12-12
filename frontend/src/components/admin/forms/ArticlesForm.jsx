@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
 import useCreate from '../../../hooks/useCreate.jsx';
-import { createArticle } from '../../../services/articlesService.jsx';
+import { createArticle } from '../../../services/articlesService.js';
 import Form from '../../ui/Form.jsx';
 import Input from '../../ui/Input.jsx';
 import Button from '../../ui/Button.jsx';
 import ErrorMessage from '../../ui/ErrorMessage.jsx';
 import Loading from '../../ui/Loading.jsx';
 import useEdit from '../../../hooks/useEdit.jsx';
-import { editArticle } from '../../../services/articlesService.jsx';
+import { editArticle } from '../../../services/articlesService.js';
 import useCreateEditForm from '../../../hooks/useCreateEditForm.jsx';
 import { useEffect } from 'react';
 import { dateValidatorPattern, linkValidatorPattern } from '../../../validators/validators.js';

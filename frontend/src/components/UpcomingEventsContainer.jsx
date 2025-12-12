@@ -1,5 +1,5 @@
 import useFetch from '../hooks/useFetch.jsx';
-import { getUpcomingEvents } from '../services/upcomingEventsService.jsx';
+import { getUpcomingEvents } from '../services/upcomingEventsService.js';
 import UpcomingEventCard from './UpcomingEventCard.jsx';
 import Loading from './ui/Loading.jsx';
 import ErrorMessage from './ui/ErrorMessage.jsx';

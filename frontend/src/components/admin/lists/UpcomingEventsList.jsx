@@ -1,6 +1,6 @@
 import useDelete from "../../../hooks/useDelete.jsx";
 import useFetch from "../../../hooks/useFetch.jsx";
-import { getUpcomingEvents, deleteUpcomingEventById } from "../../../services/upcomingEventsService.jsx";
+import { getUpcomingEvents, deleteUpcomingEventById } from "../../../services/upcomingEventsService.js";
 import Anchor from "../../ui/Anchor.jsx";
 import Loading from "../../ui/Loading.jsx";
 import ItemsList from "../ItemsList.jsx";

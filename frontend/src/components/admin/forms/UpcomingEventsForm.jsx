@@ -3,7 +3,7 @@ import Form from "../../ui/Form.jsx";
 import Input from "../../ui/Input.jsx";
 import useEdit from "../../../hooks/useEdit.jsx";
 import useCreate from "../../../hooks/useCreate.jsx";
-import { createUpcomingEventWithImage, editUpcomingEventWithImage } from "../../../services/upcomingEventsService.jsx";
+import { createUpcomingEventWithImage, editUpcomingEventWithImage } from "../../../services/upcomingEventsService.js";
 import Button from "../../ui/Button.jsx";
 import ErrorMessage from "../../ui/ErrorMessage.jsx";
 import Loading from "../../ui/Loading.jsx";

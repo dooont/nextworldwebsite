@@ -1,5 +1,5 @@
 import { api } from '../api/axios.js';
-import { deleteImageFromS3, getPresignedUrl, uploadImageToS3 } from './s3Service.jsx';
+import { deleteImageFromS3, getPresignedUrl, uploadImageToS3 } from './s3Service.js';
 
 /**
  * Fetches all past events from the backend

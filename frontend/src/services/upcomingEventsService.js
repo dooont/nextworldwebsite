@@ -1,5 +1,5 @@
-import { uploadImageToS3, getPresignedUrl } from "./s3Service.jsx";
-import { deleteImageFromS3 } from "./s3Service.jsx";
+import { uploadImageToS3, getPresignedUrl } from "./s3Service.js";
+import { deleteImageFromS3 } from "./s3Service.js";
 import { api } from "../api/axios.js";
 
 export async function getUpcomingEvents() {

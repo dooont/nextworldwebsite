@@ -1,6 +1,6 @@
 import useFetch from '../../../hooks/useFetch.jsx';
 import useDelete from '../../../hooks/useDelete.jsx';
-import { getArticles, deleteArticleById } from '../../../services/articlesService.jsx';
+import { getArticles, deleteArticleById } from '../../../services/articlesService.js';
 import ItemsList from '../ItemsList.jsx';
 import ItemCard from '../ItemCard.jsx';
 import H3 from '../../ui/H3.jsx';
