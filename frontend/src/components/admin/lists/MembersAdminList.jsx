@@ -7,6 +7,7 @@ import H3 from "../../ui/H3.jsx";
 import LoadingSpinner from "../../ui/LoadingSpinner.jsx";
 import ErrorMessage from "../../ui/ErrorMessage.jsx";
 import useDelete from "../../../hooks/useDelete.jsx";
+import InfoMessage from "../../ui/InfoMessage.jsx";
 
 export default function MembersAdminList({ onEditClick }) {
   const { isPending: isMembersPending, isError: isMembersError, data: allMembers } = useFetch({ queryFn: getAllMembers, queryKey: ['members'], config: { staleTime: 10 * 60 * 1000 } });
@@ -16,13 +17,14 @@ export default function MembersAdminList({ onEditClick }) {
     <ItemsList itemsName="Members">
       {isMembersPending ? <div className="w-full flex justify-center"><LoadingSpinner className="h-20 w-20" /></div> :
         isMembersError ? <ErrorMessage>Could not get members</ErrorMessage> :
-          allMembers.map((member) => {
-            return (
-              <ItemCard key={member.id} onDelete={() => deleteMember(member.id)} onEdit={() => onEditClick(member)}>
-                <H3>{`${member.firstName} ${member.lastName}`}</H3>
-              </ItemCard>
-            )
-          })}
+          allMembers.length === 0 ? <InfoMessage>No members to display</InfoMessage> :
+            allMembers.map((member) => {
+              return (
+                <ItemCard key={member.id} onDelete={() => deleteMember(member.id)} onEdit={() => onEditClick(member)}>
+                  <H3>{`${member.firstName} ${member.lastName}`}</H3>
+                </ItemCard>
+              )
+            })}
       {isDeletePending && <Loading />}
       {isDeleteError && <ErrorMessage>Could not delete member</ErrorMessage>}
     </ItemsList>

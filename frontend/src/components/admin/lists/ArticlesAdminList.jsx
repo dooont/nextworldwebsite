@@ -8,6 +8,8 @@ import Anchor from '../../ui/Anchor.jsx';
 import Loading from '../../ui/Loading.jsx';
 import ErrorMessage from '../../ui/ErrorMessage.jsx';
 
+import InfoMessage from '../../ui/InfoMessage.jsx';
+
 export default function ArticleAdminList({ onEditClick }) {
   const { isPending, isError, data: articles } = useFetch({ queryFn: getArticles, queryKey: ['articles'], config: { staleTime: 10 * 60 * 1000 } });
   const { isPending: isDeletePending, isError: isDeleteError, mutate: deleteArticle } = useDelete({ mutationFn: deleteArticleById, queryKey: ['articles'] });
@@ -16,14 +18,15 @@ export default function ArticleAdminList({ onEditClick }) {
     <ItemsList itemsName="Articles">
       {isPending ? <Loading /> :
         isError ? <ErrorMessage>Could not get articles</ErrorMessage> :
-          articles.map((article) => {
-            return (
-              <ItemCard key={article.id} onDelete={() => deleteArticle(article.id)} onEdit={() => onEditClick(article)}>
-                <H3>{article.title}</H3>
-                <Anchor>{article.link}</Anchor>
-              </ItemCard>
-            )
-          })}
+          articles.length === 0 ? <InfoMessage>No articles to display</InfoMessage> :
+            articles.map((article) => {
+              return (
+                <ItemCard key={article.id} onDelete={() => deleteArticle(article.id)} onEdit={() => onEditClick(article)}>
+                  <H3>{article.title}</H3>
+                  <Anchor>{article.link}</Anchor>
+                </ItemCard>
+              )
+            })}
 
       {isDeletePending && <Loading />}
       {isDeleteError && <ErrorMessage>Could not delete article</ErrorMessage>}

@@ -6,6 +6,7 @@ import ItemsList from "../ItemsList.jsx";
 import ErrorMessage from "../../ui/ErrorMessage.jsx";
 import ItemCard from "../ItemCard.jsx";
 import H3 from "../../ui/H3.jsx";
+import InfoMessage from "../../ui/InfoMessage.jsx";
 
 export default function PastEventsAdminList({ onEditClick }) {
   const { isPending, isError, data: pastEvents } = useFetch({ 
@@ -23,13 +24,14 @@ export default function PastEventsAdminList({ onEditClick }) {
     <ItemsList itemsName="Past Events">
       {isPending ? <Loading item={'past events'} /> :
         isError ? <ErrorMessage>Could not get past events</ErrorMessage> :
-          pastEvents.map((pastEvent) => {
-            return (
-              <ItemCard key={pastEvent.id} onDelete={() => deletePastEvent(pastEvent.id)} onEdit={() => onEditClick(pastEvent)}>
-                <H3>{pastEvent.title}</H3>
-              </ItemCard>
-            )
-          })}
+          pastEvents.length === 0 ? <InfoMessage>No past events to display</InfoMessage> :
+            pastEvents.map((pastEvent) => {
+              return (
+                <ItemCard key={pastEvent.id} onDelete={() => deletePastEvent(pastEvent.id)} onEdit={() => onEditClick(pastEvent)}>
+                  <H3>{pastEvent.title}</H3>
+                </ItemCard>
+              )
+            })}
       {isDeletePending && <Loading />}
       {isDeleteError && <ErrorMessage>Could not delete past event</ErrorMessage>}
     </ItemsList>
