@@ -7,6 +7,8 @@ import AboutUs from './pages/AboutUs';
 import Gallery from './pages/Gallery';
 import EventsPage from './pages/EventsPage';
 import AdminLogin from './pages/admin/AdminLogin';
+import ForgotPasswordRequest from './pages/admin/ForgotPasswordRequest';
+import ResetPassword from './pages/admin/ResetPassword';
 import './App.css';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminValidator from './components/admin/AdminValidator.jsx';
@@ -39,6 +41,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminLogin />},
       { path: 'login', element: <AdminLogin />}, 
+      { path: 'forgot-password', element: <ForgotPasswordRequest /> },
+      { path: 'reset-password', element: <ResetPassword /> },
       { path: 'dashboard', element: <AdminValidator> <AdminDashboard /> </AdminValidator> }
     ]
   }

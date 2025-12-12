@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { login } from "../../services/authService.js";
 import { emailValidatorPattern } from "../../validators/validators.js";
 import Input from "../../components/ui/Input.jsx";
@@ -95,12 +95,12 @@ export default function AdminLogin() {
           </div>
 
           <div className="flex items-center justify-between">
-            <a
-              href="#"
+            <Link
+              to="/admin/forgot-password"
               className="text-purple-500 hover:text-purple-400 oswald-400 text-sm transition"
             >
               Forgot password?
-            </a>
+            </Link>
           </div>
 
           {loginError && <ErrorMessage>{loginError}</ErrorMessage>}
