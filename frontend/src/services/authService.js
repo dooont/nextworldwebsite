@@ -16,7 +16,7 @@ export async function login(credentials) {
  * Logs out the current admin user
  */
 export async function logout() {
-  await api.post('/auth/logout');
+  await api.delete('/auth/logout', { withCredentials: true });
 }
 
 /**

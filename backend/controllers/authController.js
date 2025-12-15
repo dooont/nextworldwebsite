@@ -35,7 +35,7 @@ export async function refresh(req, res){
 }
 
 export async function logout(req, res){
-  const {refreshToken} = req.cookies.refreshToken;
+  const refreshToken = req.cookies.refreshToken;
   
   if(refreshToken){
     await revokeRefreshToken(refreshToken);
