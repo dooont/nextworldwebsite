@@ -20,7 +20,7 @@ export default function ArticlesContainer() {
         </h2>
         {isPending ? <Loading item="Articles" /> :
           isError ? <ErrorMessage>Could not load articles</ErrorMessage> :
-            articles.length === 0 ? <InfoMessage >There are currently no articles currently</InfoMessage> :
+            articles.length === 0 ? <InfoMessage >There are currently no articles to display. More coming soon!</InfoMessage> :
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {articles.map(article => <ArticleCard key={article.id} article={article}></ArticleCard>)}
               </div>
