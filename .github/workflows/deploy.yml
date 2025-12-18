@@ -22,4 +22,4 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.EC2_PUBLIC_IP }} "cd ${{ secrets.EC2_APP_PATH}} && git reset --hard && git pull && npm ci && sudo systemctl restart myapp.service"
+          ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.EC2_PUBLIC_IP }} "cd ${{ secrets.PROJECT_PATH }} && git fetch --all && git reset --hard origin/main && cd ${{ secrets.BACKEND_PATH}} && npm ci && sudo systemctl restart myapp.service"

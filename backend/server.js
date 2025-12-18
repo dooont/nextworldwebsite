@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 const serverPort = process.env.SERVER_PORT;
 
-
+//test comment
 app.use('/uploads', uploadsRouter);
 
 app.use('/auth', authRoutes);
