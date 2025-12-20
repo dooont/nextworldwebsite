@@ -25,7 +25,7 @@ export async function logout() {
  */
 export async function refreshToken() {
   const response = await api.post('/auth/refresh', {}, { withCredentials: true });
-  return response.accessToken;
+  return response.data.accessToken;
 }
 
 /**
